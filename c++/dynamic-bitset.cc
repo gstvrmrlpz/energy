@@ -59,42 +59,8 @@ int main(int argc, char *argv[])
 {
     population p(POPULATION_SIZE);
 
-<<<<<<< HEAD
     initialize(p);
     mutate(p);
     crossover(p);
     return evaluate(p);
 }
-=======
-    std::vector<chromosome> population(POPULATION_SIZE);
-
-    // init
-    auto rng01 = std::bind(std::bernoulli_distribution(0.5), engine);
-    for (auto &i : population)
-        for (std::size_t bit = 0; bit < i.size(); ++bit)
-            i[bit] = rng01();
-
-    // mutation
-    auto rng_chrom = std::bind(
-        std::uniform_int_distribution<>(0, CHROMOSOME_SIZE - 1), engine);
-
-    for (auto &i : population)
-        i.flip(rng_chrom());
-
-    // crossover
-    for (std::size_t i = 0; i < population.size(); i += 2)
-        for (std::size_t j = rng_chrom(); j < population[i].size(); ++j)
-        {
-            bool tmp = population[i][j];
-            population[i][j] = population[i + 1][j];
-            population[i + 1][j] = tmp;
-        }
-
-    // sort
-    std::ranges::sort(population,
-                      [](const chromosome &a, const chromosome &b)
-                      { return a.count() < b.count(); });
-
-    return onemax(population[argc]);
-}
->>>>>>> 7bf3d8f (std::array --> std::vector)
