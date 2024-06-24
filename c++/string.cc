@@ -4,11 +4,17 @@
 #include <iostream>
 #include <random>
 #include <ranges>
+#include <string>
 #include <vector>
 
 const std::size_t CHROMOSOME_SIZE = 2048, POPULATION_SIZE = 40'000;
 
-using chromosome = std::bitset<CHROMOSOME_SIZE>;
+class chromosome : public std::string
+{
+public:
+    chromosome() : std::string(CHROMOSOME_SIZE, '0') {}
+};
+
 using population = std::vector<chromosome>;
 
 std::random_device device;
@@ -22,31 +28,30 @@ void initialize(population &p)
 {
     for (auto &i : p)
         for (std::size_t bit = 0; bit < i.size(); ++bit)
-            i[bit] = rng_01();
+            i[bit] = rng_01() == false ? '0' : '1';
 }
 
 void mutate(population &p)
 {
     for (auto &i : p)
-        i.flip(rng_size());
+    {
+        auto pos = rng_size();
+        i[pos] = i[pos] == '0' ? '1' : '0';
+    }
 }
 
 void crossover(population &p)
 {
     for (std::size_t i = 0; i < p.size(); i += 2)
-        for (std::size_t j = rng_size(); j < p[i].size(); ++j)
-        {
-            bool tmp = p[i][j];
-            p[i][j] = p[i + 1][j];
-            p[i + 1][j] = tmp;
-        }
+        std::swap_ranges(
+            p[i].begin(), p[i].begin() + rng_size(), p[i + 1].begin());
 }
 
 std::size_t evaluate(population &p)
 {
     std::size_t count = 0;
     for (auto &i : p)
-        count += i.count();
+        count += std::ranges::count_if(i, [](char c) { return c == '1'; });
     return count;
 }
 

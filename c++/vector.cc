@@ -12,58 +12,51 @@ class chromosome : public std::vector<bool>
 {
 public:
     chromosome() : std::vector<bool>(CHROMOSOME_SIZE) {}
-
-    std::size_t count() const { return fitness; }
-
-    void sync() { fitness = std::count(cbegin(), cend(), true); }
-
-    friend std::ostream &operator<<(std::ostream &os, const chromosome &c)
-    {
-        for (const auto &i : c)
-            os << i;
-        return os << " - " << c.count();
-    }
-
-private:
-    std::size_t fitness;
 };
 
-std::size_t onemax(const chromosome &c) { return c.count(); }
+using population = std::vector<chromosome>;
+
+std::random_device device;
+std::default_random_engine engine(device());
+std::bernoulli_distribution bernoulli(0.5);
+auto rng_01 = std::bind(bernoulli, engine);
+std::uniform_int_distribution<> uniform(0, CHROMOSOME_SIZE - 1);
+auto rng_size = std::bind(uniform, engine);
+
+void initialize(population &p)
+{
+    for (auto &i : p)
+        for (std::size_t bit = 0; bit < i.size(); ++bit)
+            i[bit] = rng_01();
+}
+
+void mutate(population &p)
+{
+    for (auto &i : p)
+        i[rng_size()].flip();
+}
+
+void crossover(population &p)
+{
+    for (std::size_t i = 0; i < p.size(); i += 2)
+        std::swap_ranges(
+            p[i].begin(), p[i].begin() + rng_size(), p[i + 1].begin());
+}
+
+std::size_t evaluate(population &p)
+{
+    std::size_t count = 0;
+    for (auto &i : p)
+        count += std::count(i.cbegin(), i.cend(), true);
+    return count;
+}
 
 int main(int argc, char *argv[])
 {
-    std::random_device device;
-    std::default_random_engine engine(device());
+    population p(POPULATION_SIZE);
 
-    std::vector<chromosome> population(POPULATION_SIZE);
-
-    // init
-    auto rng01 = std::bind(std::bernoulli_distribution(0.5), engine);
-    for (auto &i : population)
-        for (std::size_t bit = 0; bit < i.size(); ++bit)
-            i[bit] = rng01();
-
-    // mutation
-    auto rng_chrom = std::bind(
-        std::uniform_int_distribution<>(0, CHROMOSOME_SIZE - 1), engine);
-
-    for (auto &i : population)
-        i[rng_chrom()].flip();
-
-    // crossover
-    for (std::size_t i = 0; i < population.size(); i += 2)
-        std::swap_ranges(population[i].begin(),
-                         population[i].begin() + rng_chrom(),
-                         population[i + 1].begin());
-
-    // sync
-    for (auto &i : population)
-        i.sync();
-
-    // sort
-    std::ranges::sort(population,
-                      [](const chromosome &a, const chromosome &b)
-                      { return a.count() < b.count(); });
-
-    return onemax(population[0]);
+    initialize(p);
+    mutate(p);
+    crossover(p);
+    return evaluate(p);
 }

@@ -1,14 +1,18 @@
 #include <algorithm>
-#include <bitset>
 #include <functional>
 #include <iostream>
 #include <random>
-#include <ranges>
+#include <tr2/dynamic_bitset>
 #include <vector>
 
 const std::size_t CHROMOSOME_SIZE = 2048, POPULATION_SIZE = 40'000;
 
-using chromosome = std::bitset<CHROMOSOME_SIZE>;
+class chromosome : public std::tr2::dynamic_bitset<>
+{
+public:
+    chromosome() : std::tr2::dynamic_bitset<>(CHROMOSOME_SIZE) {}
+};
+
 using population = std::vector<chromosome>;
 
 std::random_device device;
@@ -57,5 +61,5 @@ int main(int argc, char *argv[])
     initialize(p);
     mutate(p);
     crossover(p);
-    return evaluate(p);
+    return
 }
