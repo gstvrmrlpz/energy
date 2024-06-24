@@ -1,17 +1,16 @@
 #include <algorithm>
-#include <boost/dynamic_bitset.hpp>
 #include <functional>
 #include <iostream>
 #include <random>
-#include <ranges>
+#include <tr2/dynamic_bitset>
 #include <vector>
 
 const std::size_t CHROMOSOME_SIZE = 2048, POPULATION_SIZE = 40'000;
 
-class chromosome : public boost::dynamic_bitset<>
+class chromosome : public std::tr2::dynamic_bitset<>
 {
 public:
-    chromosome() : boost::dynamic_bitset<>(CHROMOSOME_SIZE) {}
+    chromosome() : std::tr2::dynamic_bitset<>(CHROMOSOME_SIZE) {}
 };
 
 using population = std::vector<chromosome>;
