@@ -61,5 +61,5 @@ int main(int argc, char *argv[])
     initialize(p);
     mutate(p);
     crossover(p);
-    return
+    return evaluate(p);
 }
