@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-const std::size_t CHROMOSOME_SIZE = 2048, POPULATION_SIZE = 40'000;
+const std::size_t CHROMOSOME_SIZE = 1024, POPULATION_SIZE = 40'000;
 
 class chromosome : public std::string
 {
