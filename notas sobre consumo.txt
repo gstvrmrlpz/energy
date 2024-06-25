@@ -1,0 +1,45 @@
+g++ -fanalyzer -flto -g -O3 -std=c++20 -Wall    vector.cc   -o vector
+for (( i=0; i<6; ++i )); do
+sudo perf stat -a -e power/energy-pkg/ -r 100 -- ./vector $i > /dev/null
+done
+
+ Performance counter stats for 'system wide' (100 runs):
+
+              0,05 Joules power/energy-pkg/                                                       ( +-  3,70% )
+
+         0,0013117 +- 0,0000148 seconds time elapsed  ( +-  1,12% )
+
+
+ Performance counter stats for 'system wide' (100 runs):
+
+              0,38 Joules power/energy-pkg/                                                       ( +-  3,08% )
+
+          0,010601 +- 0,000213 seconds time elapsed  ( +-  2,01% )
+
+
+ Performance counter stats for 'system wide' (100 runs):
+
+             38,29 Joules power/energy-pkg/                                                       ( +-  0,27% )
+
+          1,264169 +- 0,000599 seconds time elapsed  ( +-  0,05% )
+
+
+ Performance counter stats for 'system wide' (100 runs):
+
+             38,54 Joules power/energy-pkg/                                                       ( +-  0,38% )
+
+          1,264156 +- 0,000401 seconds time elapsed  ( +-  0,03% )
+
+
+ Performance counter stats for 'system wide' (100 runs):
+
+             39,04 Joules power/energy-pkg/                                                       ( +-  0,11% )
+
+          1,291385 +- 0,000424 seconds time elapsed  ( +-  0,03% )
+
+
+ Performance counter stats for 'system wide' (100 runs):
+
+             41,64 Joules power/energy-pkg/                                                       ( +-  0,31% )
+
+          1,362853 +- 0,000352 seconds time elapsed  ( +-  0,03% )
