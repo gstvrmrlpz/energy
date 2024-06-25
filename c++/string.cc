@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <bitset>
 #include <functional>
 #include <iostream>
 #include <random>
