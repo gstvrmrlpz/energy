@@ -16,8 +16,8 @@ SVG = $(EXE:=.svg)
 
 ###############################################################################
 
-#CXXFLAGS = -fanalyzer -g -Og -std=c++20 -Wall
-CXXFLAGS = -fanalyzer -g -O3 -std=c++20 -Wall
+#CXXFLAGS = -fanalyzer -ftlo -g -Og -std=c++20 -Wall
+CXXFLAGS = -fanalyzer -flto -g -O3 -std=c++20 -Wall
 
 ###############################################################################
 
@@ -39,6 +39,11 @@ test: $(SRC)
 			cpu=$$(sed -n 's/\([[:digit:].,]*\) seconds .*/\1/p' /tmp/stat.txt)
 			printf '%16s%16s%16s%16s\n' $${e/.cc} $$b $$energy $$cpu
 		done
+	done
+
+test2: vector
+	for (( i=0; i<6; ++i )); do
+		sudo perf stat -a -e power/energy-pkg/ -r 10 -- ./$< $$i > /dev/null
 	done
 
 svg: $(SVG)
@@ -99,7 +104,7 @@ c%: $(SRC)
 
 ###############################################################################
 
-.PHONY: all clean exe test svg
+.PHONY: all clean exe test test2 svg
 .PRECIOUS: $(DAT) $(FOL)
 
 ###############################################################################

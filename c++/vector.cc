@@ -1,11 +1,7 @@
-#include <algorithm>
-#include <functional>
-#include <iostream>
-#include <random>
-#include <ranges>
-#include <vector>
+#include "common.h"
 
-const std::size_t CHROMOSOME_SIZE = 1024, POPULATION_SIZE = 40'000;
+#include <algorithm>
+#include <vector>
 
 class chromosome : public std::vector<bool>
 {
@@ -14,13 +10,6 @@ public:
 };
 
 using population = std::vector<chromosome>;
-
-std::random_device device;
-std::default_random_engine engine(device());
-std::bernoulli_distribution bernoulli(0.5);
-auto rng_01 = std::bind(bernoulli, engine);
-std::uniform_int_distribution<> uniform(0, CHROMOSOME_SIZE - 1);
-auto rng_size = std::bind(uniform, engine);
 
 void initialize(population &p)
 {
@@ -52,10 +41,5 @@ std::size_t evaluate(population &p)
 
 int main(int argc, char *argv[])
 {
-    population p(POPULATION_SIZE);
-
-    initialize(p);
-    mutate(p);
-    crossover(p);
-    return evaluate(p);
+    return common_main<population>(argc, argv);
 }
