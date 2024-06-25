@@ -21,7 +21,7 @@ CXXFLAGS = -fanalyzer -flto -g -O3 -std=c++20 -Wall
 
 ###############################################################################
 
-all: test
+all: test2
 
 clean:
 	-rm -fv $(CAC) $(CAL) $(DAT) $(EXE) $(FOL) $(SVG) *~
