@@ -43,7 +43,7 @@ test: $(SRC)
 
 test2: vector
 	for (( i=0; i<6; ++i )); do
-		sudo perf stat -a -e power/energy-pkg/ -r 10 -- ./$< $$i > /dev/null
+		sudo perf stat -a -e power/energy-pkg/ -r 100 -- ./$< $$i > /dev/null
 	done
 
 svg: $(SVG)
