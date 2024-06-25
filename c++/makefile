@@ -34,7 +34,7 @@ test: $(SRC)
 	for e in $^; do
 		for b in 256 512 1024 2048; do
 			make -s c$$b $${e/.cc}
-			sudo perf stat -a -e power/energy-pkg/ -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
+			-perf stat -a -e power/energy-pkg/ -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
 			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 			cpu=$$(sed -n 's/\([[:digit:].,]*\) seconds .*/\1/p' /tmp/stat.txt)
 			printf '%16s%16s%16s%16s\n' $${e/.cc} $$b $$energy $$cpu
@@ -43,7 +43,7 @@ test: $(SRC)
 
 test2: vector
 	for (( i=0; i<6; ++i )); do
-		sudo perf stat -a -e power/energy-pkg/ -r 100 -- ./$< $$i > /dev/null
+		-perf stat -a -e power/energy-pkg/ -r 100 -- ./$< $$i > /dev/null
 	done
 
 svg: $(SVG)
