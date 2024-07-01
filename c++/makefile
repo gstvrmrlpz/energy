@@ -48,6 +48,11 @@ test2: vector
 
 svg: $(SVG)
 
+xps: vector
+	for (( i=0; i<6; ++i )); do
+		-perf stat -a -e power/energy-cores/,power/energy-gpu/,power/energy-pkg/,power/energy-psys/,power/energy-ram/ -r 100 -- ./$< $$i > /dev/null
+	done
+
 ###############################################################################
 
 c%: $(SRC)
@@ -104,7 +109,7 @@ c%: $(SRC)
 
 ###############################################################################
 
-.PHONY: all clean exe test test2 svg
+.PHONY: all clean exe test test2 svg xps
 .PRECIOUS: $(DAT) $(FOL)
 
 ###############################################################################
