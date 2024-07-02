@@ -49,7 +49,7 @@
 %% for the whole article with \linenumbers.
 %% \usepackage{lineno}
 
-\journal{Nuclear Physics B}
+\journal{Swarm and Evolutionary Computation}
 
 \begin{document}
 
