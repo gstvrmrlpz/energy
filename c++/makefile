@@ -21,12 +21,17 @@ CXXFLAGS = -fanalyzer -flto -g -O3 -std=c++20 -Wall
 
 ###############################################################################
 
-all: test2
+all: pre exe
 
 clean:
 	-rm -fv $(CAC) $(CAL) $(DAT) $(EXE) $(FOL) $(SVG) *~
 
 exe: $(EXE)
+
+pre:
+	@for i in clang++ g++ perf; do
+		hash $$i || echo "$$i not found!!!"
+	done
 
 test: $(SRC)
 	@printf '%16s%16s%16s%16s\n' program length 'energy(J)' 'time(s)'
@@ -43,7 +48,7 @@ test: $(SRC)
 
 test2: vector
 	for (( i=0; i<6; ++i )); do
-		-perf stat -a -e power/energy-pkg/ -r 100 -- ./$< $$i > /dev/null
+		-perf stat -a -e power/energy-pkg/ -r 10 -- ./$< $$i > /dev/null
 	done
 
 svg: $(SVG)

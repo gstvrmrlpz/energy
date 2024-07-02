@@ -1,9 +1,14 @@
 #include "common.h"
 
-#include <bitset>
+#include <tr2/dynamic_bitset>
 #include <vector>
 
-using chromosome = std::bitset<CHROMOSOME_SIZE>;
+class chromosome : public std::tr2::dynamic_bitset<>
+{
+public:
+    chromosome() : std::tr2::dynamic_bitset<>(CHROMOSOME_SIZE) {}
+};
+
 using population = std::vector<chromosome>;
 
 void initialize(population &p)
