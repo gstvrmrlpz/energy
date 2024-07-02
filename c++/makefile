@@ -6,21 +6,21 @@
 
 ###############################################################################
 
+ATT = $(EXE:=.att)
 CAC = $(EXE:=.cac)
 CAL = $(EXE:=.cal)
 COM = clang++ g++
 DAT = $(EXE:=.dat)
 EXE = $(basename $(SRC))
 FOL = $(EXE:=.fol)
-LOG = $(foreach c,$(COM),$(foreach e,$(EXE),$(foreach s,$(SIZ),$e-$c-$s.log)))
+LOG = $(foreach e,$(EXE),$(foreach o,0 1 2 3 g s z,$(foreach s,$(SIZ),$e-$s-O$o.log)))
 SIZ = 256 512 1024 2048
 SRC = $(wildcard *.cc)
 SVG = $(EXE:=.svg)
 
 ###############################################################################
 
-#CXXFLAGS = -fanalyzer -ftlo -g -Og -std=c++20 -Wall
-CXXFLAGS = -fanalyzer -flto -g -O3 -std=c++20 -Wall
+CXXFLAGS = -fanalyzer -O3 -std=c++20 -Wall $(OPT) $(SIMD)
 
 ###############################################################################
 
@@ -29,8 +29,10 @@ kk:
 
 all: pre exe
 
+att: $(ATT)
+
 clean:
-	-rm -fv $(CAC) $(CAL) $(DAT) $(EXE) $(FOL) $(SVG) *~
+	-rm -fv $(ATT) $(CAC) $(CAL) $(DAT) $(EXE) $(FOL) $(SVG) *~
 
 exe: $(EXE)
 
@@ -43,34 +45,42 @@ pre: perf
 	done
 
 test: $(SRC)
-	@printf '%16s%16s%16s%16s\n' program length 'energy(J)' 'time(s)'
-	printf '%64s\n' | tr ' ' '-'
+	@printf '%10s%10s%10s%10s%10s%10s\n' program length opt SIMD 'energy(J)' 'time(s)'
+	printf '%60s\n' | tr ' ' '-'
 	for e in $^; do
-		for b in 256 512 1024 2048; do
-			make -s c$$b $${e/.cc}
-			-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
-			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
-			cpu=$$(cat /tmp/stat.txt | grep seconds | tr -s ' ' | cut -d' ' -f2)
-			printf '%16s%16s%16s%16s\n' $${e/.cc} $$b $$energy $$cpu
+		for s in $(SIZ); do
+			for o in 0 1 2 3 g s z; do
+				for simd in -msse -mno-sse; do
+					make -s c$$s $${e/.cc} OPT=-O$$o SIMD=$$simd
+					-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
+					energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+					cpu=$$(cat /tmp/stat.txt | grep seconds | tr -s ' ' | cut -d' ' -f2)
+					printf '%10s%10s%10s%10s%10s%10s\n' $${e/.cc} $$s "-O$$o" $$simd $$energy $$cpu
+				done
+			done
 		done
 	done
 
-test2: vector
-	for (( i=0; i<6; ++i )); do
-		-perf stat -a -e power/energy-pkg/ -r 10 -- ./$< $$i > /dev/null
+test2: $(EXE) | c2048
+	@for e in $^; do
+		printf "%80s\n \t$$e\n%80s\n" | tr ' ' '#'
+		for (( i=0; i<6; ++i )); do
+			# -perf stat -a -e power/energy-pkg/ -j -r 10 -- ./$$e $$i > /dev/null
+			-perf stat -a -e power/energy-pkg/ -r 10 -- ./$$e $$i > /dev/null
+		done
 	done
 
 svg: $(SVG)
 
 xps: vector
-	for (( i=0; i<6; ++i )); do
-		-perf stat -a -e power/energy-cores/,power/energy-gpu/,power/energy-pkg/,power/energy-psys/,power/energy-ram/ -r 100 -- ./$< $$i > /dev/null
+	@for (( i=0; i<6; ++i )); do
+		-perf stat -a -e power/energy-cores/,power/energy-gpu/,power/energy-pkg/,power/energy-psys/,power/energy-ram/ -r 10 -- ./$< $$i > /dev/null
 	done
 
 ###############################################################################
 
 c%: $(SRC)
-	c=$@
+	@c=$@
 	sed --follow-symlinks -i "s/CHROMOSOME_SIZE = [[:digit:]]*/CHROMOSOME_SIZE = $${c:1}/" $^
 
 %.att: %
@@ -123,7 +133,7 @@ c%: $(SRC)
 
 ###############################################################################
 
-.PHONY: all clean exe perf pre test test2 svg xps
+.PHONY: all att clean exe perf pre test test2 svg xps
 .PRECIOUS: $(DAT) $(FOL)
 
 ###############################################################################

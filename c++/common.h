@@ -11,8 +11,8 @@ const std::size_t CHROMOSOME_SIZE = 2048, POPULATION_SIZE = 40'000;
 
 std::random_device device;
 std::default_random_engine engine(device());
-std::bernoulli_distribution bernoulli(0.5);
-auto rng_01 = std::bind(bernoulli, engine);
+std::uniform_int_distribution<> uniform01(0, 1);
+auto rng_01 = std::bind(uniform01, engine);
 std::uniform_int_distribution<> uniform(0, CHROMOSOME_SIZE - 1);
 auto rng_size = std::bind(uniform, engine);
 

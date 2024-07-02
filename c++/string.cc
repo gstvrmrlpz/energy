@@ -16,7 +16,7 @@ void initialize(population &p)
 {
     for (auto &i : p)
         for (std::size_t bit = 0; bit < i.size(); ++bit)
-            i[bit] = rng_01() == false ? '0' : '1';
+            i[bit] = rng_01() == 0 ? '0' : '1';
 }
 
 void mutate(population &p)
