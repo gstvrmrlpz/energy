@@ -256,8 +256,8 @@ Example citation, See \cite{lamport94}.
 %% If you have bib database file and want bibtex to generate the
 %% bibitems, please use
 %%
-%%  \bibliographystyle{elsarticle-num} 
-%%  \bibliography{<your bibdatabase>}
+\bibliographystyle{elsarticle-num}
+\bibliography{energy}
 
 %% else use the following coding to input the bibitems directly in the
 %% TeX file.
@@ -265,20 +265,7 @@ Example citation, See \cite{lamport94}.
 %% Refer following link for more details about bibliography and citations.
 %% https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
 
-\begin{thebibliography}{00}
 
-%% For numbered reference style
-%% \bibitem{label}
-%% Text of bibliographic item
-
-\bibitem{lamport94}
-  Leslie Lamport,
-  \textit{\LaTeX: a document preparation system},
-  Addison Wesley, Massachusetts,
-  2nd edition,
-  1994.
-
-\end{thebibliography}
 \end{document}
 
 \endinput
