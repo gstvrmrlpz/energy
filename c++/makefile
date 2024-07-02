@@ -8,9 +8,12 @@
 
 CAC = $(EXE:=.cac)
 CAL = $(EXE:=.cal)
+COM = clang++ g++
 DAT = $(EXE:=.dat)
 EXE = $(basename $(SRC))
 FOL = $(EXE:=.fol)
+LOG = $(foreach c,$(COM),$(foreach e,$(EXE),$(foreach s,$(SIZ),$e-$c-$s.log)))
+SIZ = 256 512 1024 2048
 SRC = $(wildcard *.cc)
 SVG = $(EXE:=.svg)
 
@@ -21,6 +24,9 @@ CXXFLAGS = -fanalyzer -flto -g -O3 -std=c++20 -Wall
 
 ###############################################################################
 
+kk:
+	@echo LOG = $(LOG)
+
 all: pre exe
 
 clean:
@@ -28,8 +34,11 @@ clean:
 
 exe: $(EXE)
 
-pre:
-	@for i in clang++ g++ perf; do
+perf:
+	sudo bash -c "echo -1 > /proc/sys/kernel/perf_event_paranoid"
+
+pre: perf
+	@for i in $(COM) perf; do
 		hash $$i || echo "$$i not found!!!"
 	done
 
@@ -39,9 +48,9 @@ test: $(SRC)
 	for e in $^; do
 		for b in 256 512 1024 2048; do
 			make -s c$$b $${e/.cc}
-			-perf stat -a -e power/energy-pkg/ -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
+			-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
 			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
-			cpu=$$(sed -n 's/\([[:digit:].,]*\) seconds .*/\1/p' /tmp/stat.txt)
+			cpu=$$(cat /tmp/stat.txt | grep seconds | tr -s ' ' | cut -d' ' -f2)
 			printf '%16s%16s%16s%16s\n' $${e/.cc} $$b $$energy $$cpu
 		done
 	done
@@ -114,7 +123,7 @@ c%: $(SRC)
 
 ###############################################################################
 
-.PHONY: all clean exe test test2 svg xps
+.PHONY: all clean exe perf pre test test2 svg xps
 .PRECIOUS: $(DAT) $(FOL)
 
 ###############################################################################
