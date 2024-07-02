@@ -98,15 +98,13 @@
 %%             state={},
 %%             country={}}
 
-\author{} %% Author name
+\author{Gustavo Romero-López, Juan J. Merelo-Guervós} %% Author name
 
 %% Author affiliation
-\affiliation{organization={},%Department and Organization
-            addressline={}, 
-            city={},
-            postcode={}, 
-            state={},
-            country={}}
+\affiliation{organization={Department of Computer Engineering, Automatics and Robotics},%Department and Organization
+            city={Granada},
+            postcode={18071}, 
+            country={Spain}}
 
 %% Abstract
 \begin{abstract}
@@ -146,11 +144,11 @@ Abstract text.
 %%
 
 %% Use \section commands to start a section
-\section{Example Section}
-\label{sec1}
-%% Labels are used to cross-reference an item using \ref command.
+\section{Introduction}
+\label{intro}
 
-Section text. See Subsection \ref{subsec1}.
+
+In general trying to make scientific results involve profiling alrgorithms, followed by an energy profile that finds out the energy bottlenecks among the different functions \cite{7155416}. 
 
 %% Use \subsection commands to start a subsection.
 \subsection{Example Subsection}
@@ -207,37 +205,6 @@ f(x) = (x+a)(x+b)
 %% https://en.wikibooks.org/wiki/LaTeX/Mathematics
 %% https://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics
 
-%% Use a table environment to create tables.
-%% Refer following link for more details.
-%% https://en.wikibooks.org/wiki/LaTeX/Tables
-\begin{table}[t]%% placement specifier
-%% Use tabular environment to tag the tabular data.
-%% https://en.wikibooks.org/wiki/LaTeX/Tables#The_tabular_environment
-\centering%% For centre alignment of tabular.
-\begin{tabular}{l c r}%% Table column specifiers
-%% Tabular cells are separated by &
-  1 & 2 & 3 \\ %% A tabular row ends with \\
-  4 & 5 & 6 \\
-  7 & 8 & 9 \\
-\end{tabular}
-%% Use \caption command for table caption and label.
-\caption{Table Caption}\label{fig1}
-\end{table}
-
-
-%% Use figure environment to create figures
-%% Refer following link for more details.
-%% https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions
-\begin{figure}[t]%% placement specifier
-%% Use \includegraphics command to insert graphic files. Place graphics files in 
-%% working directory.
-\centering%% For centre alignment of image.
-\includegraphics{example-image-a}
-%% Use \caption command for figure caption and label.
-\caption{Figure Caption}\label{fig1}
-%% https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics#Importing_external_graphics
-\end{figure}
-
 
 %% The Appendices part is started with the command \appendix;
 %% appendix sections are then done as normal sections
@@ -245,17 +212,6 @@ f(x) = (x+a)(x+b)
 \section{Example Appendix Section}
 \label{app1}
 
-Appendix text.
-
-%% For citations use: 
-%%       \cite{<label>} ==> [1]
-
-%%
-Example citation, See \cite{lamport94}.
-
-%% If you have bib database file and want bibtex to generate the
-%% bibitems, please use
-%%
 \bibliographystyle{elsarticle-num}
 \bibliography{energy}
 
