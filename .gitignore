@@ -6,3 +6,11 @@
 
 # emacs
 *~
+
+# LaTeX
+*.log
+*.tex
+*.gz
+*.pdf
+*.spl
+*.bbl
