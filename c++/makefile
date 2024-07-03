@@ -20,7 +20,11 @@ SVG = $(EXE:=.svg)
 
 ###############################################################################
 
-CXXFLAGS = -fanalyzer -O3 -std=c++20 -Wall $(OPT) $(SIMD)
+CXXFLAGS = -fanalyzer -O3 -std=c++20 -Wall $(OPT)
+
+ifeq ($(SIMD),no)
+	CXXFLAGS += -mno-{avx,sse}
+endif
 
 ###############################################################################
 
@@ -45,17 +49,18 @@ pre: perf
 	done
 
 test: $(SRC)
-	@printf '%10s%10s%10s%10s%10s%10s\n' program length opt SIMD 'energy(J)' 'time(s)'
-	printf '%60s\n' | tr ' ' '-'
+	@printf '%72s\n' | tr ' ' '-'
+	printf '%12s%12s%12s%12s%12s%12s\n' program length opt SIMD 'energy(J)' 'time(s)'
+	printf '%72s\n' | tr ' ' '-'
 	for e in $^; do
 		for s in $(SIZ); do
 			for o in 0 1 2 3 g s z; do
-				for simd in -msse -mno-sse; do
-					make -s c$$s $${e/.cc} OPT=-O$$o SIMD=$$simd
+				for simd in yes no; do
+					make -Bs c$$s $${e/.cc} OPT=-O$$o SIMD=$$simd
 					-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
 					energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 					cpu=$$(cat /tmp/stat.txt | grep seconds | tr -s ' ' | cut -d' ' -f2)
-					printf '%10s%10s%10s%10s%10s%10s\n' $${e/.cc} $$s "-O$$o" $$simd $$energy $$cpu
+					printf '%12s%12s%12s%12s%12s%12s\n' $${e/.cc} $$s "-O$$o" $$simd $$energy $$cpu
 				done
 			done
 		done
@@ -67,6 +72,24 @@ test2: $(EXE) | c2048
 		for (( i=0; i<6; ++i )); do
 			# -perf stat -a -e power/energy-pkg/ -j -r 10 -- ./$$e $$i > /dev/null
 			-perf stat -a -e power/energy-pkg/ -r 10 -- ./$$e $$i > /dev/null
+		done
+	done
+
+simd: $(SRC)
+	@printf '%72s\n' | tr ' ' '-'
+	printf '%12s%12s%12s%12s%12s%12s\n' program length opt SIMD 'energy(J)' 'time(s)'
+	printf '%72s\n' | tr ' ' '-'
+	for e in $^; do
+		for s in $(SIZ); do
+			for o in 0 1 2 3 g s z; do
+				for simd in yes no; do
+					make -Bs c$$s $${e/.cc} OPT=-O$$o SIMD=$$simd
+					-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
+					energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+					cpu=$$(cat /tmp/stat.txt | grep seconds | tr -s ' ' | cut -d' ' -f2)
+					printf '%12s%12s%12s%12s%12s%12s\n' $${e/.cc} $$s "-O$$o" $$simd $$energy $$cpu
+				done
+			done
 		done
 	done
 
@@ -133,7 +156,7 @@ c%: $(SRC)
 
 ###############################################################################
 
-.PHONY: all att clean exe perf pre test test2 svg xps
+.PHONY: all att clean exe perf pre test test2 simd svg xps
 .PRECIOUS: $(DAT) $(FOL)
 
 ###############################################################################
