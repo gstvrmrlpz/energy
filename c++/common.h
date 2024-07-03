@@ -28,8 +28,6 @@ template<typename population> int common_main(int argc, char *argv[])
     if (argc > 1)
         step = std::atoi(argv[1]);
 
-    std::cout << "step = " << step << '\n';
-
     if (step == 0)
         return value;
 

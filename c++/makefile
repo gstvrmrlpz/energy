@@ -37,14 +37,14 @@ clean:
 
 compilers: $(SRC) | c2048
 	@printf '%48s\n' | tr ' ' '-'
-	printf '%12s%12s%12s%12s\n' program compiler 'energy(J)' 'time(s)'
+	printf '%12s%12s%12s%12s\n' program length 'energy(J)' 'time(s)'
 	printf '%48s\n' | tr ' ' '-'
 	for src in $^; do
 		for compiler in $(COM); do
 			make -Bs $${e/.cc} CXX=$$compiler
 			-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${src/.cc} > /dev/null 2> /tmp/stat.txt
 			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
-			cpu=$$(cat /tmp/stat.txt | grep seconds | tr -s ' ' | cut -d' ' -f2)
+			cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
 			printf '%12s%12s%12s%12s\n' $${src/.cc} $$compiler $$energy $$cpu
 		done
 	done
@@ -59,20 +59,18 @@ pre: perf
 		hash $$i || echo "$$i not found!!!"
 	done
 
-test: $(SRC)
-	@printf '%72s\n' | tr ' ' '-'
-	printf '%12s%12s%12s%12s%12s%12s\n' program length opt SIMD 'energy(J)' 'time(s)'
-	printf '%72s\n' | tr ' ' '-'
+test: $(filter-out hiff.cc,$(SRC))
+	@printf '%48s\n' | tr ' ' '-'
+	printf '%12s%12s%12s%12s\n' program length 'energy(J)' 'time(s)'
+	printf '%48s\n' | tr ' ' '-'
 	for e in $^; do
 		for s in $(SIZ); do
-			for o in 0 1 2 3 g s z; do
-				for simd in yes no; do
-					make -Bs c$$s $${e/.cc} OPT=-O$$o SIMD=$$simd
-					-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
-					energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
-					cpu=$$(cat /tmp/stat.txt | grep secon@printf '%72s\n' | tr ' ' '-'
-	printf '%12s%12s%12s%12s%12s%12s\n' program length opt SIMD 'energy(J)' 'time(s)'
-	printf '%72s\n' | tr ' ' '-'
+			make -Bs c$$s $${e/.cc}
+			-perf stat -a -e power/energy-pkg/ -r 1 -- ./$${e/.cc} 2> /tmp/stat.txt
+			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+			cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
+			printf '%12s%12s%12s%12s\n' $${e/.cc} $$s $$energy $$cpu
+		done
 	done
 
 test2: $(EXE) | c2048
