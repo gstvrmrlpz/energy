@@ -20,7 +20,7 @@ SVG = $(EXE:=.svg)
 
 ###############################################################################
 
-CXXFLAGS = -fanalyzer -O3 -std=c++20 -Wall $(OPT)
+CXXFLAGS = -O3 -std=c++20 -Wall $(OPT)
 
 ifeq ($(SIMD),no)
 	CXXFLAGS += -mno-{avx,sse}
@@ -28,15 +28,26 @@ endif
 
 ###############################################################################
 
-kk:
-	@echo LOG = $(LOG)
-
 all: pre exe
 
 att: $(ATT)
 
 clean:
 	-rm -fv $(ATT) $(CAC) $(CAL) $(DAT) $(EXE) $(FOL) $(SVG) *~
+
+compilers: $(SRC) | c2048
+	@printf '%48s\n' | tr ' ' '-'
+	printf '%12s%12s%12s%12s\n' program compiler 'energy(J)' 'time(s)'
+	printf '%48s\n' | tr ' ' '-'
+	for src in $^; do
+		for compiler in $(COM); do
+			make -Bs $${e/.cc} CXX=$$compiler
+			-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${src/.cc} > /dev/null 2> /tmp/stat.txt
+			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+			cpu=$$(cat /tmp/stat.txt | grep seconds | tr -s ' ' | cut -d' ' -f2)
+			printf '%12s%12s%12s%12s\n' $${src/.cc} $$compiler $$energy $$cpu
+		done
+	done
 
 exe: $(EXE)
 
@@ -59,11 +70,9 @@ test: $(SRC)
 					make -Bs c$$s $${e/.cc} OPT=-O$$o SIMD=$$simd
 					-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
 					energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
-					cpu=$$(cat /tmp/stat.txt | grep seconds | tr -s ' ' | cut -d' ' -f2)
-					printf '%12s%12s%12s%12s%12s%12s\n' $${e/.cc} $$s "-O$$o" $$simd $$energy $$cpu
-				done
-			done
-		done
+					cpu=$$(cat /tmp/stat.txt | grep secon@printf '%72s\n' | tr ' ' '-'
+	printf '%12s%12s%12s%12s%12s%12s\n' program length opt SIMD 'energy(J)' 'time(s)'
+	printf '%72s\n' | tr ' ' '-'
 	done
 
 test2: $(EXE) | c2048
@@ -156,7 +165,7 @@ c%: $(SRC)
 
 ###############################################################################
 
-.PHONY: all att clean exe perf pre test test2 simd svg xps
+.PHONY: all att clean compilers exe perf pre test test2 simd svg xps
 .PRECIOUS: $(DAT) $(FOL)
 
 ###############################################################################
