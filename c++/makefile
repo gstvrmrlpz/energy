@@ -20,7 +20,11 @@ SVG = $(EXE:=.svg)
 
 ###############################################################################
 
-CXXFLAGS = -flto -march=native -Ofast -std=c++20 -Wall $(OPT)
+CXXFLAGS = -flto -g -march=native -Ofast -std=c++20 -Wall
+
+ifneq ($(strip $(OPT)),)
+	CXXFLAGS += $(OPT)
+endif
 
 ifeq ($(SIMD),no)
 	CXXFLAGS += -mno-{avx,sse}
@@ -34,6 +38,27 @@ att: $(ATT)
 
 clean:
 	-rm -fv $(ATT) $(CAC) $(CAL) $(DAT) $(EXE) $(FOL) $(SVG) *~
+
+exe: $(EXE)
+
+perf:
+	sudo bash -c "echo -1 > /proc/sys/kernel/perf_event_paranoid"
+
+pre: perf
+	@for i in $(COM) perf; do
+		hash $$i || echo "$$i not found!!!"
+	done
+
+###############################################################################
+
+final: $(SRC) | pre
+	printf '%48s\n' | tr ' ' '-'
+	printf '%12s%12s%12s%12s\n' program length 'energy(J)' 'time(s)'
+	printf '%48s\n' | tr ' ' '-'
+
+###############################################################################
+# pruebas
+###############################################################################
 
 compilers: $(SRC) | c2048 pre
 	@printf '%48s\n' | tr ' ' '-'
@@ -49,15 +74,6 @@ compilers: $(SRC) | c2048 pre
 		done
 	done
 
-exe: $(EXE)
-
-perf:
-	sudo bash -c "echo -1 > /proc/sys/kernel/perf_event_paranoid"
-
-pre: perf
-	@for i in $(COM) perf; do
-		hash $$i || echo "$$i not found!!!"
-	done
 
 test: $(filter-out hiff.cc,$(SRC)) | pre
 	@printf '%48s\n' | tr ' ' '-'

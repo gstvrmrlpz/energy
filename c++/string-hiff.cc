@@ -7,24 +7,6 @@
 
 //------------------------------------------------------------------------
 
-constexpr char t(const char left, const char right)
-{
-    if (left == right)
-        return left;
-    else
-        return '-';
-}
-
-// t test
-static_assert(t('0', '0') == '0');
-static_assert(t('0', '1') == '-');
-static_assert(t('1', '0') == '-');
-static_assert(t('1', '1') == '1');
-static_assert(t('0', '-') == '-');
-static_assert(t('-', '1') == '-');
-
-//------------------------------------------------------------------------
-
 constexpr char T(const std::string_view &s)
 {
     switch (s.size())
@@ -60,21 +42,6 @@ static_assert(T("1111") == '1');
 
 //------------------------------------------------------------------------
 
-constexpr unsigned f(const char c)
-{
-    if (c == '-')
-        return 0;
-    else
-        return 1;
-}
-
-// f test
-static_assert(f('0') == 1);
-static_assert(f('1') == 1);
-static_assert(f('-') == 0);
-
-//------------------------------------------------------------------------
-
 constexpr unsigned HIFF(const std::string_view &s)
 {
     if (s.size() == 1)
@@ -85,7 +52,6 @@ constexpr unsigned HIFF(const std::string_view &s)
 }
 
 // HIFF test
-
 static_assert(HIFF("0") == 1);
 static_assert(HIFF("1") == 1);
 static_assert(HIFF("00") == 4);
