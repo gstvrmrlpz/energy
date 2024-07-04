@@ -9,7 +9,7 @@
 
 //------------------------------------------------------------------------
 
-const std::size_t CHROMOSOME_SIZE = 2048, POPULATION_SIZE = 40'000;
+const std::size_t CHROMOSOME_SIZE = 512, POPULATION_SIZE = 40'000;
 
 //------------------------------------------------------------------------
 
@@ -69,20 +69,14 @@ template<typename chromosome> std::size_t evaluate(chromosome &);
 
 template<typename chromosome> int common_main(int argc, char *argv[])
 {
-    std::size_t step = std::numeric_limits<std::size_t>::max(), value = 0;
-
-    if (argc > 1)
-        step = std::atoi(argv[1]);
-
-    if (step == 0)
-        return value;
+    std::size_t value = 0;
 
     std::vector<chromosome> population(POPULATION_SIZE);
 
     for (std::size_t i = 0; i < population.size(); ++i)
         initialize(population[i]);
 
-    if (step == 1)
+    if (argc != 1)
         return value;
 
     for (std::size_t i = 0; i < population.size(); i += 2)

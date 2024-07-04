@@ -13,7 +13,8 @@ COM = clang++ g++
 DAT = $(EXE:=.dat)
 EXE = $(basename $(SRC))
 FOL = $(EXE:=.fol)
-LOG = $(foreach e,$(EXE),$(foreach o,0 1 2 3 g s z,$(foreach s,$(SIZ),$e-$s-O$o.log)))
+LEV = -O2 -O3
+REP = 15
 SIZ = 512 1024 2048
 SRC = $(wildcard *.cc)
 SVG = $(EXE:=.svg)
@@ -42,7 +43,7 @@ clean:
 exe: $(EXE)
 
 perf:
-	sudo bash -c "echo -1 > /proc/sys/kernel/perf_event_paranoid"
+	@sudo bash -c "echo -1 > /proc/sys/kernel/perf_event_paranoid"
 
 pre: perf
 	@for i in $(COM) perf; do
@@ -51,10 +52,41 @@ pre: perf
 
 ###############################################################################
 
-final: $(SRC) | pre
-	printf '%48s\n' | tr ' ' '-'
-	printf '%12s%12s%12s%12s\n' program length 'energy(J)' 'time(s)'
-	printf '%48s\n' | tr ' ' '-'
+init: $(SRC) | pre
+	@printf '%72s\n' | tr ' ' '-'
+	printf '%12s%12s%12s%12s%12s%12s\n' program length opt 'energy(J)' 'time(s)' run
+	printf '%72s\n' | tr ' ' '-'
+	for level in $(LEV); do
+		for src in $(SRC); do
+			for size in $(SIZ); do
+				for (( i=0; i<$(REP); ++i )); do
+					make -Bs $${size}z $${src/.cc} OPT=$$lev
+					-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} init 2> /tmp/stat.txt
+					energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+					cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
+					printf '%12s%12s%12s%12s%12s%12s\n' $${src/.cc} $$size $$level $$energy $$cpu $$(date "+%s")
+				done
+			done
+		done
+	done
+
+full: $(SRC) | pre
+	@printf '%72s\n' | tr ' ' '-'
+	printf '%12s%12s%12s%12s%12s%12s\n' program length opt 'energy(J)' 'time(s)' run
+	printf '%72s\n' | tr ' ' '-'
+	for level in $(LEV); do
+		for src in $(SRC); do
+			for size in $(SIZ); do
+				for (( i=0; i<$(REP); ++i )); do
+					make -Bs $${size}z $${src/.cc} OPT=$$lev
+					-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} 2> /tmp/stat.txt
+					energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+					cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
+					printf '%12s%12s%12s%12s%12s%12s\n' $${src/.cc} $$size $$level $$energy $$cpu $$(date "+%s")
+				done
+			done
+		done
+	done
 
 ###############################################################################
 # pruebas
