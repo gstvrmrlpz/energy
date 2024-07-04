@@ -3,21 +3,22 @@
 #include <algorithm>
 #include <vector>
 
-class chromosome : public std::vector<bool>
+class chromosome : public std::vector<char>
 {
 public:
-    chromosome() : std::vector<bool>(CHROMOSOME_SIZE) {}
+    chromosome() : std::vector<char>(CHROMOSOME_SIZE, '0') {}
 };
 
 void initialize(chromosome &c)
 {
     for (std::size_t bit = 0; bit < c.size(); ++bit)
-        c[bit] = rng_ft();
+        c[bit] = rng_01();
 }
 
 void mutate(chromosome &c)
 {
-    c[rng_size()].flip();
+    std::size_t pos = rng_size();
+    c[pos] = '0' + '1' - c[pos];
 }
 
 void crossover(chromosome &c1, chromosome &c2)
@@ -27,10 +28,7 @@ void crossover(chromosome &c1, chromosome &c2)
     std::swap_ranges(c1.begin() + p1, c1.begin() + p2, c2.begin() + p1);
 }
 
-std::size_t evaluate(chromosome &c)
-{
-    return std::ranges::count(c, true);
-}
+std::size_t evaluate(chromosome &c) { return std::ranges::count(c, true); }
 
 int main(int argc, char *argv[])
 {

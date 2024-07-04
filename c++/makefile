@@ -65,7 +65,7 @@ test: $(filter-out hiff.cc,$(SRC)) | pre
 	printf '%48s\n' | tr ' ' '-'
 	for e in $^; do
 		for s in $(SIZ); do
-			make -Bs c$$s $${e/.cc}
+			make -Bs $${s}z $${e/.cc}
 			-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} 2> /tmp/stat.txt
 			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 			cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
@@ -73,7 +73,7 @@ test: $(filter-out hiff.cc,$(SRC)) | pre
 		done
 	done
 
-test2: $(EXE) | c2048 pre
+test2: $(EXE) | 2048z pre
 	@for e in $^; do
 		printf "%80s\n \t$$e\n%80s\n" | tr ' ' '#'
 		for (( i=0; i<6; ++i )); do
@@ -90,7 +90,7 @@ simd: $(SRC) | pre
 		for s in $(SIZ); do
 			for o in 0 1 2 3 g s z; do
 				for simd in yes no; do
-					make -Bs c$$s $${e/.cc} OPT=-O$$o SIMD=$$simd
+					make -Bs $${s}z $${e/.cc} OPT=-O$$o SIMD=$$simd
 					-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
 					energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 					cpu=$$(cat /tmp/stat.txt | grep seconds | tr -s ' ' | cut -d' ' -f2)
@@ -109,9 +109,9 @@ xps: vector | pre
 
 ###############################################################################
 
-c%: $(SRC)
+%z: common.h
 	@c=$@
-	sed --follow-symlinks -i "s/CHROMOSOME_SIZE = [[:digit:]]*/CHROMOSOME_SIZE = $${c:1}/" $^
+	sed --follow-symlinks -i "s/CHROMOSOME_SIZE = [[:digit:]]*/CHROMOSOME_SIZE = $${c:0:-1}/" $<
 
 %.att: %
 	objdump -Cd $< > $@

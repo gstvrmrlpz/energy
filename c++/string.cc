@@ -12,13 +12,13 @@ public:
 void initialize(chromosome &c)
 {
     for (std::size_t bit = 0; bit < c.size(); ++bit)
-        c[bit] = rng_01() == 0 ? '0' : '1';
+        c[bit] = rng_01();
 }
 
 void mutate(chromosome &c)
 {
     std::size_t pos = rng_size();
-    c[pos] = c[pos] == '0' ? '1' : '0';
+    c[pos] = '0' + '1' - c[pos];
 }
 
 void crossover(chromosome &c1, chromosome &c2)

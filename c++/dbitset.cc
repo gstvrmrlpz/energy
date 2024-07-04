@@ -11,7 +11,7 @@ public:
 void initialize(chromosome &c)
 {
     for (std::size_t bit = 0; bit < c.size(); ++bit)
-        c[bit] = rng_01();
+        c[bit] = rng_ft();
 }
 
 void mutate(chromosome &c) { c.flip(rng_size()); }
