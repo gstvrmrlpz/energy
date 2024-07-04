@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <string>
-#include <vector>
 
 class chromosome : public std::string
 {
@@ -10,40 +9,31 @@ public:
     chromosome() : std::string(CHROMOSOME_SIZE, '0') {}
 };
 
-using population = std::vector<chromosome>;
-
-void initialize(population &p)
+void initialize(chromosome &c)
 {
-    for (auto &i : p)
-        for (std::size_t bit = 0; bit < i.size(); ++bit)
-            i[bit] = rng_01() == 0 ? '0' : '1';
+    for (std::size_t bit = 0; bit < c.size(); ++bit)
+        c[bit] = rng_01() == 0 ? '0' : '1';
 }
 
-void mutate(population &p)
+void mutate(chromosome &c)
 {
-    for (auto &i : p)
-    {
-        std::size_t pos = rng_size();
-        i[pos] = i[pos] == '0' ? '1' : '0';
-    }
+    std::size_t pos = rng_size();
+    c[pos] = c[pos] == '0' ? '1' : '0';
 }
 
-void crossover(population &p)
+void crossover(chromosome &c1, chromosome &c2)
 {
-    for (std::size_t i = 0; i < p.size(); i += 2)
-        std::swap_ranges(
-            p[i].begin(), p[i].begin() + rng_size(), p[i + 1].begin());
+    std::size_t t1 = rng_size(), t2 = rng_size();
+    std::size_t p1 = std::min(t1, t2), p2 = std::max(t1, t2);
+    std::swap_ranges(c1.begin() + p1, c1.begin() + p2, c2.begin() + p1);
 }
 
-std::size_t evaluate(population &p)
+std::size_t evaluate(chromosome &c)
 {
-    std::size_t count = 0;
-    for (auto &i : p)
-        count += std::ranges::count_if(i, [](char c) { return c == '1'; });
-    return count;
+    return std::ranges::count(c, '1');
 }
 
 int main(int argc, char *argv[])
 {
-    return common_main<population>(argc, argv);
+    return common_main<chromosome>(argc, argv);
 }

@@ -14,13 +14,13 @@ DAT = $(EXE:=.dat)
 EXE = $(basename $(SRC))
 FOL = $(EXE:=.fol)
 LOG = $(foreach e,$(EXE),$(foreach o,0 1 2 3 g s z,$(foreach s,$(SIZ),$e-$s-O$o.log)))
-SIZ = 256 512 1024 2048
+SIZ = 512 1024 2048
 SRC = $(wildcard *.cc)
 SVG = $(EXE:=.svg)
 
 ###############################################################################
 
-CXXFLAGS = -O3 -std=c++20 -Wall $(OPT)
+CXXFLAGS = -flto -march=native -Ofast -std=c++20 -Wall $(OPT)
 
 ifeq ($(SIMD),no)
 	CXXFLAGS += -mno-{avx,sse}
@@ -35,7 +35,7 @@ att: $(ATT)
 clean:
 	-rm -fv $(ATT) $(CAC) $(CAL) $(DAT) $(EXE) $(FOL) $(SVG) *~
 
-compilers: $(SRC) | c2048
+compilers: $(SRC) | c2048 pre
 	@printf '%48s\n' | tr ' ' '-'
 	printf '%12s%12s%12s%12s\n' program length 'energy(J)' 'time(s)'
 	printf '%48s\n' | tr ' ' '-'
@@ -59,21 +59,21 @@ pre: perf
 		hash $$i || echo "$$i not found!!!"
 	done
 
-test: $(filter-out hiff.cc,$(SRC))
+test: $(filter-out hiff.cc,$(SRC)) | pre
 	@printf '%48s\n' | tr ' ' '-'
 	printf '%12s%12s%12s%12s\n' program length 'energy(J)' 'time(s)'
 	printf '%48s\n' | tr ' ' '-'
 	for e in $^; do
 		for s in $(SIZ); do
 			make -Bs c$$s $${e/.cc}
-			-perf stat -a -e power/energy-pkg/ -r 1 -- ./$${e/.cc} 2> /tmp/stat.txt
+			-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} 2> /tmp/stat.txt
 			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 			cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
 			printf '%12s%12s%12s%12s\n' $${e/.cc} $$s $$energy $$cpu
 		done
 	done
 
-test2: $(EXE) | c2048
+test2: $(EXE) | c2048 pre
 	@for e in $^; do
 		printf "%80s\n \t$$e\n%80s\n" | tr ' ' '#'
 		for (( i=0; i<6; ++i )); do
@@ -82,7 +82,7 @@ test2: $(EXE) | c2048
 		done
 	done
 
-simd: $(SRC)
+simd: $(SRC) | pre
 	@printf '%72s\n' | tr ' ' '-'
 	printf '%12s%12s%12s%12s%12s%12s\n' program length opt SIMD 'energy(J)' 'time(s)'
 	printf '%72s\n' | tr ' ' '-'
@@ -102,7 +102,7 @@ simd: $(SRC)
 
 svg: $(SVG)
 
-xps: vector
+xps: vector | pre
 	@for (( i=0; i<6; ++i )); do
 		-perf stat -a -e power/energy-cores/,power/energy-gpu/,power/energy-pkg/,power/energy-psys/,power/energy-ram/ -r 10 -- ./$< $$i > /dev/null
 	done

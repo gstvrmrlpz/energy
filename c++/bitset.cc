@@ -1,49 +1,37 @@
 #include "common.h"
 
-#include <tr2/dynamic_bitset>
-#include <vector>
+#include <bitset>
 
-class chromosome : public std::tr2::dynamic_bitset<>
+class chromosome : public std::bitset<CHROMOSOME_SIZE>
 {
 public:
-    chromosome() : std::tr2::dynamic_bitset<>(CHROMOSOME_SIZE) {}
+    chromosome() : std::bitset<CHROMOSOME_SIZE>() {}
 };
 
-using population = std::vector<chromosome>;
-
-void initialize(population &p)
+void initialize(chromosome &c)
 {
-    for (auto &i : p)
-        for (std::size_t bit = 0; bit < i.size(); ++bit)
-            i[bit] = rng_01();
+    for (std::size_t bit = 0; bit < c.size(); ++bit)
+        c[bit] = rng_01();
 }
 
-void mutate(population &p)
+void mutate(chromosome &c) { c.flip(rng_size()); }
+
+void crossover(chromosome &c1, chromosome &c2)
 {
-    for (auto &i : p)
-        i.flip(rng_size());
+    std::size_t t1 = rng_size(), t2 = rng_size();
+    std::size_t p1 = std::min(t1, t2), p2 = std::max(t1, t2);
+
+    for (std::size_t i = p1; i < p2; ++i)
+    {
+        bool tmp = c1[i];
+        c1[i] = c2[i];
+        c2[i] = tmp;
+    }
 }
 
-void crossover(population &p)
-{
-    for (std::size_t i = 0; i < p.size(); i += 2)
-        for (std::size_t j = rng_size(); j < p[i].size(); ++j)
-        {
-            bool tmp = p[i][j];
-            p[i][j] = p[i + 1][j];
-            p[i + 1][j] = tmp;
-        }
-}
-
-std::size_t evaluate(population &p)
-{
-    std::size_t count = 0;
-    for (auto &i : p)
-        count += i.count();
-    return count;
-}
+std::size_t evaluate(chromosome &c) { return c.count(); }
 
 int main(int argc, char *argv[])
 {
-    return common_main<population>(argc, argv);
+    return common_main<chromosome>(argc, argv);
 }

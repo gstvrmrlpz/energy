@@ -1,7 +1,6 @@
-#include "common2.h"
+#include "common.h"
 
 #include <tr2/dynamic_bitset>
-#include <vector>
 
 class chromosome : public std::tr2::dynamic_bitset<>
 {
