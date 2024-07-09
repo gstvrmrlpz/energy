@@ -14,14 +14,14 @@ DAT = $(EXE:=.dat)
 EXE = $(basename $(SRC))
 FOL = $(EXE:=.fol)
 LEV = -O2 -O3
-REP = 15
-SIZ = 512 1024 2048
+REP = 1
+SIZ = 16 1024 64536
 SRC = $(wildcard *.cc)
 SVG = $(EXE:=.svg)
 
 ###############################################################################
 
-CXXFLAGS = -flto -g -march=native -Ofast -std=c++20 -Wall
+CXXFLAGS = -flto -g -march=native -O3 -std=c++20 -Wall
 
 ifneq ($(strip $(OPT)),)
 	CXXFLAGS += $(OPT)
