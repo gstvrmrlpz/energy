@@ -15,7 +15,7 @@ EXE = $(basename $(SRC))
 FOL = $(EXE:=.fol)
 LEV = -O2 -O3
 REP = 1
-SIZ = 16 1024 64536
+SIZ = 32 1024 32768
 SRC = $(wildcard *.cc)
 SVG = $(EXE:=.svg)
 
@@ -53,36 +53,40 @@ pre: perf
 ###############################################################################
 
 init: $(SRC) | pre
-	@printf '%72s\n' | tr ' ' '-'
-	printf '%12s%12s%12s%12s%12s%12s\n' program length opt 'energy(J)' 'time(s)' run
-	printf '%72s\n' | tr ' ' '-'
-	for level in $(LEV); do
-		for src in $(SRC); do
-			for size in $(SIZ); do
-				for (( i=0; i<$(REP); ++i )); do
-					make -Bs $${size}z $${src/.cc} OPT=$$lev
-					-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} init 2> /tmp/stat.txt
-					energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
-					cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-					printf '%12s%12s%12s%12s%12s%12s\n' $${src/.cc} $$size $$level $$energy $$cpu $$(date "+%s")
+	@printf '%98s\n' | tr ' ' '-'
+	printf '%14s%14s%14s%14s%14s%14s%14s\n' program length compiler opt 'energy(J)' 'time(s)' run
+	printf '%98s\n' | tr ' ' '-'
+	for compiler in $(COM); do
+		for level in $(LEV); do
+			for src in $(SRC); do
+				for size in $(SIZ); do
+					make -Bs $${size}z $${src/.cc} CXX=$$compiler OPT=$$lev
+					for (( i=0; i<$(REP); ++i )); do
+						-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} init 2> /tmp/stat.txt
+						energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+						cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
+						printf '%14s%14s%14s%14s%14s%14s%14s\n' $${src/.cc} $$size $$compiler $$level $$energy $$cpu $$(date "+%s")
+					done
 				done
 			done
 		done
 	done
 
 full: $(SRC) | pre
-	@printf '%72s\n' | tr ' ' '-'
-	printf '%12s%12s%12s%12s%12s%12s\n' program length opt 'energy(J)' 'time(s)' run
-	printf '%72s\n' | tr ' ' '-'
-	for level in $(LEV); do
-		for src in $(SRC); do
-			for size in $(SIZ); do
-				for (( i=0; i<$(REP); ++i )); do
-					make -Bs $${size}z $${src/.cc} OPT=$$lev
-					-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} 2> /tmp/stat.txt
-					energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
-					cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-					printf '%12s%12s%12s%12s%12s%12s\n' $${src/.cc} $$size $$level $$energy $$cpu $$(date "+%s")
+	@printf '%98s\n' | tr ' ' '-'
+	printf '%14s%14s%14s%14s%14s%14s%14s\n' program length compiler opt 'energy(J)' 'time(s)' run
+	printf '%98s\n' | tr ' ' '-'
+	for compiler in $(COM); do
+		for level in $(LEV); do
+			for src in $(SRC); do
+				for size in $(SIZ); do
+					make -Bs $${size}z $${src/.cc} CXX=$$compiler OPT=$$lev
+					for (( i=0; i<$(REP); ++i )); do
+						-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} 2> /tmp/stat.txt
+						energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+						cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
+						printf '%14s%14s%14s%14s%14s%14s%14s\n' $${src/.cc} $$size $$compiler $$level $$energy $$cpu $$(date "+%s")
+					done
 				done
 			done
 		done
@@ -94,7 +98,7 @@ full: $(SRC) | pre
 
 compilers: $(SRC) | c2048 pre
 	@printf '%48s\n' | tr ' ' '-'
-	printf '%12s%12s%12s%12s\n' program length 'energy(J)' 'time(s)'
+	printf '%14s%14s%14s%14s\n' program length 'energy(J)' 'time(s)'
 	printf '%48s\n' | tr ' ' '-'
 	for src in $^; do
 		for compiler in $(COM); do
@@ -102,14 +106,14 @@ compilers: $(SRC) | c2048 pre
 			-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${src/.cc} > /dev/null 2> /tmp/stat.txt
 			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 			cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-			printf '%12s%12s%12s%12s\n' $${src/.cc} $$compiler $$energy $$cpu
+			printf '%14s%14s%14s%14s\n' $${src/.cc} $$compiler $$energy $$cpu
 		done
 	done
 
 
 test: $(filter-out hiff.cc,$(SRC)) | pre
 	@printf '%48s\n' | tr ' ' '-'
-	printf '%12s%12s%12s%12s\n' program length 'energy(J)' 'time(s)'
+	printf '%14s%14s%14s%14s\n' program length 'energy(J)' 'time(s)'
 	printf '%48s\n' | tr ' ' '-'
 	for e in $^; do
 		for s in $(SIZ); do
@@ -117,7 +121,7 @@ test: $(filter-out hiff.cc,$(SRC)) | pre
 			-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} 2> /tmp/stat.txt
 			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 			cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-			printf '%12s%12s%12s%12s\n' $${e/.cc} $$s $$energy $$cpu
+			printf '%14s%14s%14s%14s\n' $${e/.cc} $$s $$energy $$cpu
 		done
 	done
 
@@ -131,9 +135,9 @@ test2: $(EXE) | 2048z pre
 	done
 
 simd: $(SRC) | pre
-	@printf '%72s\n' | tr ' ' '-'
-	printf '%12s%12s%12s%12s%12s%12s\n' program length opt SIMD 'energy(J)' 'time(s)'
-	printf '%72s\n' | tr ' ' '-'
+	@printf '%98s\n' | tr ' ' '-'
+	printf '%14s%14s%14s%14s%14s%14s\n' program length opt SIMD 'energy(J)' 'time(s)'
+	printf '%98s\n' | tr ' ' '-'
 	for e in $^; do
 		for s in $(SIZ); do
 			for o in 0 1 2 3 g s z; do
@@ -142,7 +146,7 @@ simd: $(SRC) | pre
 					-perf stat -a -e power/energy-pkg/ -r 10 -- ./$${e/.cc} > /dev/null 2> /tmp/stat.txt
 					energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 					cpu=$$(cat /tmp/stat.txt | grep seconds | tr -s ' ' | cut -d' ' -f2)
-					printf '%12s%12s%12s%12s%12s%12s\n' $${e/.cc} $$s "-O$$o" $$simd $$energy $$cpu
+					printf '%14s%14s%14s%14s%14s%14s\n' $${e/.cc} $$s "-O$$o" $$simd $$energy $$cpu
 				done
 			done
 		done
