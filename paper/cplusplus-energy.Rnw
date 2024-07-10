@@ -157,6 +157,16 @@ There is no fixed methodology for measuring energy consumption across a number o
 \item From those energy profiles, a baseline needs to be established. This baseline should include any energy expenses of the system, and, if possible, energy spent in data initialization and preparation. This baseline measurements can include discarding parametrizations or options that are either statistically indistinguishable from others or simply spending too much energy to be considered.
 \item Finally, an experimental setup where different, relevant configurations and parametrizations are cross-tested so that those with the lowest energy performance can be selected and explained.
 \end{itemize}
+
+
+\section{Results}
+\label{sec:res}
+
+
+\section{Conclusions}
+\label{sec:con}
+
+
 \bibliographystyle{elsarticle-num}
 \bibliography{energy,ours}
 
