@@ -9,7 +9,7 @@
 
 //------------------------------------------------------------------------
 
-const std::size_t CHROMOSOME_SIZE = 32, POPULATION_SIZE = 40'000;
+const std::size_t CHROMOSOME_SIZE = 8192, POPULATION_SIZE = 40'000;
 
 //------------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ static_assert(t('-', '1') == '-');
 template<typename chromosome> void initialize(chromosome &);
 template<typename chromosome> void mutate(chromosome &);
 template<typename chromosome> void crossover(chromosome &, chromosome &);
-template<typename chromosome> std::size_t evaluate(chromosome &);
+template<typename chromosome> std::size_t evaluate(const chromosome &);
 
 //------------------------------------------------------------------------
 

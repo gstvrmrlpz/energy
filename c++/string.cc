@@ -99,7 +99,7 @@ void crossover(chromosome &c1, chromosome &c2)
 
 //------------------------------------------------------------------------
 
-std::size_t evaluate(chromosome &c)
+std::size_t evaluate(const chromosome &c)
 {
     // return std::ranges::count(c, '1'); // onemax
     return HIFF(c);
