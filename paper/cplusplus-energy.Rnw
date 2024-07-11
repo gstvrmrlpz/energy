@@ -148,7 +148,7 @@ Abstract text.
 \label{intro}
 
 
-In general trying to make scientific results involve profiling alrgorithms, followed by an energy profile that finds out the energy bottlenecks among the different functions \cite{7155416}.
+In general trying to make scientific results involve profiling algorithms, followed by an energy profile that finds out the energy bottlenecks among the different functions \cite{7155416}.
 
 \section{Methodology}
 
