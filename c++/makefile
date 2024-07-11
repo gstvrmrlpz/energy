@@ -49,17 +49,17 @@ svg: $(SVG)
 ###############################################################################
 
 init: $(SRC) | pre
-	@printf '#%97s\n' | tr ' ' '-'
-	if [ "$(OUT)" == "csv" ]; then
+	@if [ "$(OUT)" == "csv" ]; then
 		FORMAT='#%s;%s;%s;%s;%s;%s;%s\n'
 		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' run
 		FORMAT='%s;%s;%s;%s;%s;%s;%s\n'
 	else
 		FORMAT='#%13s%14s%14s%14s%14s%14s%14s\n'
+		printf '#%97s\n' | tr ' ' '-'
 		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' run
+		printf '#%97s\n' | tr ' ' '-'
 		FORMAT='%14s%14s%14s%14s%14s%14s%14s\n'
 	fi
-	printf '#%97s\n' | tr ' ' '-'
 	for compiler in $(COM); do
 		for level in $(LEV); do
 			for src in $(SRC); do
@@ -69,7 +69,7 @@ init: $(SRC) | pre
 						-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} init 2> /tmp/stat.txt
 						energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 						cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-						printf $$FORMAT $${src/.cc} $$size $$compiler $$level $$energy $$cpu $$(date "+%s")
+						printf $$FORMAT $${src/.cc} $$size $$compiler $$level $$energy $$cpu $$(( $$(date +%s%N) / 1000000 ))
 					done
 				done
 			done
@@ -77,17 +77,17 @@ init: $(SRC) | pre
 	done
 
 full: $(SRC) | pre
-	@printf '#%97s\n' | tr ' ' '-'
-	if [ "$(OUT)" == "csv" ]; then
+	@if [ "$(OUT)" == "csv" ]; then
 		FORMAT='#%s;%s;%s;%s;%s;%s;%s\n'
 		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' run
 		FORMAT='%s;%s;%s;%s;%s;%s;%s\n'
 	else
 		FORMAT='#%13s%14s%14s%14s%14s%14s%14s\n'
+		printf '#%97s\n' | tr ' ' '-'
 		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' run
+		printf '#%97s\n' | tr ' ' '-'
 		FORMAT='%14s%14s%14s%14s%14s%14s%14s\n'
 	fi
-	printf '#%97s\n' | tr ' ' '-'
 	for compiler in $(COM); do
 		for level in $(LEV); do
 			for src in $(SRC); do
@@ -97,7 +97,7 @@ full: $(SRC) | pre
 						-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} 2> /tmp/stat.txt
 						energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 						cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-						printf $$FORMAT $${src/.cc} $$size $$compiler $$level $$energy $$cpu $$(date "+%s")
+						printf $$FORMAT $${src/.cc} $$size $$compiler $$level $$energy $$cpu $$(( $$(date +%s%N) / 1000000 ))
 					done
 				done
 			done
