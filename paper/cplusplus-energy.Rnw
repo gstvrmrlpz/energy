@@ -80,7 +80,7 @@
 %%             country={}}
 %% \fntext[label3]{}
 
-\title{}
+\title{Sorcerer's apprentices blindfolding compilers and their options}
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{}
