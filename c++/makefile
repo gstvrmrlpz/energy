@@ -104,7 +104,7 @@ full: $(SRC) | pre
 		done
 	done
 
-datos:
+datos: pre
 	make init | tee $$(hostname)-init-$$(date "+%Y%m%d-%H%M%S")
 	make full | tee $$(hostname)-full-$$(date "+%Y%m%d-%H%M%S")
 
