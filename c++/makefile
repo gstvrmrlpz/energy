@@ -22,7 +22,7 @@ SVG = $(EXE:=.svg)
 
 ###############################################################################
 
-CXXFLAGS = -flto -g -march=native -O3 -std=c++2b -Wall $(OPT)
+CXXFLAGS = -flto -g -march=native -O3 -std=c++23 -Wall $(OPT)
 
 ###############################################################################
 
@@ -31,6 +31,7 @@ all: pre exe
 att: $(ATT)
 
 clean:
+	-make -s $(firstword $(SIZ))z
 	-rm -fv $(ATT) $(CAC) $(CAL) $(DAT) $(EXE) $(FOL) $(SVG) *~
 
 exe: $(EXE)
@@ -63,7 +64,7 @@ init: $(SRC) | pre
 		for level in $(LEV); do
 			for src in $(SRC); do
 				for size in $(SIZ); do
-					make -Bs $${size}z $${src/.cc} CXX=$$compiler OPT=$$lev
+					make -Bs $${size}z $${src/.cc} CXX=$$compiler OPT=$$level
 					for (( i=0; i<$(REP); ++i )); do
 						-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} init 2> /tmp/stat.txt
 						energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
@@ -91,7 +92,7 @@ full: $(SRC) | pre
 		for level in $(LEV); do
 			for src in $(SRC); do
 				for size in $(SIZ); do
-					make -Bs $${size}z $${src/.cc} CXX=$$compiler OPT=$$lev
+					make -Bs $${size}z $${src/.cc} CXX=$$compiler OPT=$$level
 					for (( i=0; i<$(REP); ++i )); do
 						-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} 2> /tmp/stat.txt
 						energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
