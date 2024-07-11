@@ -22,7 +22,7 @@ template<class iterator> constexpr char T(iterator begin, iterator end)
             return '0' + *begin;
             break;
         case 2:
-            return t('0' + *begin, '0' + *end);
+            return t('0' + *begin, '0' + *(begin + 1));
             break;
         default:
             return t(T(begin, begin + size / 2), T(begin + size / 2, end));
@@ -66,7 +66,9 @@ void crossover(chromosome &c1, chromosome &c2)
 
 //------------------------------------------------------------------------
 
-std::size_t evaluate(chromosome &c) { return std::ranges::count(c, true); }
+// std::size_t evaluate(chromosome &c) { return std::ranges::count(c,
+// true); } // onemax
+std::size_t evaluate(chromosome &c) { return HIFF(c.cbegin(), c.cend()); }
 
 //------------------------------------------------------------------------
 

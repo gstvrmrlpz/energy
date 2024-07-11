@@ -7,7 +7,7 @@
 
 //------------------------------------------------------------------------
 
-constexpr char T(const std::string_view &s)
+constexpr char T(std::string_view s)
 {
     switch (s.size())
     {
@@ -42,7 +42,7 @@ static_assert(T("1111") == '1');
 
 //------------------------------------------------------------------------
 
-constexpr unsigned HIFF(const std::string_view &s)
+constexpr unsigned HIFF(std::string_view s)
 {
     if (s.size() == 1)
         return 1;
