@@ -5,10 +5,10 @@
 
 //------------------------------------------------------------------------
 
-class chromosome : public std::vector<bool>
+class chromosome : public std::vector<char>
 {
 public:
-    chromosome() : std::vector<bool>(CHROMOSOME_SIZE) {}
+    chromosome() : std::vector<char>(CHROMOSOME_SIZE, '0') {}
 };
 
 //------------------------------------------------------------------------
@@ -19,10 +19,10 @@ template<class iterator> constexpr char T(iterator begin, iterator end)
     switch (size)
     {
         case 1:
-            return '0' + *begin;
+            return *begin;
             break;
         case 2:
-            return t('0' + *begin, '0' + *end);
+            return t(*begin, *(begin + 1));
             break;
         default:
             return t(T(begin, begin + size / 2), T(begin + size / 2, end));
@@ -48,12 +48,16 @@ constexpr unsigned HIFF(iterator begin, iterator end)
 void initialize(chromosome &c)
 {
     for (std::size_t bit = 0; bit < c.size(); ++bit)
-        c[bit] = rng_ft();
+        c[bit] = rng_01();
 }
 
 //------------------------------------------------------------------------
 
-void mutate(chromosome &c) { c[rng_size()].flip(); }
+void mutate(chromosome &c)
+{
+    std::size_t pos = rng_size();
+    c[pos] = '0' + '1' - c[pos];
+}
 
 //------------------------------------------------------------------------
 
@@ -66,7 +70,11 @@ void crossover(chromosome &c1, chromosome &c2)
 
 //------------------------------------------------------------------------
 
-std::size_t evaluate(chromosome &c) { return std::ranges::count(c, true); }
+std::size_t evaluate(const chromosome &c)
+{
+    // return std::ranges::count(c, true); // onemax
+    return HIFF(c.cbegin(), c.cend()); // HIFF
+}
 
 //------------------------------------------------------------------------
 
