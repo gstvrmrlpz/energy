@@ -16,7 +16,7 @@ auto: $(TEX)
 	latexmk -f -pdf -pvc -shell-escape $<
 
 clean:
-	-latexmk -C -shell-escape $(TEX)
+	-latexmk -C -f -shell-escape $(TEX)
 	-rm -fv $(AUX) $(BBL) $(BLG) $(FDB) $(FLS) $(LOG) $(PDF) $(R) $(SPL) $(TEX) *~
 
 %.pdf: %.tex
