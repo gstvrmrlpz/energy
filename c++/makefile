@@ -22,15 +22,7 @@ SVG = $(EXE:=.svg)
 
 ###############################################################################
 
-CXXFLAGS = -flto -g -march=native -O3 -std=c++2b -Wall
-
-ifneq ($(strip $(OPT)),)
-	CXXFLAGS += $(OPT)
-endif
-
-ifeq ($(SIMD),no)
-	CXXFLAGS += -mno-{avx,sse}
-endif
+CXXFLAGS = -flto -g -march=native -O3 -std=c++2b -Wall $(OPT)
 
 ###############################################################################
 
