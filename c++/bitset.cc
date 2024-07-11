@@ -61,6 +61,10 @@ constexpr unsigned HIFF(const chromosome& c)
     return HIFF(c.to_string());
 }
 
+static_assert(HIFF("00000000") == 32 && HIFF("11111111") == 32);
+static_assert(HIFF("10110000") == 18 && HIFF("00001101") == 18);
+static_assert(HIFF("01010101") == 8 && HIFF("10101010") == 8);
+
 //------------------------------------------------------------------------
 
 void initialize(chromosome &c)
