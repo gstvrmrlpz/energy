@@ -105,8 +105,8 @@ full: $(SRC) | pre
 	done
 
 datos: pre
-	make init | tee $$(hostname)-init-$$(date "+%Y%m%d-%H%M%S")
-	make full | tee $$(hostname)-full-$$(date "+%Y%m%d-%H%M%S")
+	make init | tee $$(hostname)-init-$$(date "+%Y%m%d-%H%M%S").dat
+	make full | tee $$(hostname)-full-$$(date "+%Y%m%d-%H%M%S").dat
 
 ###############################################################################
 # pruebas
