@@ -8,14 +8,13 @@
 
 class chromosome : public std::vector<bool>
 {
-public:
-    chromosome() : std::vector<bool>(CHROMOSOME_SIZE) {}
 };
 
 //------------------------------------------------------------------------
 
-void initialize(chromosome &c)
+void initialize(chromosome &c, std::size_t size)
 {
+    c.resize(size);
     for (std::size_t bit = 0; bit < c.size(); ++bit)
         c[bit] = rng_ft();
 }
@@ -35,11 +34,14 @@ void crossover(chromosome &c1, chromosome &c2)
 
 //------------------------------------------------------------------------
 
-std::size_t evaluate(const chromosome &c)
+std::size_t onemax(const chromosome &c)
 {
-    // return std::ranges::count(c, true); } // onemax
-    return HIFF(c.begin(), c.end()); // HIFF
+    return std::ranges::count(c, true);
 }
+
+//------------------------------------------------------------------------
+
+std::size_t hiff(const chromosome &c) { return HIFF(c.begin(), c.end()); }
 
 //------------------------------------------------------------------------
 

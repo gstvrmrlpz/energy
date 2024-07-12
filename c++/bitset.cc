@@ -1,20 +1,19 @@
 #include "common.h"
 #include "hiff.h"
 
-#include <bitset>
+#include <tr2/dynamic_bitset>
 
-///------------------------------------------------------------------------
+//------------------------------------------------------------------------
 
-class chromosome : public std::bitset<CHROMOSOME_SIZE>
+class chromosome : public std::tr2::dynamic_bitset<>
 {
-public:
-    chromosome() : std::bitset<CHROMOSOME_SIZE>() {}
 };
 
 //------------------------------------------------------------------------
 
-void initialize(chromosome &c)
+void initialize(chromosome &c, std::size_t size)
 {
+    c.resize(size);
     for (std::size_t bit = 0; bit < c.size(); ++bit)
         c[bit] = rng_ft();
 }
@@ -40,11 +39,11 @@ void crossover(chromosome &c1, chromosome &c2)
 
 //------------------------------------------------------------------------
 
-std::size_t evaluate(const chromosome &c)
-{
-    // return c.count(); // onemax
-    return HIFF(c.to_string()); // HIFF
-}
+std::size_t onemax(const chromosome &c) { return c.count(); }
+
+//------------------------------------------------------------------------
+
+std::size_t hiff(const chromosome &c) { return HIFF(c.to_string()); }
 
 //------------------------------------------------------------------------
 
