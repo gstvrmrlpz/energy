@@ -149,10 +149,15 @@ Abstract text.
 
 
 In general trying to make scientific results involve profiling algorithms, followed by an energy profile that finds out the energy bottlenecks among the different functions \cite{7155416}. But once those bottlenecks are found, we are faced with a myriad of possibilities, even if we restrict, like we do in our paper, to a single programming language. Compiled languages like this one have different options that affect performance in a more or less predictable way, and energy consumption in a way that is not known in advance. Let's examine them:\begin{itemize}
-\item Most compiled languages have different compilers, designed and produced by different open source or commercial organizations. In the case of C++, there are at least two major ones, clang++ and g++ (from GNU) % Need to add citations here
+\item The first level is the compiler choice one: Most compiled languages have different compilers, designed and produced by different open source or commercial organizations. In the case of C++, there are at least two major ones, clang++ and g++ (from GNU) % Need to add citations here
 That without even taking into account different language standards and different compiler versions.
-\item Most compilers have options regarding the architecture and machine instruction set that should be targeted. Programs can be compiled for a generic architecture (like x86-64) or include instructions set that are specific to a brand or generation.
-% To be continued
+\item The second level is the different options that you can use when generating the executable. \begin{itemize}
+  \item Most compilers have options regarding the architecture and machine instruction set that should be targeted. Programs can be compiled for a generic architecture (like x86-64) or include instructions set that are specific to a brand or generation.
+  \item The optimization level is also a compiler flag, that usually targets performance. Checking which optimization level, or which combination of optimization high-level flags is the best for energy consumption is not a priori known, and needs to be measured.
+  \item Finally, compilers allow user selection of the language standard that is being followed. This might affect, besides the language constructs that are allowed, how code is generated.
+\end{itemize}
+\item The next level is the algorithm level: there are always different ways to implement the code, which can have different complexity, but also different energy consumption depending on how CPU and memory are used and how the code for the specific implementation is generated. Although this can certainly be examined for a different problem or workload, in evolutionary algorithms the amount of improvements we can obtain is very limited.
+\item At the language level we can use different data structures to implement the problem domain objects; in general, an algorithm is not going to specify the specific data structure that needs to be used; choosing one or the other will impact energy consumption if only for the different memory layout and occupation that every one has.
 \end{itemize}
 
 In this paper we will try to find a combination of parameters and engineering choices that minimize energy consumption in a generic evolutionary algorithm by systematically researching the amount of energy consumed by common EA operators, and an integer-based heavy-weight function, HIFF. And we will do so by answering the following research questions:\begin{itemize}
