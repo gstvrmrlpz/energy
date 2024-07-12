@@ -32,7 +32,6 @@ all: pre exe
 att: $(ATT)
 
 clean:
-	-make -s $(firstword $(SIZ))z
 	-rm -fv $(ATT) $(CAC) $(CAL) $(DAT) $(EXE) $(FOL) $(SVG) *~
 
 exe: $(EXE)
@@ -79,7 +78,7 @@ exp: pre
 		done
 	done
 
-datos: pre
+datos:
 	for i in $(WRK); do
 		make exp WRK=$$i | tee $$(HOSTNAME%%.*)-$$i-$$(date "+%Y%m%d-%H%M%S").dat
 	done
@@ -94,10 +93,6 @@ xps: vector | pre
 	done
 
 ###############################################################################
-
-%z: common.h
-	@c=$@
-	sed --follow-symlinks -i "s/CHROMOSOME_SIZE = [[:digit:]]*/CHROMOSOME_SIZE = $${c:0:-1}/" $<
 
 %.att: %
 	objdump -Cd $< > $@
