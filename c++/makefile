@@ -16,7 +16,7 @@ FOL = $(EXE:=.fol)
 LEV = -O2 -O3
 OUT = csv
 REP = 15
-SIZ = 128 1024 8192
+SIZ = 512 1024 2048
 SRC = $(wildcard *.cc)
 SVG = $(EXE:=.svg)
 
