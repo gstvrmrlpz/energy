@@ -19,6 +19,7 @@ REP = 15
 SIZ = 512 1024 2048
 SRC = $(wildcard *.cc)
 SVG = $(EXE:=.svg)
+WRK = i g h
 
 ###############################################################################
 
@@ -48,7 +49,7 @@ svg: $(SVG)
 
 ###############################################################################
 
-init: $(SRC) | pre
+exp: pre
 	@if [ "$(OUT)" == "csv" ]; then
 		FORMAT='#%s;%s;%s;%s;%s;%s;%s\n'
 		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' run
@@ -62,42 +63,16 @@ init: $(SRC) | pre
 	fi
 	for compiler in $(COM); do
 		for level in $(LEV); do
-			for src in $(SRC); do
+			for exe in $(EXE); do
+				make -Bs $$exe CXX=$$compiler OPT=$$level
 				for size in $(SIZ); do
-					make -Bs $${size}z $${src/.cc} CXX=$$compiler OPT=$$level
-					for (( i=0; i<$(REP); ++i )); do
-						-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} init 2> /tmp/stat.txt
-						energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
-						cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-						printf $$FORMAT $${src/.cc} $$size $$compiler $$level $$energy $$cpu $$(( $$(date +%s%N) / 1000000 ))
-					done
-				done
-			done
-		done
-	done
-
-full: $(SRC) | pre
-	@if [ "$(OUT)" == "csv" ]; then
-		FORMAT='#%s;%s;%s;%s;%s;%s;%s\n'
-		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' run
-		FORMAT='%s;%s;%s;%s;%s;%s;%s\n'
-	else
-		FORMAT='#%13s%14s%14s%14s%14s%14s%14s\n'
-		printf '#%97s\n' | tr ' ' '-'
-		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' run
-		printf '#%97s\n' | tr ' ' '-'
-		FORMAT='%14s%14s%14s%14s%14s%14s%14s\n'
-	fi
-	for compiler in $(COM); do
-		for level in $(LEV); do
-			for src in $(SRC); do
-				for size in $(SIZ); do
-					make -Bs $${size}z $${src/.cc} CXX=$$compiler OPT=$$level
-					for (( i=0; i<$(REP); ++i )); do
-						-perf stat -a -e power/energy-pkg/ -- ./$${src/.cc} 2> /tmp/stat.txt
-						energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
-						cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-						printf $$FORMAT $${src/.cc} $$size $$compiler $$level $$energy $$cpu $$(( $$(date +%s%N) / 1000000 ))
+					for work in $(WRK); do
+						for (( seed=0; seed<$(REP); ++seed )); do
+							-perf stat -a -e power/energy-pkg/ 2> /tmp/stat.txt -- ./$$exe -r $$seed -s $$size -w $$work
+							energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+							cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
+							printf $$FORMAT $$exe $$size $$compiler $$level $$energy $$cpu $$seed
+						done
 					done
 				done
 			done
@@ -105,8 +80,9 @@ full: $(SRC) | pre
 	done
 
 datos: pre
-	make init | tee $$(HOSTNAME%%.*)-init-$$(date "+%Y%m%d-%H%M%S").dat
-	make full | tee $$(HOSTNAME%%.*)-full-$$(date "+%Y%m%d-%H%M%S").dat
+	for i in $(WRK); do
+		make exp WRK=$$i | tee $$(HOSTNAME%%.*)-$$i-$$(date "+%Y%m%d-%H%M%S").dat
+	done
 
 ###############################################################################
 # pruebas
@@ -173,7 +149,7 @@ xps: vector | pre
 
 ###############################################################################
 
-.PHONY: all att clean exe full init perf pre svg xps
+.PHONY: all att clean datos exe exp perf pre svg xps
 .PRECIOUS: $(DAT) $(FOL)
 
 ###############################################################################
