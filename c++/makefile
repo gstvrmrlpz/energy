@@ -80,7 +80,7 @@ exp: pre
 
 datos:
 	for i in $(WRK); do
-		make exp WRK=$$i | tee $$(HOSTNAME%%.*)-$$i-$$(date "+%Y%m%d-%H%M%S").dat
+		make exp WRK=$$i | tee $${HOSTNAME%%.*}-$$i-$$(date "+%Y%m%d-%H%M%S").dat
 	done
 
 ###############################################################################
