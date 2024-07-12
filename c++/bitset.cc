@@ -1,4 +1,5 @@
 #include "common.h"
+#include "hiff.h"
 
 #include <bitset>
 
@@ -9,61 +10,6 @@ class chromosome : public std::bitset<CHROMOSOME_SIZE>
 public:
     chromosome() : std::bitset<CHROMOSOME_SIZE>() {}
 };
-
-//------------------------------------------------------------------------
-
-constexpr char T(std::string_view s)
-{
-    switch (s.size())
-    {
-        case 1:
-            return s.front();
-            break;
-        case 2:
-            return t(s.front(), s.back());
-            break;
-        default:
-            return t(T(s.substr(0, s.size() / 2)),
-                     T(s.substr(s.size() / 2, s.size())));
-            break;
-    }
-}
-
-// T test
-static_assert(T("0") == '0');
-static_assert(T("1") == '1');
-static_assert(T("-") == '-');
-static_assert(T("00") == '0');
-static_assert(T("01") == '-');
-static_assert(T("10") == '-');
-static_assert(T("11") == '1');
-static_assert(T("0-") == '-');
-static_assert(T("-1") == '-');
-static_assert(T("0000") == '0');
-static_assert(T("0-00") == '-');
-static_assert(T("0011") == '-');
-static_assert(T("11-1") == '-');
-static_assert(T("1111") == '1');
-
-//------------------------------------------------------------------------
-
-constexpr unsigned HIFF(std::string_view s)
-{
-    if (s.size() == 1)
-        return 1;
-    else
-        return s.size() * f(T(s)) + HIFF(s.substr(0, s.size() / 2)) +
-               HIFF(s.substr(s.size() / 2));
-}
-
-constexpr unsigned HIFF(const chromosome& c)
-{
-    return HIFF(c.to_string());
-}
-
-static_assert(HIFF("00000000") == 32 && HIFF("11111111") == 32);
-static_assert(HIFF("10110000") == 18 && HIFF("00001101") == 18);
-static_assert(HIFF("01010101") == 8 && HIFF("10101010") == 8);
 
 //------------------------------------------------------------------------
 
@@ -97,7 +43,7 @@ void crossover(chromosome &c1, chromosome &c2)
 std::size_t evaluate(const chromosome &c)
 {
     // return c.count(); // onemax
-    return HIFF(c);
+    return HIFF(c.to_string()); // HIFF
 }
 
 //------------------------------------------------------------------------

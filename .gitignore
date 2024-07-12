@@ -15,3 +15,5 @@
 *.spl
 *.bbl
 auto/
+
+.vscode

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "hiff.h"
 
 #include <algorithm>
 #include <vector>
@@ -10,38 +11,6 @@ class chromosome : public std::vector<char>
 public:
     chromosome() : std::vector<char>(CHROMOSOME_SIZE, '0') {}
 };
-
-//------------------------------------------------------------------------
-
-template<class iterator> constexpr char T(iterator begin, iterator end)
-{
-    std::size_t size = end - begin;
-    switch (size)
-    {
-        case 1:
-            return *begin;
-            break;
-        case 2:
-            return t(*begin, *(begin + 1));
-            break;
-        default:
-            return t(T(begin, begin + size / 2), T(begin + size / 2, end));
-            break;
-    }
-}
-
-//------------------------------------------------------------------------
-
-template<class iterator>
-constexpr unsigned HIFF(iterator begin, iterator end)
-{
-    std::size_t size = end - begin;
-    if (size == 1)
-        return 1;
-    else
-        return size * f(T(begin, end)) + HIFF(begin, begin + size / 2) +
-               HIFF(begin + size / 2, end);
-}
 
 //------------------------------------------------------------------------
 
@@ -73,7 +42,7 @@ void crossover(chromosome &c1, chromosome &c2)
 std::size_t evaluate(const chromosome &c)
 {
     // return std::ranges::count(c, true); // onemax
-    return HIFF(c.cbegin(), c.cend()); // HIFF
+    return HIFF(c.begin(), c.end()); // HIFF
 }
 
 //------------------------------------------------------------------------

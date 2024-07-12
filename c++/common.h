@@ -1,6 +1,8 @@
 #ifndef common_h
 #define common_h 1
 
+#include "hiff.h"
+
 #include <cstdlib>
 #include <functional>
 #include <iostream>
@@ -24,39 +26,6 @@ auto rng_01 = std::bind(uniform_char, engine);
 
 std::uniform_int_distribution<> uniform(0, CHROMOSOME_SIZE - 1);
 auto rng_size = std::bind(uniform, engine);
-
-//------------------------------------------------------------------------
-
-constexpr unsigned f(const char c)
-{
-    if (c == '-')
-        return 0;
-    else
-        return 1;
-}
-
-// f test
-static_assert(f('0') == 1);
-static_assert(f('1') == 1);
-static_assert(f('-') == 0);
-
-//------------------------------------------------------------------------
-
-constexpr char t(const char left, const char right)
-{
-    if (left == right)
-        return left;
-    else
-        return '-';
-}
-
-// t test
-static_assert(t('0', '0') == '0');
-static_assert(t('0', '1') == '-');
-static_assert(t('1', '0') == '-');
-static_assert(t('1', '1') == '1');
-static_assert(t('0', '-') == '-');
-static_assert(t('-', '1') == '-');
 
 //------------------------------------------------------------------------
 
