@@ -1,6 +1,8 @@
 #ifndef common_h
 #define common_h 1
 
+//------------------------------------------------------------------------
+
 #include "hiff.h"
 
 #include <cassert>
@@ -40,6 +42,8 @@ template<typename chromosome> std::size_t hiff(const chromosome &);
 std::size_t size = 0;
 char work = ' ';
 
+//------------------------------------------------------------------------
+
 void parser(int argc, char *argv[])
 {
     int option = 0;
@@ -48,7 +52,7 @@ void parser(int argc, char *argv[])
         switch (option)
         {
             case 'h':
-                std::cout << argv[0] << "options:\n"
+                std::cout << argv[0] << " options:\n"
                           << "\t-h: help                   (optional)\n"
                           << "\t-r: random seed            (optional)\n"
                           << "\t-s: chromosome size        (required)\n"
@@ -70,8 +74,6 @@ void parser(int argc, char *argv[])
                 break;
         }
 
-    std::cout << "size = " << size << '\n' << "work = " << work << '\n';
-
     if (work != 'i' && work != 'g' && work != 'h')
     {
         std::cout << "-w option must be one of {i, g, h}\n";
@@ -83,6 +85,8 @@ void parser(int argc, char *argv[])
 
 template<typename chromosome> int common_main(int argc, char *argv[])
 {
+    parser(argc, argv);
+
     std::size_t value = 0;
 
     std::vector<chromosome> population(POPULATION_SIZE);
