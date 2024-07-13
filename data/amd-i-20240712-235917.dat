@@ -1,4 +1,3 @@
-make[1]: se entra en el directorio '/home/gustavo/src/papers/2024/energy/c++'
 #program;length;compiler;opt;energy(J);time(s);run
 bitset;512;clang++;-O2;47,05;1,549716399;0
 bitset;512;clang++;-O2;47,51;1,542082518;1
@@ -720,4 +719,3 @@ string;2048;g++;-O3;24,74;0,907213617;11
 string;2048;g++;-O3;24,81;0,906697643;12
 string;2048;g++;-O3;24,99;0,908411907;13
 string;2048;g++;-O3;24,77;0,908752564;14
-make[1]: se sale del directorio '/home/gustavo/src/papers/2024/energy/c++'
