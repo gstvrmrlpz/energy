@@ -51,12 +51,12 @@ svg: $(SVG)
 exp: pre
 	@if [ "$(OUT)" == "csv" ]; then
 		FORMAT='#%s;%s;%s;%s;%s;%s;%s\n'
-		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' run
+		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' seed
 		FORMAT='%s;%s;%s;%s;%s;%s;%s\n'
 	else
 		FORMAT='#%13s%14s%14s%14s%14s%14s%14s\n'
 		printf '#%97s\n' | tr ' ' '-'
-		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' run
+		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' seed
 		printf '#%97s\n' | tr ' ' '-'
 		FORMAT='%14s%14s%14s%14s%14s%14s%14s\n'
 	fi
@@ -79,8 +79,8 @@ exp: pre
 	done
 
 datos:
-	for i in $(WRK); do
-		make exp WRK=$$i | tee $${HOSTNAME%%.*}-$$i-$$(date "+%Y%m%d-%H%M%S").dat
+	@for i in $(WRK); do
+		make -s exp WRK=$$i | tee $${HOSTNAME%%.*}-$$i-$$(date "+%Y%m%d-%H%M%S").dat
 	done
 
 ###############################################################################
