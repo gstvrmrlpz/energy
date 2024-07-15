@@ -22,7 +22,7 @@ CXXFLAGS = -flto -march=native -O3 -std=c++20 -Wall $(OPT)
 
 ###############################################################################
 
-all: pre exe
+all: exe
 
 att: $(ATT)
 
