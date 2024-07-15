@@ -1,5 +1,5 @@
 CSV = $(wildcard *.csv)
-SVG = $(CSV:.csv=.svg) $(CSV:.csv=-com.svg) $(CSV:.csv=-dot.svg)
+SVG = $(CSV:.csv=.svg) $(CSV:.csv=-com.svg) $(CSV:.csv=-dot.svg) $(CSV:.csv=-opt.svg)
 
 all: $(SVG)
 
@@ -33,4 +33,13 @@ clean:
 				 set ylabel 'energy (J)'; \
 				 plot for [p in 'bitset bvector cvector string'] '<(grep '.p.' $<)' u 6:5 t p w dots"
 
+%-opt.svg: %.csv | makefile
+	gnuplot <<< "set datafile separator ';'; \
+				 set key bottom right; \
+				 set terminal svg enhanced; \
+				 set output '$@'; \
+				 set xlabel 'time (s)'; \
+				 set ylabel 'energy (J)'; \
+				 plot for [i in 'O2 O3'] '<(grep '.i.' $<)' u 6:5 t i w dots"
+				
 .PHONY: all clean

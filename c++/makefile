@@ -13,7 +13,7 @@ OUT = csv
 REP = 100
 SIZ = 512 1024 2048
 SRC = $(wildcard *.cc)
-WRK = i g h
+WRK = g h i
 
 ###############################################################################
 
@@ -46,8 +46,9 @@ pre: perf
 ###############################################################################
 
 data:
-	@for w in $(WRK); do
-		make -s exp WRK=$$w | tee $${HOSTNAME%%.*}-$$w-$$(date "+%Y%m%d-%H%M%S").$(OUT)
+	@id="$$(date '+%Y%m%d-%H%M%S')"
+	for w in $(WRK); do
+		make -s exp WRK=$$w | tee $${HOSTNAME%%.*}-$$w-$$id.$(OUT)
 	done
 
 exp: pre
