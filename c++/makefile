@@ -52,7 +52,7 @@ data:
 	done
 
 exp: pre
-	@LC_ALL=C
+	@LANG=C
 	if [ "$(OUT)" == "csv" ]; then
 		FORMAT='#%s;%s;%s;%s;%s;%s;%s\n'
 		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' seed
@@ -82,6 +82,40 @@ exp: pre
 		done
 	done
 
+data2:
+	@make -s exp2 | tee $${HOSTNAME%%.*}-$$(date '+%Y%m%d-%H%M%S').$(OUT)
+
+exp2: pre
+	@LANG=C
+	if [ "$(OUT)" == "csv" ]; then
+		FORMAT='#%s;%s;%s;%s;%s;%s;%s;%s\n'
+		printf $$FORMAT compiler opt program seed length work 'energy(J)' 'time(s)'
+		FORMAT='%s;%s;%s;%s;%s;%s;%s;%s\n'
+	else
+		FORMAT='#%13s%14s%14s%14s%14s%14s%14s%14s\n'
+		printf '#%111s\n' | tr ' ' '-'
+		printf $$FORMAT compiler opt program seed length work 'energy(J)' 'time(s)'
+		printf '#%111s\n' | tr ' ' '-'
+		FORMAT='%14s%14s%14s%14s%14s%14s%14s%14s\n'
+	fi
+	for compiler in $(COM); do
+		for level in $(LEV); do
+			for exe in $(EXE); do
+				make -Bs $$exe CXX=$$compiler OPT=$$level
+				for size in $(SIZ); do
+					for work in $(WRK); do
+						for seed in $$(seq -w 0 $$(( $(REP) - 1 ))); do
+							-perf stat -a -e power/energy-pkg/ 2> /tmp/stat.txt -- ./$$exe -r $$seed -s $$size -w $$work
+							energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+							cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
+							printf $$FORMAT $$compiler $$level $$exe  $$seed $$size $$work $$energy $$cpu
+						done
+					done
+				done
+			done
+		done
+	done
+
 ###############################################################################
 # pruebas
 ###############################################################################
@@ -93,6 +127,6 @@ xps: vector | pre
 
 ###############################################################################
 
-.PHONY: all att clean csv exe exp perf pre svg xps
+.PHONY: all att clean csv exe exp exp2 perf pre svg xps
 
 ###############################################################################
