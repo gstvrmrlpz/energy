@@ -1,0 +1,12 @@
+#compiler;opt;program;seed;length;work;energy(J);time(s)
+clang++;-O2;bitset;00;512;g;54.13;1.551816142
+clang++;-O2;bitset;01;512;g;56.07;1.586170572
+clang++;-O2;bitset;02;512;g;55.63;1.579312022
+clang++;-O2;bitset;03;512;g;56.98;1.556476182
+clang++;-O2;bitset;04;512;g;56.05;1.585182796
+clang++;-O2;bitset;05;512;g;55.87;1.586651701
+clang++;-O2;bitset;06;512;g;56.38;1.588360886
+clang++;-O2;bitset;07;512;g;56.36;1.585760896
+clang++;-O2;bitset;08;512;g;56.10;1.556736719
+clang++;-O2;bitset;09;512;g;57.39;1.557789095
+clang++;-O2;bitset;10;512;g;65.28;1.602181346
