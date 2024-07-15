@@ -1,5 +1,5 @@
 CSV = $(wildcard *.csv)
-SVG = $(CSV:.csv=.svg) $(CSV:.csv=-dot.svg) $(CSV:.csv=-com.svg)
+SVG = $(CSV:.csv=.svg) $(CSV:.csv=-com.svg) $(CSV:.csv=-dot.svg)
 
 all: $(SVG)
 
