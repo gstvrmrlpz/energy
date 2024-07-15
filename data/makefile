@@ -1,5 +1,5 @@
 CSV = $(wildcard *.csv)
-SVG = $(CSV:.csv=.svg) $(CSV:.csv=-com.svg) $(CSV:.csv=-dot.svg) $(CSV:.csv=-opt.svg)
+SVG = $(CSV:.csv=.svg) $(CSV:.csv=-com.svg) $(CSV:.csv=-dot.svg) $(CSV:.csv=-opt.svg) $(CSV:.csv=-opt.svg)
 
 all: $(SVG)
 
@@ -41,5 +41,5 @@ clean:
 				 set xlabel 'time (s)'; \
 				 set ylabel 'energy (J)'; \
 				 plot for [i in 'O2 O3'] '<(grep '.i.' $<)' u 6:5 t i w dots"
-				
+
 .PHONY: all clean
