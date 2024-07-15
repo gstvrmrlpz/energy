@@ -8,7 +8,6 @@
 
 COM = clang++ g++
 EXE = $(basename $(SRC))
-HST != echo $${HOSTNAME%%.*}
 LEV = -O2 -O3
 OUT = csv
 REP = 100
@@ -46,9 +45,9 @@ pre: perf
 
 ###############################################################################
 
-cvs:
+data:
 	@for w in $(WRK); do
-		make -s exp WRK=$$i | tee $(HST)-$$w-$$(date "+%Y%m%d-%H%M%S").$(OUT)
+		make -s exp WRK=$$w | tee $${HOSTNAME%%.*}-$$w-$$(date "+%Y%m%d-%H%M%S").$(OUT)
 	done
 
 exp: pre
