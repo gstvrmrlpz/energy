@@ -107,12 +107,9 @@ exp2: pre
 				for size in $(SIZ); do
 					for work in $(WRK); do
 						for seed in $$(seq -w 0 $$(( $(REP) - 1 ))); do
-							energy=""
-							while [[ -z $$energy || ! $$energy =~ ^[+-]?[0-9]+([.][0-9]+)?$$ ]]; do
-								-perf stat -a -e power/energy-pkg/ 2> /tmp/stat.txt -- ./$$exe -r $$seed -s $$size -w $$work
-								energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
-								cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-							done
+							-perf stat -a -e power/energy-pkg/ 2> /tmp/stat.txt -- ./$$exe -r $$seed -s $$size -w $$work
+							energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+							cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
 							printf $$FORMAT $$compiler $$level $$exe  $$seed $$size $$work $$energy $$cpu
 						done
 					done
