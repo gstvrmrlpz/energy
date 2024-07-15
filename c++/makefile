@@ -51,7 +51,8 @@ data:
 	done
 
 exp: pre
-	@if [ "$(OUT)" == "csv" ]; then
+	@LC_ALL=C
+	if [ "$(OUT)" == "csv" ]; then
 		FORMAT='#%s;%s;%s;%s;%s;%s;%s\n'
 		printf $$FORMAT program length compiler opt 'energy(J)' 'time(s)' seed
 		FORMAT='%s;%s;%s;%s;%s;%s;%s\n'
