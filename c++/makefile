@@ -18,7 +18,7 @@ WRK = i g h
 
 ###############################################################################
 
-CXXFLAGS = -flto -g -march=native -O3 -std=c++23 -Wall $(OPT)
+CXXFLAGS = -flto -march=native -O3 -std=c++20 -Wall $(OPT)
 
 ###############################################################################
 
@@ -28,6 +28,11 @@ att: $(ATT)
 
 clean:
 	-rm -fv $(CAC) $(CAL) $(EXE) core* *~
+	-for i in $$(pgrep make); do
+		if [ "$$i" != "$$$$" ]; then
+			kill $$(pgrep --parent $$i sh)
+		fi
+	done
 
 exe: $(EXE)
 
@@ -43,9 +48,8 @@ pre: perf
 
 cvs:
 	@for w in $(WRK); do
-		make -s exp WRK=$$i | tee $(HST)-$$w-$$(date "+%Y%m%d-%H%M%S").csv
+		make -s exp WRK=$$i | tee $(HST)-$$w-$$(date "+%Y%m%d-%H%M%S").$(OUT)
 	done
-
 
 exp: pre
 	@if [ "$(OUT)" == "csv" ]; then
@@ -65,7 +69,7 @@ exp: pre
 				make -Bs $$exe CXX=$$compiler OPT=$$level
 				for size in $(SIZ); do
 					for work in $(WRK); do
-						for seed in $$(seq -w 0 $(REP)); do
+						for seed in $$(seq -w 0 $$(( $(REP) - 1 ))); do
 							-perf stat -a -e power/energy-pkg/ 2> /tmp/stat.txt -- ./$$exe -r $$seed -s $$size -w $$work
 							energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 							cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
