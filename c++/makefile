@@ -29,7 +29,9 @@ clean:
 	-rm -fv $(CAC) $(CAL) $(EXE) core* *~
 	-for i in $$(pgrep make); do
 		if [ "$$i" != "$$$$" ]; then
-			kill $$(pgrep --parent $$i sh)
+			for j in $$(pgrep --parent $$i sh); do
+				kill $$j
+			done
 		fi
 	done
 
