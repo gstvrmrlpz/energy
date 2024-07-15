@@ -1,5 +1,5 @@
 CSV = $(wildcard *.csv)
-SVG = $(CSV:.csv=.svg) $(CSV:.csv=-com.svg) $(CSV:.csv=-dot.svg) $(CSV:.csv=-opt.svg) $(CSV:.csv=-siz.svg) $(CSV:.csv=-wrk.svg)
+SVG = $(CSV:.csv=.svg) $(CSV:.csv=-com.svg) $(CSV:.csv=-dot.svg) $(CSV:.csv=-opt.svg) $(CSV:.csv=-ps.svg) $(CSV:.csv=-siz.svg) $(CSV:.csv=-wrk.svg)
 
 all: $(SVG)
 
@@ -40,7 +40,16 @@ clean:
 				 set output '$@'; \
 				 set xlabel 'time (s)'; \
 				 set ylabel 'energy (J)'; \
-				 plot for [i in 'O2 O3'] '<(grep '.i.' $<)' u 8:7 t i w dots"
+				 plot for [i in 'O2 O3'] '<(grep '.i.' $<)' u 8:7 t '-'.i w dots"
+
+%-ps.svg: %.csv | makefile
+	gnuplot <<< "set datafile separator ';'; \
+				 set key bottom right; \
+				 set terminal svg enhanced; \
+				 set output '$@'; \
+				 set xlabel 'time (s)'; \
+				 set ylabel 'energy (J)'; \
+				 plot for [p in 'bitset bvector cvector string'] for [s in '512 1024 2048'] '<(grep '.p.' $< | grep '.s.' | grep clang++ | grep O2)' u 8:7 t p.'-'.s w points ps 0.75 pt 7"
 
 %-siz.svg: %.csv | makefile
 	gnuplot <<< "set datafile separator ';'; \
