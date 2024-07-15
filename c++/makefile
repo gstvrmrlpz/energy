@@ -6,19 +6,14 @@
 
 ###############################################################################
 
-ATT = $(EXE:=.att)
-CAC = $(EXE:=.cac)
-CAL = $(EXE:=.cal)
 COM = clang++ g++
-DAT = $(EXE:=.dat)
 EXE = $(basename $(SRC))
-FOL = $(EXE:=.fol)
+HST != echo $${HOSTNAME%%.*}
 LEV = -O2 -O3
 OUT = csv
-REP = 15
+REP = 100
 SIZ = 512 1024 2048
 SRC = $(wildcard *.cc)
-SVG = $(EXE:=.svg)
 WRK = i g h
 
 ###############################################################################
@@ -32,7 +27,7 @@ all: pre exe
 att: $(ATT)
 
 clean:
-	-rm -fv $(ATT) $(CAC) $(CAL) $(DAT) $(EXE) $(FOL) $(SVG) *~
+	-rm -fv $(CAC) $(CAL) $(EXE) core* *~
 
 exe: $(EXE)
 
@@ -41,12 +36,16 @@ perf:
 
 pre: perf
 	@for i in $(COM) perf; do
-		hash $$i || echo "$$i not found!!!"
+		hash $$i || $$(echo "$$i not found!!!" && exit 1)
 	done
 
-svg: $(SVG)
-
 ###############################################################################
+
+cvs:
+	@for w in $(WRK); do
+		make -s exp WRK=$$i | tee $(HST)-$$w-$$(date "+%Y%m%d-%H%M%S").csv
+	done
+
 
 exp: pre
 	@if [ "$(OUT)" == "csv" ]; then
@@ -66,7 +65,7 @@ exp: pre
 				make -Bs $$exe CXX=$$compiler OPT=$$level
 				for size in $(SIZ); do
 					for work in $(WRK); do
-						for (( seed=0; seed<$(REP); ++seed )); do
+						for seed in $$(seq -w 0 $(REP)); do
 							-perf stat -a -e power/energy-pkg/ 2> /tmp/stat.txt -- ./$$exe -r $$seed -s $$size -w $$work
 							energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 							cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
@@ -76,11 +75,6 @@ exp: pre
 				done
 			done
 		done
-	done
-
-datos:
-	@for i in $(WRK); do
-		make -s exp WRK=$$i | tee $${HOSTNAME%%.*}-$$i-$$(date "+%Y%m%d-%H%M%S").dat
 	done
 
 ###############################################################################
@@ -94,57 +88,6 @@ xps: vector | pre
 
 ###############################################################################
 
-%.att: %
-	objdump -Cd $< > $@
-
-%.cga: %.cac
-	cg_annotate --auto=yes $<
-
-%.dat: %
-#	-perf record --call-graph=dwarf -o $@ -- ./$<
-#	-sudo perf record -a -e power/energy-pkg/ --freq=100 -o $@ -- ./$<
-	-sudo perf record -a -e '{cycles,power/energy-pkg/}:S' --freq=100 -o $@ -- ./$<
-
-%.cac: %
-	-valgrind --cachegrind-out-file=$@ --cache-sim=yes --demangle=yes --tool=cachegrind ./$<
-
-%.cal: %
-	-valgrind --branch-sim=yes --cacheuse=yes --callgrind-out-file=$@ --cache-sim=yes --collect-jumps=yes --demangle=yes --dump-instr=yes --instr-atstart=yes -q --separate-threads=yes --tool=callgrind --trace-jump=yes ./$<
-
-%.fg: %.svg
-	eog $< &
-
-%.fol: %.dat
-	-perf script -i $< | stackcollapse-perf.pl | grep -v cpu_idle > $@
-
-%.kcg: %.cal
-	kcachegrind $<
-
-%.leak: %
-#	valgrind --leak-check=full --show-error-list=yes --show-leak-kinds=all --track-origins=yes --verbose ./$<
-	valgrind --leak-check=summary --show-leak-kinds=all --track-origins=yes ./$<
-
-%.ltrace: %
-	@printf "%79s\n \t$*\n%79s\n" | tr ' ' '#'
-	ltrace -cf ./$< |& c++filt | cut -c 1-$$(tput cols)
-
-%.perf: %.dat
-	-perf report -i $<
-
-%.strace: %
-	@printf "%79s\n \t$*\n%79s\n" | tr ' ' '#'
-	strace -cf -qq ./$< |& c++filt | cut -c 1-$$(tput cols)
-
-%.svg: %.fol
-	flamegraph.pl $< > $@
-
-%.trace: %
-	@printf "%79s\n \t$*\n%79s\n" | tr ' ' '#'
-	ltrace -cfS ./$< |& c++filt | cut -c 1-$$(tput cols)
-
-###############################################################################
-
-.PHONY: all att clean datos exe exp perf pre svg xps
-.PRECIOUS: $(DAT) $(FOL)
+.PHONY: all att clean csv exe exp perf pre svg xps
 
 ###############################################################################
