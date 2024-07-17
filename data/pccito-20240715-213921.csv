@@ -1,4 +1,4 @@
-#compiler;opt;program;seed;length;work;energy(J);time(s)
+#compiler;opt;program;seed;length;work;energy;time
 clang++;-O2;bitset;00;512;g;54.13;1.551816142
 clang++;-O2;bitset;01;512;g;56.07;1.586170572
 clang++;-O2;bitset;02;512;g;55.63;1.579312022

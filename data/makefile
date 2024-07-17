@@ -1,7 +1,7 @@
 CSV = $(wildcard *.csv)
 PS  = 0.75
 PT  = 7
-SVG = $(CSV:.csv=.svg) $(CSV:.csv=-co.svg) $(CSV:.csv=-com.svg) $(CSV:.csv=-dot.svg) $(CSV:.csv=-opt.svg) $(CSV:.csv=-ps.svg) $(CSV:.csv=-siz.svg) $(CSV:.csv=-wrk.svg)
+SVG = $(CSV:.csv=.svg) $(CSV:.csv=-2.svg) $(CSV:.csv=-3.svg) $(CSV:.csv=-co.svg) $(CSV:.csv=-com.svg) $(CSV:.csv=-dot.svg) $(CSV:.csv=-opt.svg) $(CSV:.csv=-ps.svg) $(CSV:.csv=-siz.svg) $(CSV:.csv=-wrk.svg) $(CSV:.csv=-wrk2.svg)
 
 all: $(SVG)
 
@@ -16,6 +16,27 @@ clean:
 				 set xlabel 'time (s)'; \
 				 set ylabel 'energy (J)'; \
 				 plot for [p in 'bitset bvector cvector string'] '<(grep '.p.' $<)' u 8:7 t p w p ps $(PS) pt $(PT)"
+
+%-2.svg: %.csv | makefile
+	gnuplot <<< "set datafile separator ';'; \
+				 set key bottom right; \
+				 set terminal svg enhanced; \
+				 set output '$@'; \
+				 set xlabel 'time (s)'; \
+				 set ylabel 'energy (J)'; \
+				 stats '<(grep \;i\; $<)' u 7 prefix 'energy' nooutput; \
+				 stats '<(grep \;i\; $<)' u 8 prefix 'time' nooutput; \
+				 plot for [p in 'bitset bvector cvector string'] '<(grep -v \;i\; $< | grep '.p.')' u (column(8) - time_mean):(column(7) - energy_mean) t p w p ps $(PS) pt $(PT)"
+
+%-3.svg: %.csv | makefile
+	gnuplot <<< "set datafile separator ';'; \
+				 set key bottom right; \
+				 set terminal svg enhanced; \
+				 set output '$@'; \
+				 set xlabel 'time (s)'; \
+				 set ylabel 'energy (J)'; \
+				 do for [p in 'bitset bvector cvector string'] { stats '<(grep '.p.' $< | grep \;i\;)' using p name columnheader }; \
+				 plot for [p in 'bitset bvector cvector string'] '<(grep '.p.' $< | grep -v \;i\;)' u (column(8) - time_mean):(column(7) - energy_mean) t p w p ps $(PS) pt $(PT)"
 
 %-co.svg: %.csv | makefile
 	gnuplot <<< "set datafile separator ';'; \
@@ -79,5 +100,16 @@ clean:
 				 set xlabel 'time (s)'; \
 				 set ylabel 'energy (J)'; \
 				 plot for [w in 'g h i'] '<(grep \;'.w.'\; $<)' u 8:7 t '-w'.w w p ps $(PS) pt $(PT)"
+
+%-wrk2.svg: %.csv | makefile
+	gnuplot <<< "set datafile separator ';'; \
+				 set key bottom right; \
+				 set terminal svg enhanced; \
+				 set output '$@'; \
+				 set xlabel 'time (s)'; \
+				 set ylabel 'energy (J)'; \
+				 stats '<(grep \;i\; $<)' u 7 prefix 'energy' nooutput; \
+				 stats '<(grep \;i\; $<)' u 8 prefix 'time' nooutput; \
+				 plot for [w in 'g h i'] '<(grep \;'.w.'\; $< | grep -v \;i\;)' u (column(8) - time_min):(column(7) - energy_min) t '-w'.w w p ps $(PS) pt $(PT)"
 
 .PHONY: all clean
