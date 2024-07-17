@@ -153,7 +153,8 @@ In general trying to make scientific results involve profiling algorithms, follo
 That without even taking into account different language standards and different compiler versions.
 \item The second level is the different options that you can use when generating the executable. \begin{itemize}
   \item Most compilers have options regarding the architecture and machine instruction set that should be targeted. Programs can be compiled for a generic architecture (like x86-64) or include instructions set that are specific to a brand or generation.
-  \item The optimization level is also a compiler flag, that usually targets performance. Checking which optimization level, or which combination of optimization high-level flags is the best for energy consumption is not a priori known, and needs to be measured. 
+  \item The optimization level is also a compiler flag, that usually targets performance. Checking which optimization level, or which combination of optimization high-level flags is the best for energy consumption is not a priori known, and needs to be measured.
+  \item Some compiler use an intermediate representation, mainly with the object of allowing static analysis as well as cross-compilation, but this representation can have an impact optimization as well as energy consumption.
   \item Finally, compilers allow user selection of the language standard that is being followed. This might affect, besides the language constructs that are allowed, how code is generated.
 \end{itemize}
 \item The next level is the algorithm level: there are always different ways to implement the code, which can have different complexity, but also different energy consumption depending on how CPU and memory are used and how the code for the specific implementation is generated. Although this can certainly be examined for a different problem or workload, in evolutionary algorithms the amount of improvements we can obtain is very limited.
