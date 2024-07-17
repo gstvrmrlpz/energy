@@ -56,9 +56,8 @@ data:
 exp: pre
 	@LANG=C
 	if [ "$(OUT)" == "csv" ]; then
-		FORMAT='#%s;%s;%s;%s;%s;%s;%s\n'
-		printf $$FORMAT program length compiler opt energy time seed
 		FORMAT='%s;%s;%s;%s;%s;%s;%s\n'
+		printf $$FORMAT program length compiler opt energy time seed
 	else
 		FORMAT='#%13s%14s%14s%14s%14s%14s%14s\n'
 		printf '#%97s\n' | tr ' ' '-'
