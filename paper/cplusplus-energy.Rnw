@@ -153,7 +153,8 @@ In general trying to make scientific results involve profiling algorithms, follo
 That without even taking into account different language standards and different compiler versions.
 \item The second level is the different options that you can use when generating the executable. \begin{itemize}
   \item Most compilers have options regarding the architecture and machine instruction set that should be targeted. Programs can be compiled for a generic architecture (like x86-64) or include instructions set that are specific to a brand or generation.
-  \item The optimization level is also a compiler flag, that usually targets performance. Checking which optimization level, or which combination of optimization high-level flags is the best for energy consumption is not a priori known, and needs to be measured. 
+  \item The optimization level is also a compiler flag, that usually targets performance. Checking which optimization level, or which combination of optimization high-level flags is the best for energy consumption is not a priori known, and needs to be measured.
+  \item Some compiler use an intermediate representation, mainly with the object of allowing static analysis as well as cross-compilation, but this representation can have an impact optimization as well as energy consumption.
   \item Finally, compilers allow user selection of the language standard that is being followed. This might affect, besides the language constructs that are allowed, how code is generated.
 \end{itemize}
 \item The next level is the algorithm level: there are always different ways to implement the code, which can have different complexity, but also different energy consumption depending on how CPU and memory are used and how the code for the specific implementation is generated. Although this can certainly be examined for a different problem or workload, in evolutionary algorithms the amount of improvements we can obtain is very limited.
@@ -179,6 +180,33 @@ There is no fixed methodology for measuring energy consumption across a number o
 \section{Results}
 \label{sec:res}
 
+<<energy.setup, echo=F,message=F,warning=F>>=
+library(dplyr)
+library(ggplot2)
+pccito.raw <- read.csv("../data/pccito-20240715-213921.csv",sep=";")
+pccito.init <- pccito.raw[pccito.raw$work=="i",]
+pccito.init$seed <- NULL
+pccito.init$work <- NULL
+
+pccito.init %>% group_by(X.compiler,opt,program,length) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> pccito.summary
+
+ggplot(pccito.init,aes(x=time,y=energy,shape=X.compiler,color=program)) + geom_point() + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(title="Energy consumption by compiler and optimization level",x="time",y="Energy consumption (Joules)") + scale_fill_brewer(palette="Set1")
+
+pccito.energy.lm <- lm(energy ~  program + opt + X.compiler + length, data=pccito.init)
+
+amd.raw <- read.csv("../data/amd-20240715-170708.csv",sep=";")
+amd.init <- amd.raw[amd.raw$work=="i",]
+amd.init$seed <- NULL
+amd.init$work <- NULL
+
+amd.init %>% group_by(X.compiler,opt,program,length) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> amd.summary
+
+ggplot(amd.init,aes(x=time,y=energy,shape=X.compiler,color=program)) + geom_point() + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(title="Energy consumption by compiler and optimization level",x="time",y="Energy consumption (Joules)") + scale_fill_brewer(palette="Set1")
+
+amd.energy.lm <- lm(energy ~  program + opt + X.compiler + length, data=amd.init)
+
+
+@
 
 \section{Conclusions}
 \label{sec:con}
