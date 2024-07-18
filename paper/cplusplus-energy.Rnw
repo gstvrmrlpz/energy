@@ -177,8 +177,6 @@ There is no fixed methodology for measuring energy consumption across a number o
 \end{itemize}
 
 
-\section{Results}
-\label{sec:res}
 
 <<energy.setup, echo=F,message=F,warning=F>>=
 library(dplyr)
@@ -195,7 +193,7 @@ pccito.init %>% group_by(X.compiler,opt,program,length) %>% summarise(mean.energ
 # generate a table with kable for pccito.init that uses as first sort criteria the program, then the length, then the optimization level, then the compiler
 pccito.summary[ pccito.summary$opt=="-O2",] %>% arrange(length,opt,X.compiler,program) %>% kable(caption="Energy consumption by compiler and data structure, optimization level = O2") %>% kable_styling(bootstrap_options = c("striped"))
 
-pccito.summary[ pccito.summary$opt=="-O3",] %>% arrange(length,opt,X.compiler,program) %>% kable(caption="Energy consumption by compiler and data structure, optimization level = O3 ") %>% kable_styling(bootstrap_options = c("striped"))
+pccito.summary[ pccito.summary$opt=="-O3",] %>% arrange(length,opt,X.compiler,program) %>% kable(caption="Energy consumption by compiler and data structure, optimization level = O3 \\protect\\label{tab:energy.setup.2}") %>% kable_styling(bootstrap_options = c("striped"))
 
 pccito.init$length <- as.factor(pccito.init$length)
 # ggplot(pccito.init[ pccito.init$program == "bitset",],aes(x=length,y=energy,color=X.compiler, shape=opt)) + geom_point(alpha=0.4) + geom_jitter(width=0.2) + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(title="Energy consumption by compiler and optimization level",x="time",y="Energy consumption (Joules)") + scale_fill_brewer(palette="Set1")
@@ -215,6 +213,18 @@ amd.energy.lm <- lm(energy ~  program + opt + X.compiler + length, data=amd.init
 
 
 @
+
+As we have done in other papers, we will use the initialization of the set of chromosomes with different parametrizations to establish the baseline, but at the same time to eliminate, from the start, any configuration that we can confidently establish as not sufficiently energy-efficient. In order to do that we have run a set of 15 tests with every parametrization using two compilers (g++ and clang++), two possible optimization levels of the compiler (-O2 and -O3), as well as the usual three chromosome lengths: 512, 1024 and 2048. We have also tested 4 different data structures to represent the chromosome\begin{itemize}
+\item \texttt{bitset} a uses the C++ dynamic bitset data structure % maybe add more about this one.
+\item \texttt{bvector} uses the C++ vector data structure from the standard template library, instantiated with the \texttt{bool} type.
+\item \texttt{cvector} uses the C++ vector data structure from the standard template library, instantiated with characters.
+\item \texttt{string} uses C++ strings, with 1 and 0 represented as the equivalent character.
+\end{itemize}
+
+The main difference between the first two data structures and the second ones is the fact that the former are {\em packed}, that is, in order to save memory, bits are packed to a byte; the latter are not. This will imply a certain effort to "unpack" them in order to use them, which might have an impact in the energy consumption. This is effectively what we can observe in Table \ref{tab:energy.setup}, and \ref{tab:energy.setup.2}, where we group these types of data structures (run as different programs) in a single column, and we can observe than, in general, for every compiler and optimization level, "packed" structures consume more energy than non-packed ones. There are some exceptions: when -O2 is used, g++ consumes less energy for packed structures for every length of the chromosome. We can apply a linear model for prediction of consumption depending on the rest of the factors.
+
+\section{Results}
+\label{sec:res}
 
 \section{Conclusions}
 \label{sec:con}
