@@ -48,21 +48,27 @@ pre: perf
 ###############################################################################
 
 data:
-	@make -s exp2 | tee $${HOSTNAME%%.*}-$$(date '+%Y%m%d-%H%M%S').$(OUT)
+	@make -s exp | tee $${HOSTNAME%%.*}-$$(date '+%Y%m%d-%H%M%S').$(OUT)
 
 exp: pre
 	@LANG=C
-	if [ "$(OUT)" == "csv" ]; then
-		FORMAT='#%s;%s;%s;%s;%s;%s;%s;%s\n'
-		printf $$FORMAT compiler opt program run length work 'energy(J)' 'time(s)'
-		FORMAT='%s;%s;%s;%s;%s;%s;%s;%s\n'
-	else
-		FORMAT='#%13s%14s%14s%14s%14s%14s%14s%14s\n'
-		printf '#%111s\n' | tr ' ' '-'
-		printf $$FORMAT compiler opt program run length work 'energy(J)' 'time(s)'
-		printf '#%111s\n' | tr ' ' '-'
-		FORMAT='%14s%14s%14s%14s%14s%14s%14s%14s\n'
-	fi
+	case "$(OUT)" in
+		csv)
+			FORMAT='%s;%s;%s;%s;%s;%s;%s;%s\n'
+			printf $$FORMAT compiler opt program run length work 'energy' 'time'
+			;;
+		txt)
+			FORMAT='#%13s%14s%14s%14s%14s%14s%14s%14s\n'
+			printf '#%111s\n' | tr ' ' '-'
+			printf $$FORMAT compiler opt program run length work 'energy(J)' 'time(s)'
+			printf '#%111s\n' | tr ' ' '-'
+			FORMAT='%14s%14s%14s%14s%14s%14s%14s%14s\n'
+			;;
+		*)
+			echo "Unknown file extension '$(OUT)'"
+			exit 1;
+			;;
+	esac
 	for compiler in $(COM); do
 		for level in $(LEV); do
 			for exe in $(EXE); do
