@@ -65,7 +65,7 @@ exp: pre
 			FORMAT='%14s%14s%14s%14s%14s%14s%14s%14s\n'
 			;;
 		*)
-			echo "Unknown file extension '$(OUT)'"
+			echo "Unknown file extension: '$(OUT)'"
 			exit 1;
 			;;
 	esac
@@ -75,11 +75,11 @@ exp: pre
 				make -Bs $$exe CXX=$$compiler OPT=$$level
 				for size in $(SIZ); do
 					for work in $(WRK); do
-						for seed in $$(seq -w 0 $$(( $(REP) - 1 ))); do
+						for run in $$(seq -w 0 $$(( $(REP) - 1 ))); do
 							-perf stat -a -e power/energy-pkg/ 2> /tmp/stat.txt -- ./$$exe -s $$size -w $$work
 							energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 							cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-							printf $$FORMAT $$compiler $$level $$exe  $$seed $$size $$work $$energy $$cpu
+							printf $$FORMAT $$compiler $$level $$exe $$run $$size $$work $$energy $$cpu
 						done
 					done
 				done
