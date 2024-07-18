@@ -24,18 +24,19 @@ clean:
 				 set output '$@'; \
 				 set xlabel 'time (s)'; \
 				 set ylabel 'energy (J)'; \
-				 stats '<(grep \;i\; $<)' u 7 prefix 'energy' nooutput; \
-				 stats '<(grep \;i\; $<)' u 8 prefix 'time' nooutput; \
+				 stats '<(grep \;i\; $<)' u 7 name 'energy' nooutput; \
+				 stats '<(grep \;i\; $<)' u 8 name 'time' nooutput; \
 				 plot for [p in 'bitset bvector cvector string'] '<(grep -v \;i\; $< | grep '.p.')' u (column(8) - time_mean):(column(7) - energy_mean) t p w p ps $(PS) pt $(PT)"
 
 %-3.svg: %.csv | makefile
-	gnuplot <<< "set datafile separator ';'; \
+	gnuplot <<< "set datafile columnheaders; \
+				 set datafile separator ';'; \
 				 set key bottom right; \
 				 set terminal svg enhanced; \
 				 set output '$@'; \
 				 set xlabel 'time (s)'; \
 				 set ylabel 'energy (J)'; \
-				 do for [p in 'bitset bvector cvector string'] { stats '<(grep '.p.' $< | grep \;i\;)' using p name columnheader }; \
+				 do for [i=7:8] { stats '<(grep bitset $< | grep \;i\;)' using i name columnheader output }; \
 				 plot for [p in 'bitset bvector cvector string'] '<(grep '.p.' $< | grep -v \;i\;)' u (column(8) - time_mean):(column(7) - energy_mean) t p w p ps $(PS) pt $(PT)"
 
 %-co.svg: %.csv | makefile
