@@ -176,6 +176,11 @@ There is no fixed methodology for measuring energy consumption across a number o
 \item Finally, an experimental setup where different, relevant configurations and parametrizations are cross-tested so that those with the lowest energy performance can be selected and explained.
 \end{itemize}
 
+Modern processors provide several ways to measure energy consumption. Most are based in the next standard interfaces:
+\begin{itemize}
+\item Performance Application Programming Interface (PAPI) \cite{doi:10.1177/109434200001400303} is an interface to hardware and software performance counters on modern microprocessors. Extensive information available in its web page \url{https://icl.utk.edu/papi/}.
+\item Running Average Power Limit (RAPL) is an interface for reporting the accumulated energy compsumption of power domains.
+\end{itemize}
 
 \section{Results}
 \label{sec:res}
@@ -213,7 +218,7 @@ amd.energy.lm <- lm(energy ~  program + opt + X.compiler + length, data=amd.init
 
 
 \bibliographystyle{elsarticle-num}
-\bibliography{energy,ours}
+\bibliography{cpluplus-energy,ours}
 
 %% else use the following coding to input the bibitems directly in the
 %% TeX file.
