@@ -49,6 +49,8 @@
 %% for the whole article with \linenumbers.
 %% \usepackage{lineno}
 
+\usepackage{hyperref}
+
 \journal{Swarm and Evolutionary Computation}
 
 \begin{document}
@@ -218,7 +220,7 @@ amd.energy.lm <- lm(energy ~  program + opt + X.compiler + length, data=amd.init
 
 
 \bibliographystyle{elsarticle-num}
-\bibliography{cpluplus-energy,ours}
+\bibliography{cplusplus-energy,energy,ours}
 
 %% else use the following coding to input the bibitems directly in the
 %% TeX file.
