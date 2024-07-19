@@ -172,16 +172,13 @@ In this paper we will try to find a combination of parameters and engineering ch
 
 \section{Methodology}
 
-There is no fixed methodology for measuring energy consumption across a number of different machines with (possibly) different operating systems and hardware architectures. A straightforward approach, used in \cite{zig1,zig2} is the following:\begin{itemize}
+There is no fixed methodology for measuring energy consumption across a number of different machines with (possibly) different operating systems and hardware architectures. In Jay el al. \cite{jay2023experimental} we can delve into energy comsumption, it's mesurement and software tools needed to gather information about. To summarise, the most widely used is Running Average Power Limit (RAPL) \cite{david2010rapl} interface through a wide range of tools like perf \cite{de2010new}.
+
+This is the approach followed in previous related work \cite{zig1,zig2} but using the pinpount \cite{9307947} software as perf alternative:
+\begin{itemize}
 \item Choose a tool for energy profiling. This assumes that, in advance it has been already decided which functions were the target for profiling, since energy profilers are unable to measure energy consumption at the function, or function call, level, thus needing to create executables where single functions are executed.
 \item From those energy profiles, a baseline needs to be established. This baseline should include any energy expenses of the system, and, if possible, energy spent in data initialization and preparation. This baseline measurements can include discarding parametrizations or options that are either statistically indistinguishable from others or simply spending too much energy to be considered.
 \item Finally, an experimental setup where different, relevant configurations and parametrizations are cross-tested so that those with the lowest energy performance can be selected and explained.
-\end{itemize}
-
-Modern processors provide several ways to measure energy consumption. Most are based in the next standard interfaces:
-\begin{itemize}
-\item Performance Application Programming Interface (PAPI) \cite{doi:10.1177/109434200001400303} is an interface to hardware and software performance counters on modern microprocessors. Extensive information available in its web page \url{https://icl.utk.edu/papi/}.
-\item Running Average Power Limit (RAPL) is an interface for reporting the accumulated energy compsumption of power domains.
 \end{itemize}
 
 \section{Results}
