@@ -174,7 +174,8 @@ In this paper we will try to find a combination of parameters and engineering ch
 
 There is no fixed methodology for measuring energy consumption across a number of different machines with (possibly) different operating systems and hardware architectures. In Jay el al. \cite{jay2023experimental} we can delve into energy comsumption, it's mesurement and software tools needed to gather information about. To summarise, the most widely used is Running Average Power Limit (RAPL) \cite{david2010rapl} interface through a wide range of tools like perf \cite{de2010new}.
 
-This is the approach followed in previous related work \cite{zig1,zig2} but using the pinpount \cite{9307947} software as perf alternative:
+This is the approach followed in previous work \cite{zig1,zig2} but using the pinpount \cite{9307947} software as perf alternative
+for Mac OS:
 \begin{itemize}
 \item Choose a tool for energy profiling. This assumes that, in advance it has been already decided which functions were the target for profiling, since energy profilers are unable to measure energy consumption at the function, or function call, level, thus needing to create executables where single functions are executed.
 \item From those energy profiles, a baseline needs to be established. This baseline should include any energy expenses of the system, and, if possible, energy spent in data initialization and preparation. This baseline measurements can include discarding parametrizations or options that are either statistically indistinguishable from others or simply spending too much energy to be considered.
