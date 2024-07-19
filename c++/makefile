@@ -29,9 +29,7 @@ clean:
 	-rm -fv $(CAC) $(CAL) $(EXE) core* *~
 	-for i in $$(pgrep make); do
 		if [ "$$i" != "$$$$" ]; then
-			for j in $$(pgrep --parent $$i sh); do
-				kill $$j
-			done
+				pstree -p $$i | grep -o '[0-9]\+' | xargs kill -KILL
 		fi
 	done
 
