@@ -151,11 +151,11 @@ Abstract text.
 
 
 In general trying to make scientific results involve profiling algorithms, followed by an energy profile that finds out the energy bottlenecks among the different functions \cite{7155416}. But once those bottlenecks are found, we are faced with a myriad of possibilities, even if we restrict, like we do in our paper, to a single programming language. Compiled languages like this one have different options that affect performance in a more or less predictable way, and energy consumption in a way that is not known in advance. Let's examine them:\begin{itemize}
-\item The first level is the compiler choice one: Most compiled languages have different compilers, designed and produced by different open source or commercial organizations. In the case of C++, there are at least two major ones: clang++, from LLVM, and g++, from GNU. % Need to add citations here
+\item The first level is the compiler choice one: Most languages have different compilers, designed and produced by different open source or commercial organizations. In the case of C++, there are at least two major ones: clang++, from LLVM, and g++, from GNU. % Need to add citations here
 That without even taking into account different language standards and different compiler versions.
 \item The second level is the different options that you can use when generating the executable. \begin{itemize}
-  \item Most compilers have options regarding the architecture and machine instruction set that should be targeted. Programs can be compiled for a generic architecture (like x86-64) or include instructions set that are specific to a brand or generation.
-  \item The optimization level is also a compiler flag, that usually targets performance. Checking which optimization level, or which combination of optimization high-level flags is the best for energy consumption is not a priori known, and needs to be measured.
+  \item Most compilers have options regarding the architecture and machine instruction set that should be targeted. Programs can be compiled for a generic architecture, e.g. {\tt -march=i686}, or include instructions set that are specific to a brand or generation, e.g. {\tt -mtune=znver5}.
+  \item The optimization level is also a compiler flag, that usually targets performance. Checking which optimization level, or which combination of optimization high-level flags is the best for energy consumption is not a priori known, and needs to be measured. This is controversial flag as for many years, the maximun optimization level {\tt -O3}, has been considered buggy and not completly reliable.
   \item Some compiler use an intermediate representation, mainly with the object of allowing static analysis as well as cross-compilation, but this representation can have an impact optimization as well as energy consumption.
   \item Finally, compilers allow user selection of the language standard that is being followed. This might affect, besides the language constructs that are allowed, how code is generated.
 \end{itemize}
@@ -174,8 +174,7 @@ In this paper we will try to find a combination of parameters and engineering ch
 
 There is no fixed methodology for measuring energy consumption across a number of different machines with (possibly) different operating systems and hardware architectures. In Jay el al. \cite{jay2023experimental} we can delve into energy comsumption, it's mesurement and software tools needed to gather information about. To summarise, the most widely used is Running Average Power Limit (RAPL) \cite{david2010rapl} interface through a wide range of tools like perf \cite{de2010new}.
 
-This is the approach followed in previous work \cite{zig1,zig2} but using the pinpount \cite{9307947} software as perf alternative
-for Mac OS:
+This is the approach followed in previous work \cite{zig1,zig2} but using the pinpount \cite{9307947} software as perf alternative for Mac OS:
 \begin{itemize}
 \item Choose a tool for energy profiling. This assumes that, in advance it has been already decided which functions were the target for profiling, since energy profilers are unable to measure energy consumption at the function, or function call, level, thus needing to create executables where single functions are executed.
 \item From those energy profiles, a baseline needs to be established. This baseline should include any energy expenses of the system, and, if possible, energy spent in data initialization and preparation. This baseline measurements can include discarding parametrizations or options that are either statistically indistinguishable from others or simply spending too much energy to be considered.
