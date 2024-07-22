@@ -21,11 +21,6 @@ auto: $(TEX)
 clean:
 	-latexmk -C -f -shell-escape $(TEX)
 	-rm -fv $(AUX) $(BBL) $(BLG) $(FDB) $(FLS) $(LOG) $(PDF) $(R) $(SPL) $(TEX) *~
-	-for i in $$(pgrep make); do
-		if [ "$$i" != "$$$$" ]; then
-				pstree -p $$i | grep -o '[0-9]\+' | xargs kill -KILL
-		fi
-	done
 
 %.pdf: %.tex
 	latexmk -pdf -shell-escape $(TEX)
