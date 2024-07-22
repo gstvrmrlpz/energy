@@ -2,3 +2,5 @@
 *.blg
 *.fdb_latexmk
 *.fls
+cplusplus-energy.out
+cplusplus-energy.R
