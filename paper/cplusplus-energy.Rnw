@@ -209,6 +209,15 @@ pccito.init$length <- as.factor(pccito.init$length)
 
 pccito.energy.lm <- lm(energy ~  program + opt + X.compiler + length, data=pccito.init)
 
+data.512 <- pccito.summary[ pccito.summary$length == 512,]
+min.energy.512 <- data.512[which.min(data.512$mean.energy),]
+
+data.1024 <- pccito.summary[ pccito.summary$length == 1024,]
+min.energy.1024 <- data.1024[which.min(data.1024$mean.energy),]
+
+data.2048 <- pccito.summary[ pccito.summary$length == 2048,]
+min.energy.2048 <- data.2048[which.min(data.2048$mean.energy),]
+
 amd.raw <- read.csv("../data/amd-20240715-170708.csv",sep=";")
 amd.init <- amd.raw[amd.raw$work=="i",]
 amd.init$seed <- NULL
