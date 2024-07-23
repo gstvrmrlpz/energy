@@ -160,7 +160,7 @@ That without even taking into account different language standards and different
     \item Finally, compilers allow user selection of the language standard that is being followed. This might affect, besides the language constructs that are allowed, how code is generated. % no afecta significativamente JJ - pues se pone en la exploración inicial
 \end{itemize}
 \item The next level is the algorithm level: there are always different ways to implement the code, which can have different complexity, but also different energy consumption depending on how CPU and memory are used and how the code for the specific implementation is generated. Although this can certainly be examined for a different problem or workload, in evolutionary algorithms the amount of improvements we can obtain is very limited.
-\item At the language level we can use different data structures to implement the problem domain objects; in general, an algorithm is not going to specify the specific data structure that needs to be used; choosing one or the other will impact energy consumption if only for the different memory layout and occupation that every one has. The classic speed vs size tradeoff that may arise from every problem, e.g. using {\tt std::vector<bool>} vs {\tt std::vector<char>} to implement a vector of boolean values.
+\item At the language level we can use different data structures to implement the problem domain objects; in general, an algorithm is not going to specify the specific data structure that needs to be used; choosing one or the other will impact energy consumption if only for the different memory layout and occupation that every one has. The classic speed vs size tradeoff that may arise from every problem, e.g. using {\tt std::vector<bool>} vs {\tt std::vector<char>} to implement a vector of Boolean values; there might be other tradeoffs involved related to the complexity of accessing data contained in the data structure.
 \end{itemize}
 
 In this paper we will try to find a combination of parameters and engineering choices that minimize energy consumption in a generic evolutionary algorithm by systematically researching the amount of energy consumed by common EA operators, and an integer-based heavy-weight function, HIFF. And we will do so by answering the following research questions:\begin{itemize}
@@ -172,20 +172,15 @@ In this paper we will try to find a combination of parameters and engineering ch
 
 \section{Methodology}
 
-There is no fixed methodology for measuring energy consumption across a number of different machines with possibly different operating systems and hardware architectures. In Jay el al. \cite{jay2023experimental} we can delve into energy comsumption, it's mesurement and software tools needed to gather information about. To summarise, the most widely used for its convenience is the Running Average Power Limit (RAPL) \cite{david2010rapl} interface through a wide range of tools like perf \cite{de2010new}.
+There is no fixed methodology for measuring energy consumption across a number of different machines with possibly different operating systems and hardware architectures. \cite{jay2023experimental} delves into energy consumption, its measurement and the software tools needed to gather information about. To summarise, % summarise no existe, y además en un artículo de revista no se puede resumir. Habría que hacer una revisión extensa de lo que hay y entre lo que hay, qué se ha escogido.
+the most widely used for its convenience is the Running Average Power Limit (RAPL) \cite{david2010rapl} interface through a wide range of tools like {\sf perf} \cite{de2010new}.
 
-This is the approach followed in previous work \cite{zig1,zig2} but using the pinpount \cite{9307947} software as perf alternative for Mac OS:
+This is the approach followed in previous work \cite{zig1,zig2}, although by using the {\sf pinpoint} \cite{9307947} software as a {\sf perf} alternative we can also measure energy in MacOS. Since in this paper we are focused on specific languages, in principle independently of the operating system, {\sf perf} can perfectly cover what we are looking for. Using this tool, our methodology will follow the steps shown below:
 \begin{itemize}
-\item Choose a tool for energy profiling. This assumes that, in advance it has been already decided which functions were the target for profiling, since energy profilers are unable to measure energy consumption at the function, or function call, level, thus needing to create executables where single functions are executed. To reduce the number of options, and been able to compare with previos cited work, we settled for 3 divisions on the algorithms to be measured:
-    \begin{itemize}
-    \item Initialization of the population.
-    \item Complete Simple Genetic Algorithm cicle with mutation, crossover and onemax evaluation.
-    \item HIFF evaluation.
-    \end{itemize}
+\item Decide which functions were the target for profiling, since energy profilers are unable to measure energy consumption at the function, or function call, level, thus needing to create executables where single functions are executed.
 \item From those energy profiles, a baseline needs to be established. This baseline should include any energy expenses of the system, and, if possible, energy spent in data initialization and preparation. This baseline measurements can include discarding parametrizations or options that are either statistically indistinguishable from others or simply spending too much energy to be considered.
 \item Finally, an experimental setup where different, relevant configurations and parametrizations are cross-tested so that those with the lowest energy performance can be selected and explained.
 \end{itemize}
-
 
 
 <<energy.setup, echo=F,message=F,warning=F>>=
