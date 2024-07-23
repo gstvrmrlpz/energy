@@ -222,7 +222,7 @@ As we have done in other papers, we will use the initialization of the set of ch
 \item \texttt{bitset} a uses the C++ dynamic bitset data structure. % maybe add more about this one.
 \item \texttt{bvector} uses the C++ vector data structure from the standard template library, instantiated with the \texttt{bool} type.
 \item \texttt{cvector} uses the C++ vector data structure from the standard template library, instantiated with characters.
-\item \texttt{string} uses C++ strings, with chars '1' and '0' representing the boolean values {\tt true} and {\tt false}.
+\item \texttt{string} uses C++ strings, with chars '1' and '0' representing the integer values {\tt 1} and {\tt 0}.
 \end{itemize}
 
 The main difference between the first two data structures and the second ones is the fact that the former are {\em packed}, that is, in order to save memory, bits are packed to a byte; the latter are not. This will imply a certain effort to "unpack" them in order to use them, which might have an impact in the energy consumption. This is effectively what we can observe in Table \ref{tab:energy.setup}, and \ref{tab:energy.setup.2}, where we group these types of data structures (run as different programs) in a single column, and we can observe than, in general, for every compiler and optimization level, "packed" structures consume more energy than non-packed ones. There are some exceptions: when -O2 is used, g++ consumes less energy for packed structures for every length of the chromosome. We can apply a linear model for prediction of consumption depending on the rest of the factors.
