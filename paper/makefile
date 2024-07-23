@@ -22,6 +22,10 @@ clean:
 	-latexmk -C -f -shell-escape $(TEX)
 	-rm -fv $(AUX) $(BBL) $(BLG) $(FDB) $(FLS) $(LOG) $(PDF) $(R) $(SPL) $(TEX) *~
 
+install:
+	sudo dnf -y install R{,-{dplyr,ggplot2,knitr}}
+	sudo R -e 'install.packages("kableExtra", repos = "https://cran.rediris.es/"); quit();' -q
+
 %.pdf: %.tex
 	latexmk -pdf -shell-escape $(TEX)
 
@@ -31,4 +35,4 @@ clean:
 %.tex: %.Rnw %.R
 	Rscript -e "require(knitr); knitr::knit('$(RNW)',output='$(TEX)');"
 
-.PHONY: all clean
+.PHONY: all auto clean pre
