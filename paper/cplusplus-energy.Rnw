@@ -195,10 +195,11 @@ pccito.init$work <- NULL
 
 pccito.init %>% group_by(X.compiler,opt,program,length) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> pccito.summary
 
-# generate a table with kable for pccito.init that uses as first sort criteria the program, then the length, then the optimization level, then the compiler
 pccito.summary[ pccito.summary$opt=="-O2",] %>% arrange(length,opt,X.compiler,program) %>% kable(caption="Energy consumption by compiler and data structure, optimization level = O2") %>% kable_styling(bootstrap_options = c("striped"))
+@
 
-pccito.summary[ pccito.summary$opt=="-O3",] %>% arrange(length,opt,X.compiler,program) %>% kable(caption="Energy consumption by compiler and data structure, optimization level = O3 \\protect\\label{tab:energy.setup.2}") %>% kable_styling(bootstrap_options = c("striped"))
+<<energy.setup.2, echo=F,message=F,warning=F>>=
+pccito.summary[ pccito.summary$opt=="-O3",] %>% arrange(length,opt,X.compiler,program) %>% kable(caption="Energy consumption by compiler and data structure, optimization level = O3") %>% kable_styling(bootstrap_options = c("striped"))
 
 pccito.init$length <- as.factor(pccito.init$length)
 # ggplot(pccito.init[ pccito.init$program == "bitset",],aes(x=length,y=energy,color=X.compiler, shape=opt)) + geom_point(alpha=0.4) + geom_jitter(width=0.2) + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(title="Energy consumption by compiler and optimization level",x="time",y="Energy consumption (Joules)") + scale_fill_brewer(palette="Set1")
