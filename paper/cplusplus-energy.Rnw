@@ -172,8 +172,7 @@ In this paper we will try to find a combination of parameters and engineering ch
 
 \section{Methodology}
 
-There is no fixed methodology for measuring energy consumption across a number of different machines with possibly different operating systems and hardware architectures. \cite{jay2023experimental} delves into energy consumption, its measurement and the software tools needed to gather information about. To summarise, % summarise no existe, y además en un artículo de revista no se puede resumir. Habría que hacer una revisión extensa de lo que hay y entre lo que hay, qué se ha escogido.
-the most widely used for its convenience is the Running Average Power Limit (RAPL) \cite{david2010rapl} interface through a wide range of tools like {\sf perf} \cite{de2010new}.
+There is no fixed methodology for measuring energy consumption across a number of different machines with possibly different operating systems and hardware architectures. In \cite{jay2023experimental} Jay el al. delves into energy consumption, its measurement and the software tools needed to gather information about. The most widely used tool for its convenience is the Running Average Power Limit (RAPL) \cite{david2010rapl} interface through a wide range of tools like {\sf perf} \cite{de2010new}.
 
 This is the approach followed in previous work \cite{zig1,zig2}, although by using the {\sf pinpoint} \cite{9307947} software as a {\sf perf} alternative we can also measure energy in MacOS. Since in this paper we are focused on specific languages, in principle independently of the operating system, {\sf perf} can perfectly cover what we are looking for. Using this tool, our methodology will follow the steps shown below:
 \begin{itemize}
