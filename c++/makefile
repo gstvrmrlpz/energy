@@ -7,12 +7,12 @@
 ###############################################################################
 
 COM = g++
-EXE = string vector # $(basename $(SRC))
+EXE = $(basename $(SRC))
 OPT = -O2 -O3 -Ofast
 OUT = csv
 REP = 15
 SIZ = 512 1024 2048
-SRC = $(wildcard *.cc)
+SRC = string.cc vector.cc # $(wildcard *.cc)
 WRK = g h i
 
 ###############################################################################
