@@ -48,7 +48,7 @@ exp: pre
 	@LANG=C
 	case "$(OUT)" in
 		csv)
-			FORMAT='%s;%s;%s;%s;%s;%s;%s;%s%s\n'
+			FORMAT='%s;%s;%s;%s;%s;%s;%s;%s;%s\n'
 			printf $$FORMAT compiler opt std program length work run 'energy' 'time'
 			;;
 		txt)
