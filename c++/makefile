@@ -65,7 +65,7 @@ exp: pre
 	for compiler in $(COM); do
 		for opt in $(OPT); do
 			for exe in $(EXE); do
-				make -Bs $$exe XTR=-O$$opt XT2=-std=c++$$std
+				make -Bs $$exe XTR=$$opt
 				for size in $(SIZ); do
 					for work in $(WRK); do
 						for run in $$(seq -w 0 $$(( $(REP) - 1 ))); do
