@@ -6,18 +6,19 @@
 
 ###############################################################################
 
-COM = clang++ g++
-EXE = $(basename $(SRC))
-LEV = -O2 -O3
+COM = g++
+EXE = string vector # $(basename $(SRC))
+OPT = -O2 -O3 -Ofast
 OUT = csv
-REP = 100
+REP = 15
 SIZ = 512 1024 2048
 SRC = $(wildcard *.cc)
+STD = -std=c++20 -std=c++23 
 WRK = g h i
 
 ###############################################################################
 
-CXXFLAGS = -flto -march=native -O3 -std=c++20 -Wall $(OPT)
+CXXFLAGS = -flto -march=native -O3 -std=c++20 -Wall $(XTR) $(XT2)
 
 ###############################################################################
 
@@ -47,15 +48,15 @@ exp: pre
 	@LANG=C
 	case "$(OUT)" in
 		csv)
-			FORMAT='%s;%s;%s;%s;%s;%s;%s;%s\n'
-			printf $$FORMAT compiler opt program run length work 'energy' 'time'
+			FORMAT='%s;%s;%s;%s;%s;%s;%s;%s;%s\n'
+			printf $$FORMAT compiler opt std program length work run 'energy' 'time'
 			;;
 		txt)
-			FORMAT='#%13s%14s%14s%14s%14s%14s%14s%14s\n'
-			printf '#%111s\n' | tr ' ' '-'
-			printf $$FORMAT compiler opt program run length work 'energy(J)' 'time(s)'
-			printf '#%111s\n' | tr ' ' '-'
-			FORMAT='%14s%14s%14s%14s%14s%14s%14s%14s\n'
+			FORMAT='#%13s%14s%14s%14s%14s%14s%14s%14s%14s\n'
+			printf '#%125s\n' | tr ' ' '-'
+			printf $$FORMAT compiler opt std program length work run 'energy(J)' 'time(s)'
+			printf '#%125s\n' | tr ' ' '-'
+			FORMAT='%14s%14s%14s%14s%14s%14s%14s%14s%14s\n'
 			;;
 		*)
 			echo "Unknown file extension: '$(OUT)'"
@@ -63,16 +64,18 @@ exp: pre
 			;;
 	esac
 	for compiler in $(COM); do
-		for level in $(LEV); do
-			for exe in $(EXE); do
-				make -Bs $$exe CXX=$$compiler OPT=$$level
-				for size in $(SIZ); do
-					for work in $(WRK); do
-						for run in $$(seq -w 0 $$(( $(REP) - 1 ))); do
-							-perf stat -a -e power/energy-pkg/ 2> /tmp/stat.txt -- ./$$exe -s $$size -w $$work
-							energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
-							cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-							printf $$FORMAT $$compiler $$level $$exe $$run $$size $$work $$energy $$cpu
+		for opt in $(OPT); do
+			for std in $(STD); do
+				for exe in $(EXE); do
+					make -Bs $$exe XTR=$$opt XT2=$$std
+					for size in $(SIZ); do
+						for work in $(WRK); do
+							for run in $$(seq -w 0 $$(( $(REP) - 1 ))); do
+								-perf stat -a -e power/energy-pkg/ 2> /tmp/stat.txt -- ./$$exe -s $$size -w $$work
+								energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
+								cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
+								printf $$FORMAT $$compiler $$opt $$std $$exe $$size $$work $$run $$energy $$cpu
+							done
 						done
 					done
 				done
