@@ -48,7 +48,7 @@ void parser(int argc, char *argv[])
 {
     int option = 0;
 
-    while ((option = getopt(argc, argv, "hs:w:")) != -1)
+    while ((option = getopt(argc, argv, "hr:s:w:")) != -1)
         switch (option)
         {
             case 'h':
@@ -61,6 +61,9 @@ void parser(int argc, char *argv[])
                           << "\t    g for genetic algorithm\n"
                           << "\t    h for HIFF\n";
                 exit(EXIT_SUCCESS);
+                break;
+            case 'r':
+                engine.seed(atoi(optarg));
                 break;
             case 's':
                 size = atoi(optarg);

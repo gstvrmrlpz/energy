@@ -40,7 +40,11 @@ void crossover(chromosome &c1, chromosome &c2)
 
 std::size_t onemax(const chromosome &c)
 {
+#if __cplusplus > 201703L
     return std::ranges::count(c, true);
+#else
+    return std::count(c.begin(), c.end(), true);
+#endif
 }
 
 //------------------------------------------------------------------------

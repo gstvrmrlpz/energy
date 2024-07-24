@@ -188,8 +188,13 @@ static_assert(HIFF("01010101") == 8 && HIFF("10101010") == 8);
 // std::vector<char>
 //------------------------------------------------------------------------
 
+#if __cplusplus > 201703L
 constexpr char T(std::vector<char>::const_iterator begin,
                  std::vector<char>::const_iterator end)
+#else
+char T(std::vector<char>::const_iterator begin,
+       std::vector<char>::const_iterator end)
+#endif
 {
     std::size_t size = end - begin;
     switch (size)
@@ -208,8 +213,13 @@ constexpr char T(std::vector<char>::const_iterator begin,
 
 //------------------------------------------------------------------------
 
+#if __cplusplus > 201703L
 constexpr std::size_t HIFF(std::vector<char>::const_iterator begin,
                            std::vector<char>::const_iterator end)
+#else
+std::size_t HIFF(std::vector<char>::const_iterator begin,
+                 std::vector<char>::const_iterator end)
+#endif
 {
     std::size_t size = end - begin;
     if (size == 1)
@@ -223,8 +233,13 @@ constexpr std::size_t HIFF(std::vector<char>::const_iterator begin,
 // std::vector<bool>
 //------------------------------------------------------------------------
 
+#if __cplusplus > 201703L
 constexpr char T(std::vector<bool>::const_iterator begin,
                  std::vector<bool>::const_iterator end)
+#else
+char T(std::vector<bool>::const_iterator begin,
+       std::vector<bool>::const_iterator end)
+#endif
 {
     std::size_t size = end - begin;
     switch (size)
@@ -243,8 +258,13 @@ constexpr char T(std::vector<bool>::const_iterator begin,
 
 //------------------------------------------------------------------------
 
+#if __cplusplus > 201703L
 constexpr std::size_t HIFF(std::vector<bool>::const_iterator begin,
                            std::vector<bool>::const_iterator end)
+#else
+std::size_t HIFF(std::vector<bool>::const_iterator begin,
+                 std::vector<bool>::const_iterator end)
+#endif
 {
     std::size_t size = end - begin;
     if (size == 1)

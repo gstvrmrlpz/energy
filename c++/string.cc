@@ -8,7 +8,9 @@
 
 //------------------------------------------------------------------------
 
-class chromosome : public std::string {};
+class chromosome : public std::string
+{
+};
 
 //------------------------------------------------------------------------
 
@@ -40,7 +42,11 @@ void crossover(chromosome &c1, chromosome &c2)
 
 std::size_t onemax(const chromosome &c)
 {
+#if __cplusplus > 201703L
     return std::ranges::count(c, '1');
+#else
+    return std::count(c.begin(), c.end(), '1');
+#endif
 }
 
 //------------------------------------------------------------------------
