@@ -1,0 +1,4 @@
+experimentos incompletos: 
+	make data EXE=bvector\ string
+		amd-20240726-134906.csv
+		pccito-20240726-143415.csv
