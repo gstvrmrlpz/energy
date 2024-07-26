@@ -48,15 +48,15 @@ exp: pre
 	@LANG=C
 	case "$(OUT)" in
 		csv)
-			FORMAT='%s;%s;%s;%s;%s;%s;%s;%s;%s\n'
-			printf $$FORMAT compiler opt std program length work run 'energy' 'time'
+			FORMAT='%s;%s;%s;%s;%s;%s;%s;%s\n'
+			printf $$FORMAT compiler opt std program length work 'energy' 'time'
 			;;
 		txt)
-			FORMAT='#%11s%12s%12s%12s%12s%12s%12s%12s%12s\n'
+			FORMAT='#%11s%12s%12s%12s%12s%12s%12s%12s\n'
 			printf '#%108s\n' | tr ' ' '-'
-			printf $$FORMAT compiler opt std program length work run 'energy(J)' 'time(s)'
+			printf $$FORMAT compiler opt std program length work'energy(J)' 'time(s)'
 			printf '#%108s\n' | tr ' ' '-'
-			FORMAT='%12s%12s%12s%12s%12s%12s%12s%12s%12s\n'
+			FORMAT='%12s%12s%12s%12s%12s%12s%12s%12s\n'
 			;;
 		*)
 			echo "Unknown file extension: '$(OUT)'"
@@ -74,7 +74,7 @@ exp: pre
 								-perf stat -a -e power/energy-pkg/ 2> /tmp/stat.txt -- ./$$exe -s $$size -w $$work
 								energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/stat.txt)
 								cpu=$$(grep seconds /tmp/stat.txt | tr -s ' ' | cut -d' ' -f2)
-								printf $$FORMAT $$compiler $$opt $$std $$exe $$size $$work $$run $$energy $$cpu
+								printf $$FORMAT $$compiler $$opt $$std $$exe $$size $$work $$energy $$cpu
 							done
 						done
 					done
