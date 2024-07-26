@@ -167,7 +167,7 @@ In this paper we will try to find a combination of parameters and engineering ch
 \item RQ1 Are there combinations, parameter values or choices that can be discarded by baseline measures because they are either neutral from the point of view of energy spent or significantly slower than others?
 \item RQ2 What kind of decisions have the biggest impact on energy consumption?
 \item RQ3 Are rankings of energy consumption consistent across different architectures?
-\item RQ4 How does the power consumption of C++ evolve as its versions and standards advance?
+\item RQ4 How does the power consumption of C++ evolve as its versions and standards advance? % standards probably very little, versions probably a lot
 \end{itemize}
 
 \section{Methodology}
