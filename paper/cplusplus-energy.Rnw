@@ -181,7 +181,7 @@ This is the approach followed in previous work \cite{zig1,zig2}, although by usi
 \item Finally, an experimental setup where different, relevant configurations and parametrizations are cross-tested so that those with the lowest energy performance can be selected and explained.
 \end{itemize}
 
-% Put here the characteristics of the machine we're using, pccito.
+The experiments were run on a PC with AMD Ryzen 7 3700X processor, 32GiB of DDR4 memory and 500GiB KINGSTON SA2000M8500G NVMe drive. The operating system is Fedora Linux 40 Workstation Edition. The compilers used are clang++ version 18.1.6 and g++ versión 14.1.1 20240701.
 
 <<energy.setup, echo=F,message=F,warning=F>>=
 library(dplyr)
