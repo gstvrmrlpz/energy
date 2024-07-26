@@ -155,7 +155,7 @@ There are several challenges when performing this optimization. While the toolin
 
 The best practice used so far is to take into account only integer-based operations: crossover and mutation (which are called many times in an evolutionary algorithm) and an integer based fitness function. While MaxOnes is popular and used extensively in benchmarking new operators and algorithm versions, computing it is relatively low-energy, so it can be considered alongside mutation and crossover \cite{zig1,zig2}; other more complicated fitness functions can also be taken into account: HIFF is one of them, with the added advantage of being a recursive function, an operation that involves heap and stack operations and that can reveal energy inefficiencies in the language it is used \cite{zig1,zig2}.
 
-Establishing these profiles is not the main goal of this paper, however, although we need to admit in advance that optimizing energy consumed by these specific functions will have an impact on the overall sustainability of the algorithm implementation. In many cases, the language used in an implementation will be also fixed in advance. Several languages are, and have been, popular for implementing evolutionary algorithms: Java, C and C++, and lately Python. % Add references to all of these
+Establishing these profiles is not the main goal of this paper, however, although we need to admit in advance that optimizing energy consumed by these specific functions will have an impact on the overall sustainability of the algorithm implementation. In many cases, the language used in an implementation will be also fixed in advance. Several languages are, and have been, popular for implementing evolutionary algorithms: Java \cite{scott2019ecj,medvet2022jgea}, C and C++ \cite{jakobovic2024ecf,dreo2021paradiseo,tarkowski2023quile}, and lately Python \cite{de2012deap,coletti2020library,tonda2020inspyred,sipper2023ec,toklu2023evotorch}. % Add references to all of these
 
 In general trying to make scientific results involve profiling algorithms, followed by an energy profile that finds out the energy bottlenecks among the different functions \cite{7155416}. But once those bottlenecks are found, we are faced with a myriad of possibilities, even if we restrict, like we do in our paper, to a single programming language. Compiled languages like this one have different options that affect performance in a more or less predictable way, and energy consumption in a way that is not known in advance. Let's examine them:\begin{itemize}
 \item The first level is the compiler choice one: Most compiled languages have different compilers, designed and produced by different open source or commercial organizations. In the case of C++, there are at least two major ones: clang++, from LLVM, and g++, from GNU. % Need to add citations here
@@ -200,7 +200,7 @@ This is the approach followed in previous work \cite{zig1,zig2}, although by usi
 \item Finally, an experimental setup where different, relevant configurations and parametrizations are cross-tested so that those with the lowest energy performance can be selected and explained.
 \end{itemize}
 
-The experiments were run on a PC with AMD Ryzen 7 3700X processor, 32GiB of DDR4 memory and 500GiB KINGSTON SA2000M8500G NVMe drive. The operating system is Fedora Linux 40 Workstation Edition with kernel version 6.9.9-200.fc40.x86_64. The compilers used are clang++ version 18.1.6 and g++ versión 14.1.1 20240701.
+The experiments were run on a PC with AMD Ryzen 7 3700X processor, 32GiB of DDR4 memory and 500GiB KINGSTON SA2000M8500G NVMe drive. The operating system is Fedora Linux 40 Workstation Edition with kernel version 6.9.9-200.fc40.x86\_64. The compilers used are clang++ version 18.1.6 and g++ version 14.1.1 20240701.
 
 <<energy.setup, echo=F,message=F,warning=F>>=
 library(dplyr)
@@ -279,7 +279,7 @@ pccito.std.init %>% group_by(compiler,opt,program,work,length,std) %>% summarise
 
 
 \bibliographystyle{elsarticle-num}
-\bibliography{cplusplus-energy,energy,ours}
+\bibliography{cplusplus-energy,energy,ours,libraries}
 
 %% else use the following coding to input the bibitems directly in the
 %% TeX file.
