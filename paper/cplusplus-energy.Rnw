@@ -181,6 +181,7 @@ This is the approach followed in previous work \cite{zig1,zig2}, although by usi
 \item Finally, an experimental setup where different, relevant configurations and parametrizations are cross-tested so that those with the lowest energy performance can be selected and explained.
 \end{itemize}
 
+% Put here the characteristics of the machine we're using, pccito.
 
 <<energy.setup, echo=F,message=F,warning=F>>=
 library(dplyr)
