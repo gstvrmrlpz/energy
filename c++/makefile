@@ -8,7 +8,7 @@
 
 COM = clang++ g++
 EXE = $(basename $(SRC))
-OPT = -O2 -O3 -Ofast
+OPT = -O2 -O3
 OUT = csv
 REP = 15
 SIZ = 512 1024 2048
