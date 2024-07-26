@@ -170,6 +170,18 @@ That without even taking into account different language standards and different
 \item At the language level we can use different data structures to implement the problem domain objects; in general, an algorithm is not going to specify the specific data structure that needs to be used; choosing one or the other will impact energy consumption if only for the different memory layout and occupation that every one has. The classic speed vs size trade off that may arise from every problem, e.g. using {\tt std::vector<bool>} vs {\tt std::vector<char>} to implement a vector of boolean values; there might be other trade offs involved related to the complexity of accessing data packed in structures through references to individual bits.
 \end{itemize}
 
+C++ compilers are among the more complex ones. Their work is the transformation of source code into an executable. The whole process involves many steps that can be executed in either a one-pass or a multi-pass way. This affects the speed and memory consumption of the process, but the final result can be exactly the same except for some kinds of optimizations. The classic process follows these phases:
+\begin{enumerate}
+    \item Analysis: Is the source code correct?
+    \begin{enumerate}
+    \item Lexical analysis: the text is converted into a collection of tokens belonging to certain categories.
+    \item Syntactic analysis: analyze the symbols to check if they conform to the rules of the formal grammar of the language.
+    \item Semantic analysis: gather semantic information about the source code to be able to check for many errors, such as type checking.
+    \end{enumerate}
+\item Synthesis: only after the analysis phase finds that the program is free of errors, the object code is generated. It can be directly in assembly or any form of intermediate representation.
+\item Optimization: improve the quality of the intermediate representation by means of any desired quantity such as execution time, memory/storage use, or power consumption.
+\end{enumerate}
+
 In this paper we will try to find a combination of parameters and engineering choices that minimize energy consumption in a generic evolutionary algorithm by systematically researching the amount of energy consumed by common EA operators, and an integer-based heavy-weight function, Hierarchical-If-And-Only-If (HIFF) problem. And we will do so by answering the following research questions:\begin{itemize}
 \item RQ1 Are there combinations, parameter values or choices that can be discarded by baseline measures because they are either neutral from the point of view of energy spent or significantly slower than others?
 \item RQ2 What kind of decisions have the biggest impact on energy consumption?
@@ -188,7 +200,7 @@ This is the approach followed in previous work \cite{zig1,zig2}, although by usi
 \item Finally, an experimental setup where different, relevant configurations and parametrizations are cross-tested so that those with the lowest energy performance can be selected and explained.
 \end{itemize}
 
-The experiments were run on a PC with AMD Ryzen 7 3700X processor, 32GiB of DDR4 memory and 500GiB KINGSTON SA2000M8500G NVMe drive. The operating system is Fedora Linux 40 Workstation Edition. The compilers used are clang++ version 18.1.6 and g++ versión 14.1.1 20240701.
+The experiments were run on a PC with AMD Ryzen 7 3700X processor, 32GiB of DDR4 memory and 500GiB KINGSTON SA2000M8500G NVMe drive. The operating system is Fedora Linux 40 Workstation Edition with kernel version 6.9.9-200.fc40.x86_64. The compilers used are clang++ version 18.1.6 and g++ versión 14.1.1 20240701.
 
 <<energy.setup, echo=F,message=F,warning=F>>=
 library(dplyr)
