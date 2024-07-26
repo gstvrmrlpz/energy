@@ -149,6 +149,7 @@ Abstract text.
 \section{Introduction}
 \label{intro}
 
+In an evolutionary algorithm context, beyond the search for the best algorithm and performance, it is interesting to try and optimize the energy consumption of known algorithms, maximizing the number of operations performed by unit of energy.
 
 In general trying to make scientific results involve profiling algorithms, followed by an energy profile that finds out the energy bottlenecks among the different functions \cite{7155416}. But once those bottlenecks are found, we are faced with a myriad of possibilities, even if we restrict, like we do in our paper, to a single programming language. Compiled languages like this one have different options that affect performance in a more or less predictable way, and energy consumption in a way that is not known in advance. Let's examine them:\begin{itemize}
 \item The first level is the compiler choice one: Most compiled languages have different compilers, designed and produced by different open source or commercial organizations. In the case of C++, there are at least two major ones: clang++, from LLVM, and g++, from GNU. % Need to add citations here
