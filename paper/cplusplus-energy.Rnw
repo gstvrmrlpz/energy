@@ -240,6 +240,17 @@ As we have done in other papers, we will use the initialization of the set of ch
 
 The main difference between the first two data structures and the second ones is the fact that the former are {\em packed}, that is, in order to save memory, bits are packed to a byte; the latter are not. This will imply a certain effort to "unpack" them in order to use them, which might have an impact in the energy consumption. This is effectively what we can observe in Table \ref{tab:energy.setup}, and \ref{tab:energy.setup.2}, where we group these types of data structures (run as different programs) in a single column, and we can observe than, in general, for every compiler and optimization level, "packed" structures consume more energy than non-packed ones. There are some exceptions: when -O2 is used, g++ consumes less energy for packed structures for every length of the chromosome. We can apply a linear model for prediction of consumption depending on the rest of the factors.
 
+<<energy.std, echo=F,message=F,warning=F>>=
+pccito.std.raw <- read.csv("../data/v2/pccito-20240725-201912.csv",sep=";")
+pccito.std.init <- pccito.std.raw
+pccito.std.init$run <- NULL
+
+
+pccito.std.init %>% group_by(compiler,opt,program,work,length,std) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> pccito.std.summary
+
+
+@
+
 \section{Results}
 \label{sec:res}
 
