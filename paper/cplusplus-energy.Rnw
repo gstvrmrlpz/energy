@@ -259,6 +259,11 @@ pccito.std.init %>% group_by(compiler,opt,program,work,length,std) %>% summarise
 \section{Conclusions}
 \label{sec:con}
 
+\section*{Acknowledgements}
+
+This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y
+Competitividad (Spanish Ministry of Competitivity and Economy) under project
+PID2020-115570GB-C22 (DemocratAI::UGR), as well as PID2023-147409NB-C22.
 
 \bibliographystyle{elsarticle-num}
 \bibliography{cplusplus-energy,energy,ours,libraries}
