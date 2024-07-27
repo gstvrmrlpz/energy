@@ -6,6 +6,12 @@ SVG = $(wildcard *.svg)
 
 all: plot
 
+auto:
+	while ps $$! > /dev/null; do
+		inotifywait -e modify -qr .
+		make plot
+	done
+
 in: $(GP)
 	for i in $^; do
 		sed -i "s/^files='.*'$$/files='$(CSV)'/" $$i
@@ -19,4 +25,4 @@ plot: $(GP) | in
 		gnuplot $$i
 	done
 
-.PHONY: all clean in plot
+.PHONY: all auto clean in plot

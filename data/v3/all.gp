@@ -16,41 +16,41 @@ set style data lines
 set terminal svg enhanced
 set xlabel 'time (s)'
 set ylabel 'energy (J)'
-
-#-----------------------------------------------------------------------------
-# basic plot
-#-----------------------------------------------------------------------------
-
-do for [file in files] {
-    set output file.'.svg'
-    plot file u (column('time')):(column('energy')) notitle w p pt 6
-}
+unset key
 
 #-----------------------------------------------------------------------------
 # energy & time
 #-----------------------------------------------------------------------------
 
-set border 2
-set xtics scale 0
-set ytics nomirror
-unset key
-unset xlabel
-
 do for [file in files] {
+    #-------------------------------------------------------------------------
+    # time vs energy basic point plot
+    #-------------------------------------------------------------------------
+    set border 15
+    stats file u (column('energy')) name 'energy' nooutput
+    set palette defined (energy_min 'green', energy_max 'red')
+    set output file.'.svg'
+    plot file u (column('time')):(column('energy')):(column('energy')) notitle w p pt 7 palette
+
     do for [quantity in 'energy time'] {
         #---------------------------------------------------------------------
         # local options
         #---------------------------------------------------------------------
+
         if (quantity eq 'energy') { set ylabel 'energy (J)' }
         else                      { set ylabel 'time (s)'   }
 
         #---------------------------------------------------------------------
         # multiplots
         #---------------------------------------------------------------------
+        set border 2
         set terminal svg enhanced size 1600,1000
+        set xtics scale 0
+        set ytics nomirror
+        unset xlabel
 
         #---------------------------------------------------------------------
-        # by columns
+        # multiplot by columns
         #---------------------------------------------------------------------
         set output file.'-'.quantity.'.svg'
         set multiplot layout 2,2
@@ -60,7 +60,7 @@ do for [file in files] {
         unset multiplot
 
         #---------------------------------------------------------------------
-        # by columns + no init
+        # multiplot by columns + no init
         #---------------------------------------------------------------------
         set output file.'-'.quantity.'-noinit.svg'
         set multiplot layout 2,2
@@ -70,7 +70,7 @@ do for [file in files] {
         unset multiplot
 
         #---------------------------------------------------------------------
-        # by columns and by work
+        # multiplot by columns and by work
         #---------------------------------------------------------------------
         do for [work in 'g h i'] {
             set output file.'-'.quantity.'-'.work.'.svg'
