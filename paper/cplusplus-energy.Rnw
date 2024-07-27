@@ -24,15 +24,6 @@
 %% Use the option review to obtain double line spacing
 %% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
 
-%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
-%% for a journal layout:
-%% \documentclass[final,1p,times]{elsarticle}
-%% \documentclass[final,1p,times,twocolumn]{elsarticle}
-%% \documentclass[final,3p,times]{elsarticle}
-%% \documentclass[final,3p,times,twocolumn]{elsarticle}
-%% \documentclass[final,5p,times]{elsarticle}
-%% \documentclass[final,5p,times,twocolumn]{elsarticle}
-
 %% For including figures, graphicx.sty has been loaded in
 %% elsarticle.cls. If you prefer to use the old commands
 %% please give \usepackage{epsfig}
@@ -82,7 +73,7 @@
 %%             country={}}
 %% \fntext[label3]{}
 
-\title{Sorcerer's apprentices blindfolding compilers and their options}
+\title{Minimizing energy consumption in evolutionary algorithms implementations in C++}
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{}
