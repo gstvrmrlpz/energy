@@ -75,26 +75,16 @@
 
 \title{Minimizing energy consumption in evolutionary algorithms implementations in C++}
 
-%% use optional labels to link authors explicitly to addresses:
-%% \author[label1,label2]{}
-%% \affiliation[label1]{organization={},
-%%             addressline={},
-%%             city={},
-%%             postcode={},
-%%             state={},
-%%             country={}}
-%%
-%% \affiliation[label2]{organization={},
-%%             addressline={},
-%%             city={},
-%%             postcode={},
-%%             state={},
-%%             country={}}
-
-\author{Gustavo Romero-López, Juan J. Merelo-Guervós} %% Author name
+\author[icar]{Gustavo Romero-López}
+\author[icar,citic]{Juan J. Merelo-Guervós} %% Author name
 
 %% Author affiliation
-\affiliation{organization={Department of Computer Engineering, Automatics and Robotics},%Department and Organization
+\affiliation[icar]{organization={Department of Computer Engineering, Automatics and Robotics},%Department and Organization
+            city={Granada},
+            postcode={18071},
+            country={Spain}}
+
+\affiliation[citic]{organization={CITIC},%Department and Organization
             city={Granada},
             postcode={18071},
             country={Spain}}
