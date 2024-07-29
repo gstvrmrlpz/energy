@@ -22,12 +22,18 @@ unset key
 
 do for [file in files] {
     #-------------------------------------------------------------------------
-    # time vs energy basic point plot
+    # global stats
     #-------------------------------------------------------------------------
-    stats file u (column('energy')) name 'energy' nooutput
+    do for [quantity in 'energy time'] {
+        stats file u (column(quantity)) name quantity nooutput
+    }
+
+    #-------------------------------------------------------------------------
+    # time vs energy point plot
+    #-------------------------------------------------------------------------
     set border 15
     set output file.'.svg'
-    set palette defined (energy_min 'green', energy_max 'red')
+    set palette defined (energy_min 'green', energy_median 'yellow',energy_max 'red')
     set xlabel 'time (s)'
     set ylabel 'energy (J)'
     plot file u (column('time')):(column('energy')):(column('energy')) notitle w p pt 7 palette
@@ -44,7 +50,8 @@ do for [file in files] {
         # multiplots
         #---------------------------------------------------------------------
         set border 2
-        set terminal svg enhanced size 1600,1000
+        #set terminal svg enhanced size 1600,1000
+        set terminal svg enhanced size 1200,750
         set xtics scale 0
         set ytics nomirror
         unset xlabel
@@ -55,8 +62,10 @@ do for [file in files] {
         set output file.'-'.quantity.'.svg'
         set multiplot layout 2,2
         do for [col in columns] {
-            plot file u (1):(column(quantity)):(0.75):(column(col)) w boxplot lc variable
+            #set label 1 'mean' at time_mean,energy_mean
+            plot file u (1):(column(quantity)):(0.75):(column(col)) w boxplot lc variable lw 1.33
         }
+        #unset label
         unset multiplot
 
         #---------------------------------------------------------------------
