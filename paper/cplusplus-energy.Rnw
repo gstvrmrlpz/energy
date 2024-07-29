@@ -138,7 +138,19 @@ The best practice used so far is to take into account only integer-based operati
 
 Establishing these profiles is not the main goal of this paper, however, although we need to admit in advance that optimizing energy consumed by these specific functions will have an impact on the overall sustainability of the algorithm implementation. In many cases, the language used in an implementation will be also fixed in advance. Several languages are, and have been, popular for implementing evolutionary algorithms: Java \cite{scott2019ecj,medvet2022jgea}, C and C++ \cite{jakobovic2024ecf,dreo2021paradiseo,tarkowski2023quile}, and lately Python \cite{de2012deap,coletti2020library,tonda2020inspyred,sipper2023ec,toklu2023evotorch}. Certainly the latter is more popular in terms of number of libraries, but it has been repeatedly proved in general-purpose workloads that the energy consumption of Python can be up to two orders of magnitude higher than that of C++ \cite{10.1145/3139367.3139418}. This is due to the fact that it is a compiled language, as well as to specific features that, when used properly, can further reduce energy consumption \cite{porkolab2022save}. The fact that C++ is chosen for implementing an evolutionary algorithm, by itself, is already an energy-saving choice. But in this paper we will delve even further energy-saving options that can reduce energy consumption even further.
 
-C++ is a compiled language \cite{godbolt2020optimizations}. Compiling consists in examining statically the code and performing a series on transformation on the parsed version so that the machine code produced is as efficient as possible.
+C++ is a compiled language \cite{godbolt2020optimizations}. Compiling consists in examining statically the code and performing a series on transformation on the parsed version so that the machine code produced is as efficient as possible. C++ compilers are among the more complex ones. Their work is the transformation of source code into an executable. The whole process involves many steps that can be executed in a single pass or a multi-pass way. This affects the speed and memory consumption of the process, but the final result can be exactly the same except for some kinds of optimizations. The classic process follows approximately these phases \cite{alfred2007compilers}:
+\begin{enumerate}
+    \item Analysis: Is the source code correct?
+    \begin{enumerate}
+    \item Lexical analysis: the text is converted into a collection of tokens belonging to certain categories.
+    \item Syntactic analysis: analyze the symbols to check if they conform to the rules of the formal grammar of the language.
+    \item Semantic analysis: gather semantic information about the source code to be able to check for many errors, such as type checking.
+    \end{enumerate}
+\item Synthesis: only after the analysis phase finds that the program is free of errors, the object code is generated. It can be directly in assembly code or any form of intermediate representation.
+\item Optimization: improve the quality of the intermediate representation by means of any desired quantity such as execution time, memory/storage use, or power consumption; generally the two former are preferred over the latter, or even the only ones considered.
+\item Code generation: target machine code for an operating system is finally generated.
+\end{enumerate}
+
 
 This is why once those bottlenecks are found, we are faced with a myriad of possibilities, even if we restrict, like we do in our paper, to a single programming language. Compiled languages like this one have different options that affect performance in a more or less predictable way, and energy consumption in a way that is not known in advance. Let's examine them:\begin{itemize}
 \item The first level is the compiler choice one: Most compiled languages have different compilers, designed and produced by different open source or commercial organizations. In the case of C++, there are at least two major ones: clang++, from LLVM, and g++, from GNU. % Need to add citations here
@@ -152,19 +164,6 @@ That without even taking into account different language standards and different
 \item The next level is the algorithm level: there are always different ways to implement the code, which can have different complexity, but also different energy consumption depending on how CPU and memory are used and how the code for the specific implementation is generated. Although this can certainly be examined for a different problem or workload, in evolutionary algorithms the amount of improvements we can obtain is very limited.
 \item At the language level we can use different data structures to implement the problem domain objects; in general, an algorithm is not going to specify the specific data structure that needs to be used; choosing one or the other will impact energy consumption if only for the different memory layout and occupation that every one has. The classic speed vs size trade off that may arise from every problem, e.g. using {\tt std::vector<bool>} vs {\tt std::vector<char>} to implement a vector of boolean values; there might be other trade offs involved related to the complexity of accessing data packed in structures through references to individual bits.
 \end{itemize}
-
-C++ compilers are among the more complex ones. Their work is the transformation of source code into an executable. The whole process involves many steps that can be executed in either a one-pass or a multi-pass way. This affects the speed and memory consumption of the process, but the final result can be exactly the same except for some kinds of optimizations. The classic process follows approximately these phases \cite{alfred2007compilers}:
-\begin{enumerate}
-    \item Analysis: Is the source code correct?
-    \begin{enumerate}
-    \item Lexical analysis: the text is converted into a collection of tokens belonging to certain categories.
-    \item Syntactic analysis: analyze the symbols to check if they conform to the rules of the formal grammar of the language.
-    \item Semantic analysis: gather semantic information about the source code to be able to check for many errors, such as type checking.
-    \end{enumerate}
-\item Synthesis: only after the analysis phase finds that the program is free of errors, the object code is generated. It can be directly in assembly or any form of intermediate representation.
-\item Optimization: improve the quality of the intermediate representation by means of any desired quantity such as execution time, memory/storage use, or power consumption.
-\item Code generation: target machine code for an operationg system is finally generated.
-\end{enumerate}
 
 In this paper we will try to find a combination of parameters and engineering choices that minimize energy consumption in a generic evolutionary algorithm by systematically researching the amount of energy consumed by common EA operators, and an integer-based heavy-weight function, Hierarchical-If-And-Only-If (HIFF) problem. And we will do so by answering the following research questions:\begin{itemize}
 \item RQ1 Are there combinations, parameter values or choices that can be discarded by baseline measures because they are either neutral from the point of view of energy spent or significantly slower than others?
