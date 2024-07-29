@@ -41,6 +41,8 @@
 %% \usepackage{lineno}
 
 \usepackage{hyperref}
+\usepackage{xcolor} % highlight
+\usepackage{soul}   % highlight
 
 \journal{Swarm and Evolutionary Computation}
 
@@ -83,12 +85,6 @@
             city={Granada},
             postcode={18071},
             country={Spain}}
-
-\affiliation[citic]{organization={CITIC},%Department and Organization
-            city={Granada},
-            postcode={18071},
-            country={Spain}}
-
 %% Abstract
 \begin{abstract}
 %% Text of abstract
@@ -132,11 +128,11 @@ Abstract text.
 
 In an evolutionary algorithm context, beyond the search for the best algorithm and performance, it is interesting to try and optimize the energy consumption of known algorithms, maximizing the number of operations performed by unit of energy. This happens in a context that tries to make computing, and scientific computing in general, more sustainable, and has led to efforts in examining the energy consumption of applications and algorithm implementations from different angles, focusing for instance on the language used \cite{PEREIRA2021102609} or restricting the workload to a class of problems for instance, those generically called Artificial Intelligence \cite{verdecchia2023systematic,hidalgo2023sustainable} or even more to the point, to evolutionary algorithms \cite{icsoft,zig1}
 
-There are several challenges when performing this optimization. While the tooling for optimizing performance are well established, and it is possible to know how many low-level CPU calls every high-level function performs, and how much every one of these take, making possible a very fine-grained optimization of performance, that is not the case for the consumption of energy. Only system-wide measurements can be made, and only of instantaneous consumption while an application is running. This is why the first step in optimizing algorithm implementations is to identify which functions, by number of calls or simply time needed, are critical. While the number of calls will obviously be the same either optimizing for performance or energy consumption, the assumption here is that time spent in a function will roughly correspond to energy consumed. And that is, in general, true, but it could happen that two functions with a similar time performance would invert the energy consumption profile. At any rate, and as indicated, this is impossible to know in advance, so the best practice in this case is to model the workload of an algorithm, choosing all functions that determine the performance as extracted from a profiling tool \cite{7155416}.
+There are several challenges when performing this optimization. While the tooling for optimizing performance are well established, and it is possible to know how many low-level CPU calls every high-level function performs, and how much every one of these take, making possible a very fine-grained optimization of performance, that is not the case for the consumption of energy. Only system-wide measurements can be made, \hl{and only of instantaneous consumption while an application is running}\footnote{consumo total, no?}. This is why the first step in optimizing algorithm implementations is to identify which functions, by number of calls or simply time needed, are critical. While the number of calls will obviously be the same either optimizing for performance or energy consumption, the assumption here is that time spent in a function will roughly correspond to energy consumed. And that is, in general, true, but it could happen that two functions with a similar time performance would invert the energy consumption profile, as proof in \cite{PEREIRA2021102609}. At any rate, and as indicated, this is impossible to know in advance, so the best practice in this case is to model the workload of an algorithm, choosing all functions that determine the performance as extracted from a profiling tool \cite{7155416}.
 
-The best practice used so far is to take into account only integer-based operations: crossover and mutation (which are called many times in an evolutionary algorithm) and an integer based fitness function. While MaxOnes \cite{back1993optimal} is popular and used extensively in benchmarking new operators and algorithm versions, computing requires a relatively low amount of energy, so it can be considered alongside mutation and crossover \cite{zig1,zig2}; other more complicated fitness functions can also be taken into account: HIFF \cite{watson1998modeling} is one of them, with the added advantage of being a recursive function, an operation that involves heap and stack operations and that can reveal energy inefficiencies in the language it is used \cite{zig1,zig2}.
+The best practice used so far is to take into account only \hl{integer-based}\footnote{por qué enteros?} operations: crossover and mutation (which are called many times in an evolutionary algorithm) and an integer based fitness function. While \hl{MaxOnes}\footnote{no es onemax más usual?} \cite{back1993optimal} is popular and used extensively in benchmarking new operators and algorithm versions, computing requires a relatively low amount of energy, so it can be considered alongside mutation and crossover \cite{zig1,zig2}; other more complicated fitness functions can also be taken into account: Hierarchical If-and-Only-If problem (HIFF) \cite{watson1998modeling} is one of them, with the added advantage of being a recursive function, an operation that can involve heap and stack memory allocations and that can reveal energy inefficiencies in the language, it is used in \cite{zig1,zig2}.
 
-Establishing these profiles is not the main goal of this paper, however, although we need to admit in advance that optimizing energy consumed by these specific functions will have an impact on the overall sustainability of the algorithm implementation. In many cases, the language used in an implementation will be also fixed in advance. Several languages are, and have been, popular for implementing evolutionary algorithms: Java \cite{scott2019ecj,medvet2022jgea}, C and C++ \cite{jakobovic2024ecf,dreo2021paradiseo,tarkowski2023quile}, and lately Python \cite{de2012deap,coletti2020library,tonda2020inspyred,sipper2023ec,toklu2023evotorch}. Certainly the latter is more popular in terms of number of libraries, but it has been repeatedly proved in general-purpose workloads that the energy consumption of Python can be up to two orders of magnitude higher than that of C++ \cite{10.1145/3139367.3139418}. This is due to the fact that it is a compiled language, as well as to specific features that, when used properly, can further reduce energy consumption \cite{porkolab2022save}. The fact that C++ is chosen for implementing an evolutionary algorithm, by itself, is already an energy-saving choice. But in this paper we will delve even further energy-saving options that can reduce energy consumption even further.
+Establishing these profiles is not the main goal of this paper, however, although we need to admit in advance that optimizing energy consumed by these specific functions will have an impact on the overall sustainability of the algorithm implementation. In many cases, the language used in an implementation will be also fixed in advance. Several languages are, and have been, popular for implementing evolutionary algorithms: Java \cite{scott2019ecj,medvet2022jgea}, C and C++ \cite{jakobovic2024ecf,dreo2021paradiseo,tarkowski2023quile}, and lately Python \cite{de2012deap,coletti2020library,tonda2020inspyred,sipper2023ec,toklu2023evotorch}. Certainly the latter is more popular in terms of number of libraries, but it has been repeatedly proved in general-purpose workloads that the energy consumption of Python can be up to two orders of magnitude higher than that of C++ \cite{10.1145/3139367.3139418}. This is due to the fact that C++ is a compiled language, as well as to specific features that, when used properly, can further reduce energy consumption \cite{porkolab2022save}. The fact that C++ is chosen for implementing an evolutionary algorithm, by itself, is already an energy-saving choice. But in this paper we will delve even further energy-saving options that can reduce energy consumption even further.
 
 C++ is a compiled language \cite{godbolt2020optimizations}. Compiling consists in examining statically the code and performing a series on transformation on the parsed version so that the machine code produced is as efficient as possible. C++ compilers are among the more complex ones. Their work is the transformation of source code into an executable. The whole process involves many steps that can be executed in a single pass or a multi-pass way. This affects the speed and memory consumption of the process, but the final result can be exactly the same except for some kinds of optimizations. The classic process follows approximately these phases \cite{alfred2007compilers}:
 \begin{enumerate}
@@ -163,7 +159,7 @@ The two last phases are the most important from the point of view of optimizatio
 \item At the language level we can use different data structures to implement the problem domain objects; in general, an algorithm is not going to specify the specific data structure that needs to be used; choosing one or the other will impact energy consumption if only for the different memory layout and occupation that every one has. The classic speed vs size trade off that may arise from every problem, e.g. using {\tt std::vector<bool>} vs {\tt std::vector<char>} to implement a vector of boolean values; there might be other trade offs involved related to the complexity of accessing data packed in structures through references to individual bits.
 \end{itemize}
 
-In this paper we will try to find a combination of parameters and engineering choices that minimize energy consumption in a generic evolutionary algorithm by systematically researching the amount of energy consumed by common EA operators, and an integer-based heavy-weight function, Hierarchical-If-And-Only-If (HIFF) problem. And we will do so by answering the following research questions:\begin{itemize}
+In this paper we will try to find a combination of parameters and engineering choices that minimize energy consumption in a generic evolutionary algorithm by systematically researching the amount of energy consumed by common EA operators, and an integer-based heavy-weight function, the HIFF problem. And we will do so by answering the following research questions:\begin{itemize}
 \item RQ1 Are there combinations, parameter values or choices that can be discarded by baseline measures because they are either neutral from the point of view of energy spent or significantly slower than others?
 \item RQ2 What kind of decisions have the biggest impact on energy consumption?
 \item RQ3 Are rankings of energy consumption consistent across different architectures?
@@ -239,25 +235,27 @@ As we have done in other papers, we will use the initialization of the set of ch
 \item \texttt{string} uses C++ strings, with chars '1' and '0' representing the integer values {\tt 1} and {\tt 0}.
 \end{itemize}
 
-The main difference between the first two data structures and the second ones is the fact that the former are {\em packed}, that is, in order to save memory, bits are packed to a byte; the latter are not. This will imply a certain effort to "unpack" them in order to use them, which might have an impact in the energy consumption. This is effectively what we can observe in Table \ref{tab:energy.setup}, and \ref{tab:energy.setup.2}, where we group these types of data structures (run as different programs) in a single column, and we can observe than, in general, for every compiler and optimization level, "packed" structures consume more energy than non-packed ones. There are some exceptions: when -O2 is used, g++ consumes less energy for packed structures for every length of the chromosome. We can apply a linear model for prediction of consumption depending on the rest of the factors.
+The main difference between the first two data structures and the second ones is the fact that the former are {\em packed}, that is, in order to save memory, bits are packed to a byte; the latter are not. This will imply a certain effort to "unpack" them in order to use them, which might have an impact in the energy consumption. This is effectively what we can observe in Table \ref{tab:energy.setup}, and \ref{tab:energy.setup.2}, where we group these types of data structures (run as different programs) in a single column, and we can observe than, in general, for every compiler and optimization level, "packed" structures consume more energy than non-packed ones. \hl{There are some exceptions: when -O2 is used, g++ consumes less energy for packed structures for every length of the chromosome. We can apply a linear model for prediction of consumption depending on the rest of the factors.}\footnote{tengo que estudiar las gráficas a fondo para poder asegurar esto...}
 
-<<energy.std, echo=F,message=F,warning=F>>=
-pccito.std.raw <- read.csv("../data/v3/pccito-20240726-143415.csv",sep=";")
+\hl{el experimento ../data/v3/pccito-20240726-143415.csv no deberías usar, es un prueba rápida con sólo 2 problemas, mejor ../data/v3/pccito-20240726-215614.csv}
 
-pccito.std.raw %>% group_by(compiler,opt,program,work,length,std) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> pccito.std.summary
+% <<energy.std, echo=F,message=F,warning=F>>=
+% pccito.std.raw <- read.csv("../data/v3/pccito-20240726-143415.csv",sep=";")
 
-pccito.std.noinit <- pccito.std.raw[ pccito.std.raw$work != "i",]
+% pccito.std.raw %>% group_by(compiler,opt,program,work,length,std) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> pccito.std.summary
 
-for (i in rownames(pccito.std.noinit) ) {
-  row <- pccito.std.noinit[i,]
-  row.summary <- pccito.std.summary[ pccito.std.summary$work == "i" & pccito.std.summary$compiler == row$compiler & pccito.std.summary$opt == row$opt & pccito.std.summary$program == row$program & pccito.std.summary$length == row$length & pccito.std.summary$std == row$std,]
+% pccito.std.noinit <- pccito.std.raw[ pccito.std.raw$work != "i",]
 
-  pccito.std.noinit[i,"diff.energy"] <- row$energy - row.summary$mean.energy
-  pccito.std.noinit[i,"diff.time"] <- row$time - row.summary$mean.time
+% for (i in rownames(pccito.std.noinit) ) {
+%     row <- pccito.std.noinit[i,]
+%     row.summary <- pccito.std.summary[ pccito.std.summary$work == "i" & pccito.std.summary$compiler == row$compiler & pccito.std.summary$opt == row$opt & pccito.std.summary$program == row$program & pccito.std.summary$length == row$length & pccito.std.summary$std == row$std,]
+%     print(row.summary)
+%     print(row)
+%     pccito.std.noinit[i,"diff.energy"] <- row$energy - row.summary$mean.energy
+%     pccito.std.noinit[i,"diff.time"] <- row$time - row.summary$mean.time
+% }
 
-}
-
-@
+% @
 
 \section{Results}
 \label{sec:res}
@@ -272,7 +270,7 @@ Competitividad (Spanish Ministry of Competitivity and Economy) under project
 PID2020-115570GB-C22 (DemocratAI::UGR), as well as PID2023-147409NB-C22.
 
 \bibliographystyle{elsarticle-num}
-\bibliography{cplusplus-energy,energy,ours,libraries,GAs,cplusplus}
+\bibliography{cplusplus,cplusplus-energy,energy,GAs,libraries,ours}
 
 %% else use the following coding to input the bibitems directly in the
 %% TeX file.

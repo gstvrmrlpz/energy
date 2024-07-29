@@ -9,6 +9,7 @@
 #include <functional>
 #include <iostream>
 #include <random>
+#include <tuple>
 #include <unistd.h>
 
 //------------------------------------------------------------------------
@@ -39,14 +40,11 @@ template<typename chromosome> std::size_t hiff(const chromosome &);
 
 //------------------------------------------------------------------------
 
-std::size_t size = 0;
-char work = ' ';
-
-//------------------------------------------------------------------------
-
-void parser(int argc, char *argv[])
+std::tuple<std::size_t, char> parser(int argc, char *argv[])
 {
     int option = 0;
+    std::size_t size = 0;
+    char work = ' ';
 
     while ((option = getopt(argc, argv, "hr:s:w:")) != -1)
         switch (option)
@@ -79,13 +77,15 @@ void parser(int argc, char *argv[])
         std::cout << "-w option must be one of {i, g, h}\n";
         exit(EXIT_FAILURE);
     }
+
+    return {size, work};
 }
 
 //------------------------------------------------------------------------
 
 template<typename chromosome> int common_main(int argc, char *argv[])
 {
-    parser(argc, argv);
+    auto [size, work] = parser(argc, argv);
 
     std::size_t value = 0;
 

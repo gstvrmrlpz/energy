@@ -54,7 +54,7 @@ exp: pre
 		txt)
 			FORMAT='#%11s%12s%12s%12s%12s%12s%12s%12s\n'
 			printf '#%108s\n' | tr ' ' '-'
-			printf $$FORMAT compiler opt std program length work'energy(J)' 'time(s)'
+			printf $$FORMAT compiler opt std program length work 'energy(J)' 'time(s)'
 			printf '#%108s\n' | tr ' ' '-'
 			FORMAT='%12s%12s%12s%12s%12s%12s%12s%12s\n'
 			;;

@@ -23,7 +23,7 @@ clean:
 	-rm -fv $(AUX) $(BBL) $(BLG) $(FDB) $(FLS) $(LOG) $(PDF) $(R) $(SPL) $(TEX) *~
 
 install:
-	sudo dnf -y install R{,-{dplyr,ggplot2,knitr}}
+	sudo dnf -y install R{,-{dplyr,ggplot2,knitr}} texlive-soul
 	sudo R -e 'install.packages("kableExtra", repos = "https://cran.rediris.es/"); quit();' -q
 
 %.pdf: %.tex
