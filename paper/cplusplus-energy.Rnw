@@ -250,6 +250,10 @@ pccito.std.raw <- read.csv("../data/v3/pccito-20240726-143415.csv",sep=";")
 pccito.std.raw %>% group_by(compiler,opt,program,work,length,std) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> pccito.std.summary
 
 pccito.std.noinit <- pccito.std.raw[ pccito.std.raw$work == "g" | pccito.std.raw =="h",]
+
+pccito.std.noinit.diff <- data.frame(joules=numeric(),time=numeric())
+for ( i in pccito.std.noinit ) {
+}
 @
 
 \section{Results}
