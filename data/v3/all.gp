@@ -14,8 +14,6 @@ set datafile columnheaders separator ';'
 set size ratio 2/(1+sqrt(5))
 set style data lines
 set terminal svg enhanced
-set xlabel 'time (s)'
-set ylabel 'energy (J)'
 unset key
 
 #-----------------------------------------------------------------------------
@@ -26,10 +24,12 @@ do for [file in files] {
     #-------------------------------------------------------------------------
     # time vs energy basic point plot
     #-------------------------------------------------------------------------
-    set border 15
     stats file u (column('energy')) name 'energy' nooutput
-    set palette defined (energy_min 'green', energy_max 'red')
+    set border 15
     set output file.'.svg'
+    set palette defined (energy_min 'green', energy_max 'red')
+    set xlabel 'time (s)'
+    set ylabel 'energy (J)'
     plot file u (column('time')):(column('energy')):(column('energy')) notitle w p pt 7 palette
 
     do for [quantity in 'energy time'] {
