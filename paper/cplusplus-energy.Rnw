@@ -239,23 +239,25 @@ The main difference between the first two data structures and the second ones is
 
 \hl{el experimento ../data/v3/pccito-20240726-143415.csv no deberías usar, es un prueba rápida con sólo 2 problemas, mejor ../data/v3/pccito-20240726-215614.csv}
 
-% <<energy.std, echo=F,message=F,warning=F>>=
-% pccito.std.raw <- read.csv("../data/v3/pccito-20240726-143415.csv",sep=";")
+<<energy.std, echo=F,message=F,warning=F>>=
+pccito.std.raw <- read.csv("../data/v3/pccito-20240726-215614.csv",sep=";")
 
-% pccito.std.raw %>% group_by(compiler,opt,program,work,length,std) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> pccito.std.summary
+pccito.std.raw %>% group_by(compiler,opt,program,work,length,std) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> pccito.std.summary
 
-% pccito.std.noinit <- pccito.std.raw[ pccito.std.raw$work != "i",]
+pccito.std.noinit <- pccito.std.raw[ pccito.std.raw$work != "i",]
 
-% for (i in rownames(pccito.std.noinit) ) {
-%     row <- pccito.std.noinit[i,]
-%     row.summary <- pccito.std.summary[ pccito.std.summary$work == "i" & pccito.std.summary$compiler == row$compiler & pccito.std.summary$opt == row$opt & pccito.std.summary$program == row$program & pccito.std.summary$length == row$length & pccito.std.summary$std == row$std,]
-%     print(row.summary)
-%     print(row)
-%     pccito.std.noinit[i,"diff.energy"] <- row$energy - row.summary$mean.energy
-%     pccito.std.noinit[i,"diff.time"] <- row$time - row.summary$mean.time
-% }
+for (i in rownames(pccito.std.noinit) ) {
+  row <- pccito.std.noinit[i,]
+  row.summary <- pccito.std.summary[ pccito.std.summary$work == "i" & pccito.std.summary$compiler == row$compiler & pccito.std.summary$opt == row$opt & pccito.std.summary$program == row$program & pccito.std.summary$length == row$length & pccito.std.summary$std == row$std,]
 
-% @
+  pccito.std.noinit[i,"diff.energy"] <- row$energy - row.summary$mean.energy
+  pccito.std.noinit[i,"diff.time"] <- row$time - row.summary$mean.time
+
+}
+
+pccito.std.noinit %>% group_by(compiler,opt,program,work,length,std) %>% summarise(mean.diff.energy=mean(diff.energy),sd.diff.energy=sd(diff.energy),mean.diff.time = mean(diff.time), sd.diff.time = sd(diff.time)) -> pccito.std.noinit.summary
+
+@
 
 \section{Results}
 \label{sec:res}
