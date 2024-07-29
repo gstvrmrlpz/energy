@@ -250,7 +250,9 @@ pccito.std.noinit <- pccito.std.raw[ pccito.std.raw$work != "i",]
 
 for (i in rownames(pccito.std.noinit) ) {
   row <- pccito.std.noinit[i,]
-  row.summary <- pccito.std.summary[ pccito.std.summary$work == row$work & pccito.std.summary$compiler == row$compiler & pccito.std.summary$opt == row$opt & pccito.std.summary$program == row$program & pccito.std.summary$length == row$length & pccito.std.summary$std == row$std,]
+  row.summary <- pccito.std.summary[ pccito.std.summary$work == "i" & pccito.std.summary$compiler == row$compiler & pccito.std.summary$opt == row$opt & pccito.std.summary$program == row$program & pccito.std.summary$length == row$length & pccito.std.summary$std == row$std,]
+  print(row.summary)
+  print(row)
   pccito.std.noinit[i,"diff.energy"] <- row$energy - row.summary$mean.energy
   pccito.std.noinit[i,"diff.time"] <- row$time - row.summary$mean.time
 
