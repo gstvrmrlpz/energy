@@ -22,13 +22,13 @@ std::random_device device;
 std::default_random_engine engine(device());
 
 std::bernoulli_distribution bernoulli;
-auto rng_ft = std::bind(bernoulli, engine);
+auto rng_ft = std::bind(std::ref(bernoulli), std::ref(engine));
 
 std::uniform_int_distribution<char> uniform_char('0', '1');
-auto rng_01 = std::bind(uniform_char, engine);
+auto rng_01 = std::bind(std::ref(uniform_char), std::ref(engine));
 
-std::uniform_int_distribution<> uniform;
-auto rng_size = std::bind(uniform, engine);
+std::uniform_int_distribution<> uniform_int;
+auto rng_size = std::bind(std::ref(uniform_int), std::ref(engine));
 
 //------------------------------------------------------------------------
 
