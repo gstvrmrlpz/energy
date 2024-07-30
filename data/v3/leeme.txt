@@ -1,0 +1,7 @@
+experimentos nuevos:
+	amd-20240730-133022.csv
+	pccito-20240730-133053.csv
+
+experimentos viejos y con fallos en números aleatorios:
+	amd-20240726-215542.csv
+	pccito-20240726-215614.csv

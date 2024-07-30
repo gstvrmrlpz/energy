@@ -15,6 +15,8 @@ auto:
 in: $(GP)
 	for i in $^; do
 		sed -i "s/^files='.*'$$/files='$(CSV)'/" $$i
+		git commit -m "new data files" $$i
+		git push
 	done
 
 clean:
