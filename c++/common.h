@@ -65,7 +65,7 @@ std::tuple<std::size_t, char> parser(int argc, char *argv[])
                 break;
             case 's':
                 size = atoi(optarg);
-                uniform = std::uniform_int_distribution<>(0, size - 1);
+                uniform_int = std::uniform_int_distribution<>(0, size - 1);
                 break;
             case 'w':
                 work = optarg[0];
