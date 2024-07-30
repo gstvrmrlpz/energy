@@ -183,7 +183,6 @@ The experiments were run on a PC with AMD Ryzen 7 3700X processor, 32GiB of DDR4
 library(dplyr)
 library(ggplot2)
 library(kableExtra)
-library(groupedstats)
 
 pccito.raw <- read.csv("../data/v3/pccito-20240726-215614.csv",sep=";")
 pccito.init <- pccito.raw[pccito.raw$work=="i",]
@@ -193,11 +192,13 @@ pccito.init %>% group_by(compiler,opt,program,length,std) %>% summarise(mean.ene
 
 pccito.init$factors <- paste(pccito.init$compiler,pccito.init$opt,pccito.init$program,pccito.init$std)
 
+wilcox.res.df <- data.frame(length=numeric(),factor=character(),factor2=character(),p.value=numeric())
 for (i in c(512, 1024, 2048) ) {
   for ( factor in unique(pccito.init$factors) ) {
     for ( factor2 in unique(pccito.init$factors) ) {
       if ( factor != factor2 ) {
         wt <- wilcox.test( pccito.init[ pccito.init$length == i & pccito.init$factors == factor,]$energy, pccito.init[ pccito.init$length == i & pccito.init$factors == factor2,]$energy)
+        wilcox.res.df <- rbind(wilcox.res.df,data.frame(length=i,factor=factor,factor2=factor2,p.value=wt$p.value))
         if ( wt$p.value < 0.05 ) {
           print(paste("Significant difference for",i,factor,"|||", factor2,wt$p.value))
         }
@@ -206,6 +207,12 @@ for (i in c(512, 1024, 2048) ) {
   }
 }
 
+wilcox.res.df$significant <- wilcox.res.df$p.value < 0.05
+
+# filter from wilcox.res.df those that have clang++ in factor1 and g++ in factor2
+wilcox.res.compiler.df <- wilcox.res.df[ grepl("clang",wilcox.res.df$factor) & grepl("^g",wilcox.res.df$factor2),]
+wilcox.res.compiler.df$aux <- gsub("clang++","g++",wilcox.res.compiler.df$factor,fixed=T)
+wilcox.res.compiler.comp <- wilcox.res.compiler.df[ wilcox.res.compiler.df$aux == wilcox.res.compiler.df$factor2,]
 
 summary.noO2 <- pccito.summary[ pccito.summary$opt=="-O2",]
 summary.noO2$opt <- NULL
