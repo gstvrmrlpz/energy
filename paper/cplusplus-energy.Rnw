@@ -183,13 +183,29 @@ The experiments were run on a PC with AMD Ryzen 7 3700X processor, 32GiB of DDR4
 library(dplyr)
 library(ggplot2)
 library(kableExtra)
+library(groupedstats)
 
-pccito.raw <- read.csv("../data/pccito-20240715-213921.csv",sep=";")
+pccito.raw <- read.csv("../data/v3/pccito-20240726-215614.csv",sep=";")
 pccito.init <- pccito.raw[pccito.raw$work=="i",]
-pccito.init$seed <- NULL
 pccito.init$work <- NULL
 
-pccito.init %>% group_by(X.compiler,opt,program,length) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> pccito.summary
+pccito.init %>% group_by(compiler,opt,program,length,std) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> pccito.summary
+
+pccito.init$factors <- paste(pccito.init$compiler,pccito.init$opt,pccito.init$program,pccito.init$std)
+
+for (i in c(512, 1024, 2048) ) {
+  for ( factor in unique(pccito.init$factors) ) {
+    for ( factor2 in unique(pccito.init$factors) ) {
+      if ( factor != factor2 ) {
+        wt <- wilcox.test( pccito.init[ pccito.init$length == i & pccito.init$factors == factor,]$energy, pccito.init[ pccito.init$length == i & pccito.init$factors == factor2,]$energy)
+        if ( wt$p.value < 0.05 ) {
+          print(paste("Significant difference for",i,factor,"|||", factor2,wt$p.value))
+        }
+      }
+    }
+  }
+}
+
 
 summary.noO2 <- pccito.summary[ pccito.summary$opt=="-O2",]
 summary.noO2$opt <- NULL
