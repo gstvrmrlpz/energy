@@ -7,6 +7,7 @@
 ###############################################################################
 
 COM = clang++ g++
+CSV = $(wildcard *.csv)
 EXE = $(basename $(SRC))
 OPT = -O2 -O3
 OUT = csv
@@ -22,12 +23,12 @@ CXXFLAGS = -flto -march=native -O3 -std=c++20 -Wall $(XTR) $(XT2)
 
 ###############################################################################
 
-all: exe
+all: data
 
 att: $(ATT)
 
 clean:
-	-rm -fv $(CAC) $(CAL) $(EXE) core* *~
+	-rm -fv $(CSV) $(EXE) core* nohup.out *~
 
 exe: $(EXE)
 
