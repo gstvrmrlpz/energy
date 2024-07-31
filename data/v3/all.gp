@@ -3,7 +3,7 @@
 #-----------------------------------------------------------------------------
 
 files='amd-20240726-215542.csv amd-20240730-133022.csv pccito-20240726-215614.csv pccito-20240730-133053.csv'
-columns='compiler opt program work'
+columns='compiler opt std program lenght work energy time'
 
 #-----------------------------------------------------------------------------
 # global options
