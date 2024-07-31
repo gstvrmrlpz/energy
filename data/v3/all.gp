@@ -60,7 +60,7 @@ do for [file in files] {
         # multiplot by columns
         #---------------------------------------------------------------------
         set output file.'-'.quantity.'.svg'
-        set multiplot layout 2,2
+        set multiplot layout 2,4
         do for [col in columns] {
             #set label 1 'mean' at time_mean,energy_mean
             plot file u (1):(column(quantity)):(0.75):(column(col)) w boxplot lc variable lw 1.33
@@ -72,7 +72,7 @@ do for [file in files] {
         # multiplot by columns + no init
         #---------------------------------------------------------------------
         set output file.'-'.quantity.'-noinit.svg'
-        set multiplot layout 2,2
+        set multiplot layout 2,4
         do for [col in columns] {
             plot '<(grep -v \;i\; '.file.')' u (1):(column(quantity)):(0.75):(column(col)) w boxplot lc variable
         }
@@ -83,7 +83,7 @@ do for [file in files] {
         #---------------------------------------------------------------------
         do for [work in 'g h i'] {
             set output file.'-'.quantity.'-'.work.'.svg'
-            set multiplot layout 2,2
+            set multiplot layout 2,4
             do for [col in columns] {
                 plot '<(head -n1 '.file.'; grep \;'.work.'\; '.file.')' u (1):(column(quantity)):(0.75):(column(col)) w boxplot lc variable
             }
