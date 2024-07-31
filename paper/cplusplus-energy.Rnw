@@ -232,7 +232,7 @@ summary.noO3 %>% arrange(length,compiler,program)  %>% kable(caption="Energy con
 pccito.init$length <- as.factor(pccito.init$length)
 # ggplot(pccito.init[ pccito.init$program == "bitset",],aes(x=length,y=energy,color=X.compiler, shape=opt)) + geom_point(alpha=0.4) + geom_jitter(width=0.2) + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(title="Energy consumption by compiler and optimization level",x="time",y="Energy consumption (Joules)") + scale_fill_brewer(palette="Set1")
 
-pccito.energy.lm <- lm(energy ~  program + opt + compiler + length, data=pccito.init)
+pccito.energy.lm <- lm(energy ~  program + opt + compiler + length + std, data=pccito.init)
 
 data.512 <- pccito.summary[ pccito.summary$length == 512,]
 min.energy.512 <- data.512[which.min(data.512$mean.energy),]
@@ -243,21 +243,10 @@ min.energy.1024 <- data.1024[which.min(data.1024$mean.energy),]
 data.2048 <- pccito.summary[ pccito.summary$length == 2048,]
 min.energy.2048 <- data.2048[which.min(data.2048$mean.energy),]
 
-amd.raw <- read.csv("../data/amd-20240715-170708.csv",sep=";")
-amd.init <- amd.raw[amd.raw$work=="i",]
-amd.init$seed <- NULL
-amd.init$work <- NULL
-
-amd.init %>% group_by(X.compiler,opt,program,length) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> amd.summary
-
-# ggplot(amd.init,aes(x=time,y=energy,shape=X.compiler,color=program)) + geom_point(alpha=0.4) + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(title="Energy consumption by compiler and optimization level",x="time",y="Energy consumption (Joules)") + scale_fill_brewer(palette="Set1")
-
-amd.energy.lm <- lm(energy ~  program + opt + compiler + length, data=amd.init) # saved for later
-
 @
 
 As we have done in other papers, we will use the initialization of the set of chromosomes with different parametrizations to establish the baseline, but at the same time to eliminate, from the start, any configuration that we can confidently establish as not sufficiently energy-efficient. In order to do that we have run a set of 15 tests with every parametrization using two compilers (g++ and clang++), two possible optimization levels of the compiler (-O2 and -O3), as well as the usual three chromosome lengths: 512, 1024 and 2048. We have also tested 4 different data structures to represent the chromosome:\begin{itemize}
-\item \texttt{bitset} a uses the C++ dynamic bitset data structure. % maybe add more about this one.
+\item \texttt{bitset} uses the C++ dynamic bitset data structure. % maybe add more about this one.
 \item \texttt{bvector} uses the C++ vector data structure from the standard template library, instantiated with the \texttt{bool} type.
 \item \texttt{cvector} uses the C++ vector data structure from the standard template library, instantiated with characters.
 \item \texttt{string} uses C++ strings, with chars '1' and '0' representing the integer values {\tt 1} and {\tt 0}.
