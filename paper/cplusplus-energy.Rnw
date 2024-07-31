@@ -190,8 +190,8 @@ pccito.init$work <- NULL
 
 pccito.init %>% group_by(compiler,opt,program,length,std) %>% summarise(mean.energy=mean(energy),sd.energy=sd(energy),mean.time = mean(time), sd.time = sd(time)) -> pccito.summary
 
-wilcox.packed <- data.frame(length=numeric(),compiler=character(),opt=character(),std=character(),p.value=numeric(),significant=logical())
-wilcox.unpacked <- data.frame(length=numeric(),compiler=character(),opt=character(),std=character(),p.value=numeric(),significant=logical())
+wilcox.packed <- data.frame(length=numeric(),compiler=character(),opt=character(),std=character(),p.value=numeric(),significant=logical(),bitset.avg=numeric(),bvector.avg=numeric(),bitset.better=logical())
+wilcox.unpacked <- data.frame(length=numeric(),compiler=character(),opt=character(),std=character(),p.value=numeric(),significant=logical(),cvector.avg=numeric(),string.avg=numeric(),cvector.better=logical())
 for (l in c(512,1024,2048)) {
   for (compiler in c("clang++","g++")) {
     for (opt in c("-O2","-O3")) {
@@ -199,11 +199,19 @@ for (l in c(512,1024,2048)) {
         wt <- wilcox.test(
           pccito.init[ pccito.init$program=="bitset" & pccito.init$length == l & pccito.init$compiler == compiler & pccito.init$opt == opt & pccito.init$std == std,]$energy,
           pccito.init[ pccito.init$program=="bvector" & pccito.init$length == l & pccito.init$compiler == compiler & pccito.init$opt == opt & pccito.init$std == std,]$energy)
-        wilcox.packed <- rbind(wilcox.packed,data.frame(length=l,compiler=compiler,opt=opt,std=std,p.value=wt$p.value,significant=wt$p.value < 0.05))
+        wp.df <- data.frame(
+                                length=l,compiler=compiler,opt=opt,std=std,p.value=wt$p.value,significant=wt$p.value < 0.05, bitset.avg = pccito.summary[ pccito.summary$program=="bitset" & pccito.summary$length == l & pccito.summary$compiler == compiler & pccito.summary$opt == opt & pccito.summary$std == std,]$mean.energy, bvector.avg = pccito.summary[ pccito.summary$program=="bvector" & pccito.summary$length == l & pccito.summary$compiler == compiler & pccito.summary$opt == opt & pccito.summary$std == std,]$mean.energy
+                               )
+        wp.df$bitset.better <- wp.df$bitset.avg < wp.df$bvector.avg
+
+        wilcox.packed <- rbind(wilcox.packed, wp.df)
+
         wt.u <- wilcox.test(
           pccito.init[ pccito.init$program=="cvector" & pccito.init$length == l & pccito.init$compiler == compiler & pccito.init$opt == opt & pccito.init$std == std,]$energy,
           pccito.init[ pccito.init$program=="string" & pccito.init$length == l & pccito.init$compiler == compiler & pccito.init$opt == opt & pccito.init$std == std,]$energy,paired=FALSE)
-        wilcox.unpacked <- rbind(wilcox.unpacked,data.frame(length=l,compiler=compiler,opt=opt,std=std,p.value=wt.u$p.value,significant=wt.u$p.value < 0.05))
+        wu.df <- data.frame(length=l,compiler=compiler,opt=opt,std=std,p.value=wt.u$p.value,significant=wt.u$p.value < 0.05, cvector.avg = pccito.summary[ pccito.summary$program=="cvector" & pccito.summary$length == l & pccito.summary$compiler == compiler & pccito.summary$opt == opt & pccito.summary$std == std,]$mean.energy, string.avg = pccito.summary[ pccito.summary$program=="string" & pccito.summary$length == l & pccito.summary$compiler == compiler & pccito.summary$opt == opt & pccito.summary$std == std,]$mean.energy )
+        wu.df$cvector.better <- wu.df$cvector.avg < wu.df$string.avg
+        wilcox.unpacked <- rbind(wilcox.unpacked,wu.df)
       }
     }
   }
