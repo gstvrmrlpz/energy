@@ -219,7 +219,8 @@ for (l in c(512,1024,2048)) {
 
 summary.noO2 <- pccito.summary[ pccito.summary$opt=="-O2",]
 summary.noO2$opt <- NULL
-summary.noO2  %>% arrange(length,compiler,program) %>% kable(caption="Energy consumption by compiler and data structure, optimization level = O2")
+summary.noO2  %>% arrange(length,compiler,program) %>% kable(caption="Energy consumption by compiler and data structure, optimization level = O2")  %>% kable_styling(font_size = 5)
+
 @
 
 
@@ -227,7 +228,7 @@ summary.noO2  %>% arrange(length,compiler,program) %>% kable(caption="Energy con
 <<energy.setup.2, echo=F,message=F,warning=F>>=
 summary.noO3 <- pccito.summary[ pccito.summary$opt=="-O3",]
 summary.noO3$opt <- NULL
-summary.noO3 %>% arrange(length,compiler,program)  %>% kable(caption="Energy consumption by compiler and data structure, optimization level = O3")
+summary.noO3 %>% arrange(length,compiler,program)  %>% kable(caption="Energy consumption by compiler and data structure, optimization level = O3") %>% kable_styling(font_size = 5)
 
 pccito.init$length <- as.factor(pccito.init$length)
 # ggplot(pccito.init[ pccito.init$program == "bitset",],aes(x=length,y=energy,color=X.compiler, shape=opt)) + geom_point(alpha=0.4) + geom_jitter(width=0.2) + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(title="Energy consumption by compiler and optimization level",x="time",y="Energy consumption (Joules)") + scale_fill_brewer(palette="Set1")
@@ -245,6 +246,7 @@ min.energy.2048 <- data.2048[which.min(data.2048$mean.energy),]
 
 @
 
+
 As we have done in other papers, we will use the initialization of the set of chromosomes with different parametrizations to establish the baseline, but at the same time to eliminate, from the start, any configuration that we can confidently establish as not sufficiently energy-efficient. In order to do that we have run a set of 15 tests with every parametrization using two compilers (g++ and clang++), two possible optimization levels of the compiler (-O2 and -O3), as well as the usual three chromosome lengths: 512, 1024 and 2048. We have also tested 4 different data structures to represent the chromosome:\begin{itemize}
 \item \texttt{bitset} uses the C++ dynamic bitset data structure. % maybe add more about this one.
 \item \texttt{bvector} uses the C++ vector data structure from the standard template library, instantiated with the \texttt{bool} type.
@@ -260,9 +262,11 @@ We will test the energy behavior of several different parameters, besides those 
 \item Any compiler offers different optimization levels, indicated with the $O$ flag, with the $-O2$ and $-O3$ being the most significant\footnote{$-O1$ will usually imply no optimization, and in most compilers, $-O4$ will be equivalent to the previous value.}.
 \end{itemize}
 
-These will be tested for 3 different chromosome lengths: 512, 1024 and 2048. Except for the first one, these are lengths which are seldom seen in actual optimization problems outside benchmarks; however, we have used them so that there is a significant amount of consumption to make meaningful comparisons.
+These will be tested for 3 different chromosome lengths: 512, 1024 and 2048. Except for the first one, these are lengths which are seldom seen in actual optimization problems outside benchmarks; however, we have used them so that there is a significant amount of consumption to make meaningful comparisons. Experiments have been repeated 15 tims for statistical significance, and every one corresponds to the generation of 40000 chromosomes.
 
-However, we also observe some differences and similarities among the energy consumed by the data structures in every class. As a matter of fact, all other factors being equal, there is a significant difference between energy spent by \texttt{cvector} and \texttt{string} only in \Sexpr{length(wilcox.unpacked[ wilcox.unpacked$significant==T,]$significant)/length(wilcox.unpacked$significant)*100}\% of the cases; and out of those, in \Sexpr{100*length(wilcox.unpacked[ wilcox.unpacked$significant==T & wilcox.unpacked$cvector.better==T,]$significant)/length(wilcox.unpacked[ wilcox.unpacked$significant==T,]$significant)}\% \texttt{cvector} is better than \texttt{string}. So we will from now on drop the use of \texttt{string} as a data structure to represent the chromosomes.
+The initial results are laid out in Tables \ref{tab:energy.setup} and \ref{tab:energy.setup.2}; the former shows averages and standard deviations for $-O2$, while the latter does the same for $-O3$. As indicated, these measurements include chromosome initialization as well as machine overhead; the double intention of these measurements is to answer research question 1 regarding initial parametrizations to be discarded as well as subtract it later on for the measurement of the functions that constitute the workload whose energy consumption is to be minimized. These tables allow an initial appraisal of what is to be expected with the different parametrizations. In general, there is a tight correlation between energy consumed and time needed to run the workload; both grow with the chromosome size, and, against intuition, seem to be somewhat higher for the $-O3$ optimization level in Table \ref{tab:energy.setup.2}. However, this will need a more rigorous analysis.
+
+We can, for instance, observe some differences and similarities among the energy consumed by the data structures of every type. As a matter of fact, all other factors being equal, there is a significant difference between energy spent by \texttt{cvector} and \texttt{string} only in \Sexpr{length(wilcox.unpacked[ wilcox.unpacked$significant==T,]$significant)/length(wilcox.unpacked$significant)*100}\% of the cases; and out of those, in \Sexpr{100*length(wilcox.unpacked[ wilcox.unpacked$significant==T & wilcox.unpacked$cvector.better==T,]$significant)/length(wilcox.unpacked[ wilcox.unpacked$significant==T,]$significant)}\% \texttt{cvector} is better than \texttt{string}. So we will from now on drop the use of \texttt{string} as a data structure to represent the chromosomes.
 
 % \hl{There are some exceptions: when -O2 is used, g++ consumes less energy for packed structures for every length of the chromosome. We can apply a linear model for prediction of consumption depending on the rest of the factors.}\footnote{tengo que estudiar las gráficas a fondo para poder asegurar esto...}
 % No pasa nada si hay excepciones; en todo caso creo que vamos a descartar sólo un tipo de estructuras, y quizás el clang++. La optimización la dejaremos como está.
