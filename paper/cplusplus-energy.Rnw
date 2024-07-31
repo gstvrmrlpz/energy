@@ -222,6 +222,8 @@ summary.noO2$opt <- NULL
 summary.noO2  %>% arrange(length,X.compiler,program) %>% kable(caption="Energy consumption by compiler and data structure, optimization level = O2")
 @
 
+
+
 <<energy.setup.2, echo=F,message=F,warning=F>>=
 summary.noO3 <- pccito.summary[ pccito.summary$opt=="-O3",]
 summary.noO3$opt <- NULL
@@ -262,6 +264,9 @@ As we have done in other papers, we will use the initialization of the set of ch
 \end{itemize}
 
 The main difference between the first two data structures and the second ones is the fact that the former are {\em packed}, that is, in order to save memory, bits are packed to a byte; the latter are not. This will imply a certain effort to "unpack" them in order to use them, which might have an impact in the energy consumption. This is effectively what we can observe in Table \ref{tab:energy.setup}, and \ref{tab:energy.setup.2}, where we group these types of data structures (run as different programs) in a single column, and we can observe than, in general (with a few exceptions), for every compiler and optimization level, "packed" structures consume more energy than non-packed ones.
+
+However, we also observe some differences and similarities among the energy consumed by the data structures in every class. As a matter of fact, all other factors being equal, there is a significant difference between energy spent by \texttt{cvector} and \texttt{string} only in \Sexpr{length(wilcox.unpacked[ wilcox.unpacked$significant==T,]$significant)/length(wilcox.unpacked$significant)*100}\% of the cases; and out of those, in \Sexpr{100*length(wilcox.unpacked[ wilcox.unpacked$significant==T & wilcox.unpacked$cvector.better==T,]$significant)/length(wilcox.unpacked[ wilcox.unpacked$significant==T,]$significant)}\% \texttt{cvector} is better than \texttt{string}. So we will from now on drop the use of \texttt{string} as a data structure to represent the chromosomes.
+
 % \hl{There are some exceptions: when -O2 is used, g++ consumes less energy for packed structures for every length of the chromosome. We can apply a linear model for prediction of consumption depending on the rest of the factors.}\footnote{tengo que estudiar las gráficas a fondo para poder asegurar esto...}
 % No pasa nada si hay excepciones; en todo caso creo que vamos a descartar sólo un tipo de estructuras, y quizás el clang++. La optimización la dejaremos como está.
 
