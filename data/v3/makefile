@@ -6,17 +6,15 @@ SVG = $(wildcard *.svg)
 
 all: plot
 
-auto:
+auto: $(GP) $(CSV)
 	while ps $$! > /dev/null; do
-		inotifywait -e modify -qr .
+		inotifywait -e modify -qr $^
 		make plot
 	done
 
 in: $(GP)
 	for i in $^; do
 		sed -i "s/^files='.*'$$/files='$(CSV)'/" $$i
-		git commit -m "new data files" $$i
-		git push
 	done
 
 clean:
