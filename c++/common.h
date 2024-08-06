@@ -72,6 +72,12 @@ std::tuple<std::size_t, char> parser(int argc, char *argv[])
                 break;
         }
 
+    if (size == 0)
+    {
+        std::cout << "-s option is required\n";
+        exit(EXIT_FAILURE);
+    }
+
     if (work != 'i' && work != 'g' && work != 'h')
     {
         std::cout << "-w option must be one of {i, g, h}\n";
