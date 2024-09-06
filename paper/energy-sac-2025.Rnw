@@ -133,11 +133,17 @@ ACM SIG Proceedings.\footnote{This is an abstract footnote}
 
 \section{Introduction}
 
+\section{State of the art}
+
+Although there have been, since early in the century, different papers analyzing energy consumption in different programming languages \cite{PEREIRA2021102609,gordillo2024programming}, there are two issues with these: first, their results are shown on general workloads, and second, new or emerging languages like Zig are not included.
+
+At any rate, these papers, especially the last one, establish the state of the art in several aspects: first, the experimental design and measurement methodology, and a general idea of how different languages in different categories spend energy and the differences in order of magnitude.
+
 \begin{acks}
   Hidden for double-blind review
 \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{sample-bibliography}
+\bibliography{energy}
 
 \end{document}
