@@ -27,12 +27,12 @@ install:
 	sudo R -e 'install.packages("kableExtra", repos = "https://cran.rediris.es/"); quit();' -q
 
 %.pdf: %.tex
-	latexmk -pdf -shell-escape $(TEX)
+	latexmk -pdf -shell-escape $<
 
 %.R: %.Rnw
-	Rscript -e "require(knitr); knitr::knit('$(RNW)',output='$(R)',tangle=TRUE);"
+	Rscript -e "require(knitr); knitr::knit('$<',output='$@',tangle=TRUE);"
 
 %.tex: %.Rnw %.R
-	Rscript -e "require(knitr); knitr::knit('$(RNW)',output='$(TEX)');"
+	Rscript -e "require(knitr); knitr::knit('$<',output='$@');"
 
 .PHONY: all auto clean pre
