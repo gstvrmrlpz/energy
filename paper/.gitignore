@@ -1,7 +1,7 @@
 *.aux
 *.blg
+*.cut
 *.fdb_latexmk
 *.fls
-cplusplus-energy.out
-cplusplus-energy.R
-*.cut
+*.R
+*.out
