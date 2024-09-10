@@ -133,6 +133,11 @@ ACM SIG Proceedings.\footnote{This is an abstract footnote}
 
 \section{Introduction}
 
+Software engineering aims to create products that work according to user desires; these desires include a series of technical requirements that have until a short time ago been synthesized in the word "efficiency", generally implying high-performance, that is, the capability to run a workload as fast as possible, or certainly without the user experimenting any kind of delay or lag. This is why the tools designed to create these applications or create executables that run directly on the operating system are endowed with a series of {\em levers} that allow the user to make the program as fast as possible; processors and whole systems were also doubling in speed, in such a way that hardware and software combined to achieve faster and faster systems.
+
+The second part of this increase in speed, which was generically called Moore's Law \cite{moore1965cramming}, however, is over, and has been declared dead \cite{zhang2022moore}. With it, another consequence of Moore's law: the increasing efficiency in terms of energy of supercomputers, which until 2020 grew more or less exponentially.
+
+
 \section{State of the art}
 
 Although there have been, since early in the century, different papers analyzing energy consumption in different programming languages \cite{PEREIRA2021102609,gordillo2024programming}, there are two issues with these: first, their results are shown on general workloads, and second, new or emerging languages like Zig are not included.
