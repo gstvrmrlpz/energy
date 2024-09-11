@@ -111,7 +111,12 @@ The second part of this increase in speed, which was generically called Moore's 
 
 Our main goal is to advance in the development of a methodology that allows researchers in any field to find heuristic rules for how different decisions during the design and implementation of a scientific application can affect energy consumption. In order to do this, we need first to focus on what are the specific applications on algorithms we are going to focus on, and then to fix at what point in the decision making process we will be working.
 
-Specifically, we are interested on evolutionary computation \cite{eiben2015introduction}, a family of population-based search and optimization algorithms that, in general, try to optimize a {\em fitness} function that scores how adequate (or {\em fit}) a candidate solution, represented through a suitable data structure, is, by creating a {\em population} of randomly generated such data structures, some of which are selected based on their fitness, with the rest thrown away. These data structures that represent the solutions are combined in pairs to create new solutions in an operation generally called {\em crossover}, to then be changed randomly, that is, {\em mutated}. This focus gives us the general context for energy profiling, but as indicated above, there are no tools that are able to {\em profile} the application for specific {\em energetic} bottlenecks. What there is are performance profilers \cite{10.1145/183432.183527}.
+Specifically, we are interested on evolutionary computation \cite{eiben2015introduction}, a family of population-based search and optimization algorithms that, in general, try to optimize a {\em fitness} function that scores how adequate (or {\em fit}) a candidate solution, represented through a suitable data structure, is, by creating a {\em population} of randomly generated such data structures, some of which are selected based on their fitness, with the rest thrown away. These data structures that represent the solutions are combined in pairs to create new solutions in an operation generally called {\em crossover}, to then be changed randomly, that is, {\em mutated}. This focus gives us the general context for energy profiling, but as indicated above, there are no tools that are able to {\em profile} the application for specific {\em energetic} bottlenecks. What there is are performance profilers \cite{10.1145/183432.183527}, so if we want to spin off specific bottlenecks for energy measurements, there are at least two paths of least resistance:\begin{itemize}
+\item To use a performance profiler to find the performance bottlenecks. As indicated, these need not be necessarily energy consumption bottlenecks, however if a real bottleneck is found, with a big difference over the next component in performance, we can assume it will also be consuming energy in the same order. In case of doubt, both components would need to be appraised energy-wise.
+\item Use common heuristics to identify the functions that will be consuming the most energy, either by consuming it in every call, or by being called many times.
+\end{itemize}
+
+We will follow the latest approach in the paper. Although there are other generic functions such as sorting, or comparison, crossover, mutation and a fitness function will be called for every individual in the population, every generation, with common function call counts going up from tens of thousands to millions or even billions, so they are bound to take the bulk of the energy consumed by an implementation of evolutionary algorithms. This choice has been validated already by several papers in several areas \cite{lion24-anon, icsoft-anon, icsoft23-anon, wivace23-anon}.
 
 
 \section{State of the art}
@@ -125,6 +130,6 @@ At any rate, these papers, especially the last one, establish the state of the a
 \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{energy,GAs}
+\bibliography{energy,GAs,ours}
 
 \end{document}
