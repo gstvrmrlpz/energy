@@ -2,13 +2,10 @@
 
 \usepackage{booktabs} % For formal tables
 
-
 \setcopyright{acmcopyright}
 
-% DOI
 \acmDOI{xx.xxx/xxx_x}
 
-% ISBN
 \acmISBN{979-8-4007-0629-5/25/03}
 
 %Conference
@@ -19,13 +16,6 @@
 
 \acmArticle{4}
 \acmPrice{15.00}
-
-% These commands are optional
-%\acmBooktitle{Transactions of the ACM Woodstock conference}
-%\editor{Jennifer B. Sartor}
-%\editor{Theo D'Hondt}
-%\editor{Wolfgang De Meuter}
-
 
 \begin{document}
 \title{TBD}
