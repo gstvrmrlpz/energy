@@ -3,16 +3,7 @@
 \usepackage{booktabs} % For formal tables
 
 
-% Copyright
-%\setcopyright{none}
 \setcopyright{acmcopyright}
-%\setcopyright{acmlicensed}
-%\setcopyright{rightsretained}
-%\setcopyright{usgov}
-%\setcopyright{usgovmixed}
-%\setcopyright{cagov}
-%\setcopyright{cagovmixed}
-
 
 % DOI
 \acmDOI{xx.xxx/xxx_x}
@@ -44,9 +35,7 @@
 
 \renewcommand{\shorttitle}{TBD}
 
-
 \author{Ben Trovato}
-\authornote{Dr.~Trovato insisted his name be first.}
 \orcid{1234-5678-9012}
 \affiliation{%
   \institution{Institute for Clarity in Documentation}
@@ -59,7 +48,6 @@
 \email{trovato@corporation.com}
 
 \author{G.K.M. Tobin}
-\authornote{The secretary disavows any knowledge of this author's actions.}
 \affiliation{%
   \institution{Institute for Clarity in Documentation}
   \streetaddress{P.O. Box 1212}
@@ -135,7 +123,9 @@ ACM SIG Proceedings.\footnote{This is an abstract footnote}
 
 Software engineering aims to create products that work according to user desires; these desires include a series of technical requirements that have until a short time ago been synthesized in the word "efficiency", generally implying high-performance, that is, the capability to run a workload as fast as possible, or certainly without the user experimenting any kind of delay or lag. This is why the tools designed to create these applications or create executables that run directly on the operating system are endowed with a series of {\em levers} that allow the user to make the program as fast as possible; processors and whole systems were also doubling in speed, in such a way that hardware and software combined to achieve faster and faster systems.
 
-The second part of this increase in speed, which was generically called Moore's Law \cite{moore1965cramming}, however, is over, and has been declared dead \cite{zhang2022moore}. With it, another consequence of Moore's law: the increasing efficiency in terms of energy of supercomputers, which until 2020 grew more or less exponentially.
+The second part of this increase in speed, which was generically called Moore's Law \cite{moore1965cramming}, however, is over, and has been declared dead \cite{zhang2022moore}. With it, another consequence of Moore's law: the increasing efficiency in terms of energy of supercomputers, which until 2020 grew more or less exponentially. So any increase in efficiency, for any sense of the term, needs to arrive in terms of software engineering. However, the emphasis on performance has left the software engineer with relatively few tools to measure or improve energy consumption. While you can measure in very precise terms how many CPU instructions a specific high-level sentence generates, there are no sensors that work at the same level measuring energy consumption, with the only alternative being to measure system-wide consumption and develop a methodology that help us measure how a specific workload spends energy. We will devote part of the paper to explain the methodology we have been using, but that is not the main goal of the paper.
+
+
 
 
 \section{State of the art}
