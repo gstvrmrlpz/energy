@@ -19,9 +19,7 @@
 
 \begin{document}
 \title{TBD}
-\titlenote{}
 \subtitle{}
-\subtitlenote{}
 
 \renewcommand{\shorttitle}{TBD}
 
@@ -49,8 +47,6 @@
 \email{webmaster@marysville-ohio.com}
 
 \author{Lars Th{\o}rv{\"a}ld}
-\authornote{This author is the
-  one who did all the really hard work.}
 \affiliation{%
   \institution{The Th{\o}rv{\"a}ld Group}
   \streetaddress{1 Th{\o}rv{\"a}ld Circle}
@@ -63,9 +59,7 @@
 
 
 \begin{abstract}
-This paper provides a sample of a \LaTeX\ document which conforms,
-somewhat loosely, to the formatting guidelines for
-ACM SIG Proceedings.\footnote{This is an abstract footnote}
+
 \end{abstract}
 
 %
@@ -115,7 +109,9 @@ Software engineering aims to create products that work according to user desires
 
 The second part of this increase in speed, which was generically called Moore's Law \cite{moore1965cramming}, however, is over, and has been declared dead \cite{zhang2022moore}. With it, another consequence of Moore's law: the increasing efficiency in terms of energy of supercomputers, which until 2020 grew more or less exponentially. So any increase in efficiency, for any sense of the term, needs to arrive in terms of software engineering. However, the emphasis on performance has left the software engineer with relatively few tools to measure or improve energy consumption. While you can measure in very precise terms how many CPU instructions a specific high-level sentence generates, there are no sensors that work at the same level measuring energy consumption, with the only alternative being to measure system-wide consumption and develop a methodology that help us measure how a specific workload spends energy. We will devote part of the paper to explain the methodology we have been using, but that is not the main goal of the paper.
 
+Our main goal is to advance in the development of a methodology that allows researchers in any field to find heuristic rules for how different decisions during the design and implementation of a scientific application can affect energy consumption. In order to do this, we need first to focus on what are the specific applications on algorithms we are going to focus on, and then to fix at what point in the decision making process we will be working.
 
+Specifically, we are interested on evolutionary computation \cite{eiben2015introduction}, a family of population-based search and optimization algorithms that, in general, try to optimize a {\em fitness} function that scores how adequate (or {\em fit}) a candidate solution, represented through a suitable data structure, is, by creating a {\em population} of randomly generated such data structures, some of which are selected based on their fitness, with the rest thrown away. These data structures that represent the solutions are combined in pairs to create new solutions in an operation generally called {\em crossover}, to then be changed randomly, that is, {\em mutated}. This focus gives us the general context for energy profiling, but as indicated above, there are no tools that are able to {\em profile} the application for specific {\em energetic} bottlenecks. What there is are performance profilers \cite{10.1145/183432.183527}.
 
 
 \section{State of the art}
@@ -129,6 +125,6 @@ At any rate, these papers, especially the last one, establish the state of the a
 \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{energy}
+\bibliography{energy,GAs}
 
 \end{document}
