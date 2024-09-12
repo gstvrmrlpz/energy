@@ -24,6 +24,7 @@
 \renewcommand{\shorttitle}{TBD}
 
 \author{Ben Trovato}
+\authornote{Boilerplate author names have been kept for double-blind review.}
 \orcid{1234-5678-9012}
 \affiliation{%
   \institution{Institute for Clarity in Documentation}
@@ -98,7 +99,7 @@
 \ccsdesc[100]{Networks~Network reliability}
 
 
-\keywords{ACM proceedings, \LaTeX, text tagging}
+\keywords{Green computing, software engineering, evolutionary algorithms, genetic algorithms, energy-aware algorithms}
 
 
 \maketitle
@@ -118,13 +119,27 @@ Specifically, we are interested on evolutionary computation \cite{eiben2015intro
 
 We will follow the latest approach in this paper. Although there are other generic functions such as sorting, or comparison, crossover, mutation and a fitness function will be called for every individual in the population, every generation, with common function call counts going up from tens of thousands to millions or even billions, so they are bound to take the bulk of the energy consumed by an implementation of evolutionary algorithms. This choice has been validated already by several papers in several areas of decision \cite{lion24-anon, icsoft-anon, icsoft23-anon, wivace23-anon}. In several of these experiments, low-level languages have been proved to be faster and also less energy-consuming that VM based languages (like Java or Kotlin) or low-level languages (like JavaScript or Python), which is more or less in accordance with works that use general-purpose workloads \cite{PEREIRA2021102609,pereira2017energy,gordillo2024programming}. However, \cite{lion24-anon} already revealed a slight mismatch between high-performance and low energy consumption. Besides, we will compare a language that has rarely entered the above mentioned languages, {\sf zig} \cite{friesen2023designing}, with the well-established C++. With its tight control on memory assignment, {\sf zig} leaves to the user a decision that is bound to have impact on energy consumption; besides, depending on results, it might be a good alternative to implement a low-energy consumption evolutionary computation library, if proved to be better in that sense than C++, already well established as a platform for evolutionary computation libraries \cite{friesen2023designing,jakobovic2024ecf,dreo2021paradiseo}.
 
+Thus, in this paper we will compare different implementations of the essential functions in evolutionary algorithms in two languages, C++ and {\sf zig}, looking at answering the following research questions:\begin{itemize}
+\item Is there a combination of data structure and language that is significantly better than the rest?
+\item Of the two factors that determine energy consumption, time and power, can we determine if there is a dominant term that makes the specific combination found above faster?
+\item Does the energy-efficiency ranking of data structures hold across different languages, allowing us to draw some conclusion on which data structures could be best for working with this problems in the context of evolutionary algorithms?
+\end{itemize}
+
+The rest of the paper is organized as follows: in the next section we will review the state of the art in energy consumption in programming languages, focusing specifically in evolutionary algorithms and other computational intelligence methodologies. The experimental methodology and setup will be described in Section \ref{sec:methodology}, along with the baseline results with some exploratory data analysis of same. .
 
 \section{State of the art}
 
 Although there have been, since early in the century, different papers analyzing energy consumption in different programming languages \cite{PEREIRA2021102609,gordillo2024programming}, there are two issues with these: first, their results are shown on general workloads, and second, new or emerging languages like Zig are not included.
 
-At any rate, these papers, especially the last one, establish the state of the art in several aspects: first, the experimental design and measurement methodology, and a general idea of how different languages in different categories spend energy and the differences in order of magnitude.
+At any rate, these papers, especially the last one, establish the state of the art in several aspects: first, the experimental design and measurement methodology, and a general idea of how different languages in different categories spend energy and the differences in order of magnitude. Finally, results will be discussed and conclusions drawn in Section \ref{sec:conclusions}.
 
+\section{Methodology}\label{sec:methodology}
+
+First and foremost, we need to decide the instrumentation that we are going to use to measure energy. The instruments needed to measure them are roughly divided in hardware and software tools \cite{abdurachmanov2015techniques}, with the former being physical instruments that draw information from the power source or else sit between the main electricity source and the machine, thus accurately measuring the energy consumption of the machine. These are expensive scientific instruments, that besides have a synchronization issue to accurately reflect the start and end of the process we are measuring. The latter, however, are simply applications that run alongside the process under measurement, or run the process writing measurements when it ends, which has the disadvantage of introducing a small overhead, but on the other hand is perfectly synchronized. There are also many free, even free software, options, so cost and precision have made us choose this option for our research.
+
+\section{Results}\label{sec:results}
+
+\section{Conclusions}\label{sec:conclusions}
 \begin{acks}
   Hidden for double-blind review
 \end{acks}
