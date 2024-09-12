@@ -2,22 +2,10 @@
 
 \usepackage{booktabs} % For formal tables
 
-
-% Copyright
-%\setcopyright{none}
 \setcopyright{acmcopyright}
-%\setcopyright{acmlicensed}
-%\setcopyright{rightsretained}
-%\setcopyright{usgov}
-%\setcopyright{usgovmixed}
-%\setcopyright{cagov}
-%\setcopyright{cagovmixed}
 
-
-% DOI
 \acmDOI{xx.xxx/xxx_x}
 
-% ISBN
 \acmISBN{979-8-4007-0629-5/25/03}
 
 %Conference
@@ -29,24 +17,13 @@
 \acmArticle{4}
 \acmPrice{15.00}
 
-% These commands are optional
-%\acmBooktitle{Transactions of the ACM Woodstock conference}
-%\editor{Jennifer B. Sartor}
-%\editor{Theo D'Hondt}
-%\editor{Wolfgang De Meuter}
-
-
 \begin{document}
 \title{TBD}
-\titlenote{}
 \subtitle{}
-\subtitlenote{}
 
 \renewcommand{\shorttitle}{TBD}
 
-
 \author{Ben Trovato}
-\authornote{Dr.~Trovato insisted his name be first.}
 \orcid{1234-5678-9012}
 \affiliation{%
   \institution{Institute for Clarity in Documentation}
@@ -59,7 +36,6 @@
 \email{trovato@corporation.com}
 
 \author{G.K.M. Tobin}
-\authornote{The secretary disavows any knowledge of this author's actions.}
 \affiliation{%
   \institution{Institute for Clarity in Documentation}
   \streetaddress{P.O. Box 1212}
@@ -71,8 +47,6 @@
 \email{webmaster@marysville-ohio.com}
 
 \author{Lars Th{\o}rv{\"a}ld}
-\authornote{This author is the
-  one who did all the really hard work.}
 \affiliation{%
   \institution{The Th{\o}rv{\"a}ld Group}
   \streetaddress{1 Th{\o}rv{\"a}ld Circle}
@@ -85,9 +59,7 @@
 
 
 \begin{abstract}
-This paper provides a sample of a \LaTeX\ document which conforms,
-somewhat loosely, to the formatting guidelines for
-ACM SIG Proceedings.\footnote{This is an abstract footnote}
+
 \end{abstract}
 
 %
@@ -133,6 +105,20 @@ ACM SIG Proceedings.\footnote{This is an abstract footnote}
 
 \section{Introduction}
 
+Software engineering aims to create products that work according to user desires; these desires include a series of technical requirements that have until a short time ago been synthesized in the word "efficiency", generally implying high-performance, that is, the capability to run a workload as fast as possible, or certainly without the user experimenting any kind of delay or lag. This is why the tools designed to create these applications or create executables that run directly on the operating system are endowed with a series of {\em levers} that allow the user to make the program as fast as possible; processors and whole systems were also doubling in speed, in such a way that hardware and software combined to achieve faster and faster systems.
+
+The second part of this increase in speed, which was generically called Moore's Law \cite{moore1965cramming}, however, is over, and has been declared dead \cite{zhang2022moore}. With it, another consequence of Moore's law: the increasing efficiency in terms of energy of supercomputers, which until 2020 grew more or less exponentially. So any increase in efficiency, for any sense of the term, needs to arrive in terms of software engineering. However, the emphasis on performance has left the software engineer with relatively few tools to measure or improve energy consumption. While you can measure in very precise terms how many CPU instructions a specific high-level sentence generates, there are no sensors that work at the same level measuring energy consumption, with the only alternative being to measure system-wide consumption and develop a methodology that help us measure how a specific workload spends energy. We will devote part of the paper to explain the methodology we have been using, but that is not the main goal of the paper. Additionally, energy consumption is the product of power $x$ time, so certainly any change in performance will affect energy consumption. The issue here is that the other term of the product, power, needs not be constant, and it certainly is not in modern hardware architectures, which use dynamic power management techniques \cite{haj2018power,attia2017dynamic}, as well as asymmetric cores, with some of them being focused on performance and others on energy efficiency \cite{mittal2016survey}. Given an implementation of an algorithm, the operating system through the hardware APIs will try to do its best to save energy by, for instance, dynamically changing processor frequency or turning off and of different parts of the core on demand. However, this will still have the constraint of running all and every machine code instruction that the compiler/interpreter needs, so there will still be huge differences between different implementations. And this is where our work starts, trying to find out where the lowest consumption of energy is found among a panoply of different implementations of the same algorithm.
+
+Our main goal is to advance in the development of a methodology that allows researchers in any field to find heuristic rules for how different decisions during the design and implementation of a scientific application can affect energy consumption. In order to do this, we need first to focus on what are the specific applications on algorithms we are going to focus on, and then to fix at what point in the decision making process we will be working.
+
+Specifically, we are interested on evolutionary computation \cite{eiben2015introduction}, a family of population-based search and optimization algorithms that, in general, try to optimize a {\em fitness} function that scores how adequate (or {\em fit}) a candidate solution, represented through a suitable data structure, is, by creating a {\em population} of randomly generated such data structures, some of which are selected based on their fitness, with the rest thrown away. These data structures that represent the solutions are combined in pairs to create new solutions in an operation generally called {\em crossover}, to then be changed randomly, that is, {\em mutated}. This focus gives us the general context for energy profiling, but as indicated above, there are no tools that are able to {\em profile} the application for specific {\em energetic} bottlenecks. What there is are performance profilers \cite{10.1145/183432.183527}, so if we want to spin off specific bottlenecks for energy measurements, there are at least two paths of least resistance:\begin{itemize}
+\item To use a performance profiler to find the performance bottlenecks. As indicated, these need not be necessarily energy consumption bottlenecks, however if a real bottleneck is found, with a big difference over the next component in performance, we can assume it will also be consuming energy in the same order. In case of doubt, both components would need to be appraised energy-wise.
+\item Use common heuristics to identify the functions that will be consuming the most energy, either by consuming it in every call, or by being called many times.
+\end{itemize}
+
+We will follow the latest approach in this paper. Although there are other generic functions such as sorting, or comparison, crossover, mutation and a fitness function will be called for every individual in the population, every generation, with common function call counts going up from tens of thousands to millions or even billions, so they are bound to take the bulk of the energy consumed by an implementation of evolutionary algorithms. This choice has been validated already by several papers in several areas of decision \cite{lion24-anon, icsoft-anon, icsoft23-anon, wivace23-anon}. In several of these experiments, low-level languages have been proved to be faster and also less energy-consuming that VM based languages (like Java or Kotlin) or low-level languages (like JavaScript or Python), which is more or less in accordance with works that use general-purpose workloads \cite{PEREIRA2021102609,pereira2017energy,gordillo2024programming}. However, \cite{lion24-anon} already revealed a slight mismatch between high-performance and low energy consumption. Besides, we will compare a language that has rarely entered the above mentioned languages, {\sf zig} \cite{friesen2023designing}, with the well-established C++. With its tight control on memory assignment, {\sf zig} leaves to the user a decision that is bound to have impact on energy consumption; besides, depending on results, it might be a good alternative to implement a low-energy consumption evolutionary computation library, if proved to be better in that sense than C++, already well established as a platform for evolutionary computation libraries \cite{friesen2023designing,jakobovic2024ecf,dreo2021paradiseo}.
+
+
 \section{State of the art}
 
 Although there have been, since early in the century, different papers analyzing energy consumption in different programming languages \cite{PEREIRA2021102609,gordillo2024programming}, there are two issues with these: first, their results are shown on general workloads, and second, new or emerging languages like Zig are not included.
@@ -144,6 +130,6 @@ At any rate, these papers, especially the last one, establish the state of the a
 \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{energy}
+\bibliography{energy,GAs,ours,cplusplus}
 
 \end{document}
