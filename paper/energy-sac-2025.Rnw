@@ -135,6 +135,8 @@ At any rate, these papers, especially the last one, establish the state of the a
 
 \section{Methodology}\label{sec:methodology}
 
+First and foremost, we need to decide the instrumentation that we are going to use to measure energy. The instruments needed to measure them are roughly divided in hardware and software tools \cite{abdurachmanov2015techniques}, with the former being physical instruments that draw information from the power source or else sit between the main electricity source and the machine, thus accurately measuring the energy consumption of the machine. These are expensive scientific instruments, that besides have a synchronization issue to accurately reflect the start and end of the process we are measuring. The latter, however, are simply applications that run alongside the process under measurement, or run the process writing measurements when it ends, which has the disadvantage of introducing a small overhead, but on the other hand is perfectly synchronized. There are also many free, even free software, options, so cost and precision have made us choose this option for our research.
+
 \section{Results}\label{sec:results}
 
 \section{Conclusions}\label{sec:conclusions}
