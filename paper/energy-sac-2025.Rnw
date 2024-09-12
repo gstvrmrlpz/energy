@@ -121,7 +121,7 @@ We will follow the latest approach in this paper. Although there are other gener
 Thus, in this paper we will compare different implementations of the essential functions in evolutionary algorithms in two languages, C++ and {\sf zig}, looking at answering the following research questions:\begin{itemize}
 \item Is there a combination of data structure and language that is significantly better than the rest?
 \item Of the two factors that determine energy consumption, time and power, can we determine if there is a dominant term that makes the specific combination found above faster?
-% We should need another one here, I think.
+\item Does the energy-efficiency ranking of data structures hold across different languages, allowing us to draw some conclusion on which data structures could be best for working with this problems in the context of evolutionary algorithms?
 \end{itemize}
 
 
