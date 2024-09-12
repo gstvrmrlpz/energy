@@ -99,7 +99,7 @@
 \ccsdesc[100]{Networks~Network reliability}
 
 
-\keywords{ACM proceedings, \LaTeX, text tagging}
+\keywords{Green computing, software engineering, evolutionary algorithms, genetic algorithms, energy-aware algorithms}
 
 
 \maketitle
