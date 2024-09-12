@@ -36,3 +36,5 @@ install:
 	Rscript -e "require(knitr); knitr::knit('$<',output='$@');"
 
 .PHONY: all auto clean pre
+.PRECIOUS: $(R)
+
