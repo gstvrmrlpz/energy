@@ -116,7 +116,7 @@ Specifically, we are interested on evolutionary computation \cite{eiben2015intro
 \item Use common heuristics to identify the functions that will be consuming the most energy, either by consuming it in every call, or by being called many times.
 \end{itemize}
 
-We will follow the latest approach in the paper. Although there are other generic functions such as sorting, or comparison, crossover, mutation and a fitness function will be called for every individual in the population, every generation, with common function call counts going up from tens of thousands to millions or even billions, so they are bound to take the bulk of the energy consumed by an implementation of evolutionary algorithms. This choice has been validated already by several papers in several areas \cite{lion24-anon, icsoft-anon, icsoft23-anon, wivace23-anon}.
+We will follow the latest approach in this paper. Although there are other generic functions such as sorting, or comparison, crossover, mutation and a fitness function will be called for every individual in the population, every generation, with common function call counts going up from tens of thousands to millions or even billions, so they are bound to take the bulk of the energy consumed by an implementation of evolutionary algorithms. This choice has been validated already by several papers in several areas of decision \cite{lion24-anon, icsoft-anon, icsoft23-anon, wivace23-anon}.
 
 
 \section{State of the art}
