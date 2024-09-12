@@ -24,6 +24,7 @@
 \renewcommand{\shorttitle}{TBD}
 
 \author{Ben Trovato}
+\authornote{Boilerplate author names have been kept for double-blind review.}
 \orcid{1234-5678-9012}
 \affiliation{%
   \institution{Institute for Clarity in Documentation}
@@ -124,14 +125,19 @@ Thus, in this paper we will compare different implementations of the essential f
 \item Does the energy-efficiency ranking of data structures hold across different languages, allowing us to draw some conclusion on which data structures could be best for working with this problems in the context of evolutionary algorithms?
 \end{itemize}
 
-
+The rest of the paper is organized as follows: in the next section we will review the state of the art in energy consumption in programming languages, focusing specifically in evolutionary algorithms and other computational intelligence methodologies. The experimental methodology and setup will be described in Section \ref{sec:methodology}, along with the baseline results with some exploratory data analysis of same. .
 
 \section{State of the art}
 
 Although there have been, since early in the century, different papers analyzing energy consumption in different programming languages \cite{PEREIRA2021102609,gordillo2024programming}, there are two issues with these: first, their results are shown on general workloads, and second, new or emerging languages like Zig are not included.
 
-At any rate, these papers, especially the last one, establish the state of the art in several aspects: first, the experimental design and measurement methodology, and a general idea of how different languages in different categories spend energy and the differences in order of magnitude.
+At any rate, these papers, especially the last one, establish the state of the art in several aspects: first, the experimental design and measurement methodology, and a general idea of how different languages in different categories spend energy and the differences in order of magnitude. Finally, results will be discussed and conclusions drawn in Section \ref{sec:conclusions}.
 
+\section{Methodology}\label{sec:methodology}
+
+\section{Results}\label{sec:results}
+
+\section{Conclusions}\label{sec:conclusions}
 \begin{acks}
   Hidden for double-blind review
 \end{acks}
