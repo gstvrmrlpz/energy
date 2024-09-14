@@ -1,6 +1,8 @@
 \documentclass[sigconf]{acmart}
 
 \usepackage{booktabs} % For formal tables
+\usepackage{algorithm}
+\usepackage{algorithmic}
 
 \setcopyright{acmcopyright}
 
@@ -155,7 +157,17 @@ And once again, we are faced with different options. Linux includes a command-li
 
 As indicated in the introduction, no energy profiling tool is able to disaggregate energy spent by a specific process, and {\sf pinpoint is no exception}; it measures energy spent by the devices under measurement for the duration of the process. If we really want to know what specific functions are spending, we have to make baseline measurements of a certain kind, and then run another application that includes the functions we are interested subtracting averages obtained in the first measurement.
 
-There is no single way of establishing this measurement. In \cite{icsoft23-anon}, for instance, we simply took the average time spent by our programs and run a {\sf sleep} command for that average amount of time, measuring the energy consumed with essentially an empty program. This can certainly work in the general case, but in evolutionary algorithms there are two essential steps to apply any genetic operator or fitness function: the chromosomes need to be generated first, and then the operators applied to them. Generating chromosomes is a non-trivial operation, and how long it takes is related to the data structures that are used to store them. This can take a certain amount of time, which certainly can and should be separated from the application of the functions themselves. This is why, from \cite{wivace23-anon} on, we have started to use a different approach from the paragraph above, using a baseline program that generates chromosomes using the data structure we will use later.
+There is no single way of establishing this measurement. In \cite{icsoft23-anon}, for instance, we simply took the average time spent by our programs and run a {\sf sleep} command for that average amount of time, measuring the energy consumed with essentially an empty program. This can certainly work in the general case, but in evolutionary algorithms there are two essential steps to apply any genetic operator or fitness function: the chromosomes need to be generated first, and then the operators applied to them. Generating chromosomes is a non-trivial operation, and how long it takes is related to the data structures that are used to store them. This can take a certain amount of time, which certainly can and should be separated from the application of the functions themselves. This is why, from \cite{wivace23-anon} on, we have started to use a different approach from the paragraph above, using a baseline program that generates chromosomes using the data structure we will use later. This program will follow the following Algorithm \ref{alg:chromgen}: \begin{algorithm}
+\caption{Chromosome generation. $N$ is the total number of chromosomes generated, which for our paper is set to 40K.}
+\label{alg:chromgen}
+\begin{algorithmic}
+\FOR{$i=1$ to $N$}
+\STATE $c \leftarrow$ new chromosome
+\STATE Append $c$ to $chromosomeArray$
+\ENDFOR
+\STATE Show the size of $chromosomeArray$
+\end{algorithmic}
+\end{algorithm}
 
 \section{Results}\label{sec:results}
 
