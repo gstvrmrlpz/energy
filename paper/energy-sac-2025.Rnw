@@ -132,7 +132,7 @@ Thus, in this paper, we will compare different implementations of the essential 
 \item Does the energy-efficiency ranking of data structures hold across different languages, allowing us to conclude which data structures could be best for working with these problems in the context of evolutionary algorithms?
 \end{itemize}
 
-The rest of the paper is organized as follows: in the next section we will review the state of the art in energy consumption in programming languages, focusing specifically on evolutionary algorithms and other computational intelligence methodologies. The experimental methodology and setup will be described in Section \ref{sec:methodology}, along with the baseline results with some exploratory data analysis of same. % Something is missing here. - Mario
+The rest of the paper is organized as follows: in the next section we will review the state of the art in energy consumption in programming languages, focusing specifically on evolutionary algorithms and other computational intelligence methodologies. The experimental methodology and setup will be described in Section \ref{sec:methodology}, along with the baseline results with some exploratory data analysis of same. We will finally draw conclusions and propose future work in Section \ref{sec:conclusions}.
 
 \section{State of the art}
 
