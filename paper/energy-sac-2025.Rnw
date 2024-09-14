@@ -152,6 +152,7 @@ In order to take actual measurements, there are several options; either link our
 
 And once again, we are faced with different options. Linux includes a command-line tool called {\sf perf} \cite{de2010new} that is concerned with all kind of performance measurements, including energy consumption. It is an excellent tool as long as the only type of systems you are going to measure use that operating system. In the past, however, we have used another tool called {\sf pinpoint} \cite{pinpoint}, a tool that is available for Linux as well as MacOS, and besides offers a single interface for different power consumption APIs. However the most important thing for this paper is that we have used it for the measurements in previous papers. Using the same tool again gives us the capability of making comparisons with the results published in those papers, since the methodology used to estimate consumption from RAPL register reading will be exactly the same. {\sf pinpoint} is free software released under the MIT license and can be downloaded from its repository at \url{https://github.com/osmhpi/pinpoint}. As we have done in other papers \cite{wivace23-anon,lion24-anon}, a Perl script launches the program a certain amount of times, set to 30 in this case, and works on averages.
 
+% Include versions an so on for the languages, OS , machine and sensors used
 
 \subsection{Baseline measurements}
 
