@@ -81,14 +81,27 @@
 \ccsdesc[100]{Networks~Network reliability}
 
 
-\keywords{Green computing, software engineering, evolutionary algorithms, genetic algorithms, energy-aware algorithms}
+\keywords{Green computing, software engineering, evolutionary algorithms, genetic algorithms, energy-aware algorithms, random number generators}
 
 
 \maketitle
 
 \section{Introduction}
 
+<<sac.rnd.intro, echo=FALSE>>=
+library(knitr)
+rnd.data <- read.csv("../data/sac-2025-rndgen.csv")
 
+library(ggplot2)
+rnd.data$rndgen <- factor(rnd.data$rndgen)
+ggplot(rnd.data, aes(x=rndgen, y=PKG, fill=rndgen)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title="PKG - Energy consumption of random number generators",
+       x="Random number generator",
+       y="Energy consumption (Joules)") +
+  theme(legend.position="none")
+@
 
 \section{Results}\label{sec:results}
 
