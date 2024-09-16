@@ -88,14 +88,14 @@
 
 \section{Introduction}
 
-<<sac.rnd.intro, echo=FALSE>>=
+<<sac.rnd.intro, echo=FALSE, message=FALSE, fig.env="figure*",fig.cap="Boxplot of energy consumption per RNG", fig.height=4>>=
 library(knitr)
 rnd.data <- read.csv("../data/sac-2025-rndgen.csv")
 
 library(ggplot2)
 rnd.data$rndgen <- factor(rnd.data$rndgen)
 ggplot(rnd.data, aes(x=rndgen, y=PKG, fill=rndgen)) +
-  geom_boxplot() +
+  geom_boxplot(notch=T) +
   theme_minimal() +
   labs(title="PKG - Energy consumption of random number generators",
        x="Random number generator",
