@@ -109,7 +109,10 @@ library(dplyr)
 
 rnd.data %>%
   group_by(rndgen) %>%
-  summarise(mean=mean(PKG), sd=sd(PKG))
+  summarise(mean=mean(PKG), sd=sd(PKG)) -> rnd.stats
+ops <- 65535*2048
+
+rnd.stats$ops.per.joule <- ops/ rnd.stats$mean
 @
 
 \section{Results}\label{sec:results}
