@@ -42,7 +42,7 @@
 
 
 \begin{abstract}
-
+Pseudo random number generators are an essential part of every machine learning or metaheuristic algorithm. Even if every call will not, by itself, consume a large amount of energy, they are invoked so many times in any algorithm implementation that their consumption will add up to a significant amount, impacting overall consumption in several percentage points. In this poster we will examine what is the energy consumption, as well as the number of random number generated per joule, that can be achieved by different random number generators implemented in low-level languages. Our conclusion is that there can be a factor of two difference between the one that consumes the largest and the least amount of energy.
 \end{abstract}
 
 %
