@@ -101,6 +101,15 @@ ggplot(rnd.data, aes(x=rndgen, y=PKG, fill=rndgen)) +
        x="Random number generator",
        y="Energy consumption (Joules)") +
   theme(legend.position="none")
+
+differences <- pairwise.t.test(rnd.data$PKG, rnd.data$rndgen, p.adjust.method="none")
+
+# print(differences)
+library(dplyr)
+
+rnd.data %>%
+  group_by(rndgen) %>%
+  summarise(mean=mean(PKG), sd=sd(PKG))
 @
 
 \section{Results}\label{sec:results}
