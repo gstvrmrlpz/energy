@@ -88,6 +88,10 @@ Pseudo random number generators are an essential part of every machine learning 
 
 \section{Introduction}
 
+Random number generators (RNGs) \cite{marsaglia2003random} are a class of algorithms that generate an unpredictable series of numbers with specific properties, or later converted to specific classes of values (like Boolean values or characters). They need a {\em seed} (which can be a single number or a vector of them) as input, and they will produce the {\em next} element in the cycle applying a series of operations to the seed and subsequent numbers generated from it. Those are generally {\em integer} operations; this is why, in general, RNGs are called {\em pseudo} RNGs: once the seed is known, the rest of the operations are deterministic. The complexity (and, inherently, the energy consumption) of these operations can go over a great range depending on the properties required from the RNG; so-called {\em cryptographycally secure} RNGs have the strictest requirements, and thus the lowest performance and highest energy consumption.
+
+RNGs, however, are not used exclusively in cryptographic operations: any stochastic algorithm will need them, and will call them repeatedly in any kind of operations. Evolutionary algorithms, for instance, will need several calls to generate a point of mutation or crossover, as well as to generate randomly the initial population or any newly generated individual that is needed.
+
 <<sac.rnd.intro, echo=FALSE, message=FALSE, fig.env="figure*",fig.cap="Boxplot of energy consumption per RNG", fig.height=4>>=
 library(knitr)
 rnd.data <- read.csv("../data/sac-2025-rndgen.csv")
@@ -123,6 +127,6 @@ rnd.stats$ops.per.joule <- ops/ rnd.stats$mean
 \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{energy,GAs,ours,cplusplus}
+\bibliography{energy,GAs,ours,rng}
 
 \end{document}
