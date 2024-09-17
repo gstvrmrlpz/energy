@@ -117,6 +117,10 @@ ggplot(rnd.data, aes(x=rndgen, y=PKG, fill=rndgen)) +
   theme(legend.position="none")
 @
 
+\section{Results}\label{sec:results}
+
+Results are shown in Figure \ref{fig:sac.rnd.intro}, which represents a boxplot for the energy consumption of every RNG mentioned above. The consumption of all RNGs is in the same range (of around 10 Joules), but there are differences from the one that consumes the most (Isaac64) to the one with the least carbon footprint, called RomuTrio.
+
 <<sac.rnd.stats, echo=FALSE, message=FALSE>>=
 differences <- pairwise.t.test(rnd.data$PKG, rnd.data$rndgen, p.adjust.method="none")
 
@@ -129,9 +133,12 @@ rnd.data %>%
 ops <- 65535*2048
 
 rnd.stats$ops.per.joule <- ops/ rnd.stats$mean
+library(kableExtra)
+
+rnd.stats %>% arrange(mean) %>% kable(digits=2, caption="Energy consumption and operations per Joule")
 @
 
-\section{Results}\label{sec:results}
+Differences are significant, via pairwise T-test, except in the case of Xoshiro, Xoroshiro and PCG, as can be appreciated in the image.
 
 \section{Conclusions}\label{sec:conclusions}
 \begin{acks}
