@@ -153,6 +153,10 @@ In this paper we set out to choose the most energy-efficient RNG for use in meta
 
 It should be noted that in this paper we are not concerned with the speed. As a matter of fact, Romutrio is \Sexpr{round((rnd.w.secs.stats[3,]$mean/rnd.w.secs.stats[2,]$mean - 1)*100,2)}\% slower than the second that consumes the least. This points to the fact that RomuTrio is drawing less power (power being energy/time) than the competitor, meaning that possibly the operations used employ specific parts of the CPU that draw less power, or taking into account the nature of modern CPU power management, that it employs {\em less} parts of them, enabling power management to simply turn them off.
 
+As a conclusion, besides the proven fact that RomuTrio is the RNG that offers the best energy saving, we should add that using a methodology that allows us to analyze functions that are used repeatedly through algorithm implementation, besides functions that are specific to the algorithm (like, in the case of evolutionary algorithm, mutation and crossover) will give us more leverage to save energy, although in numerical terms it cannot really be called dramatic.
+
+As future, or rather parallel, lines of work, we will use the information here to inform all future analysis of energy savings in evolutionary algorithms, analyzing first whatever common, low-level functions are used to come up with the best implementarion, before going up to analyzer higher-level, algorithm-specific functions.
+
 \begin{acks}
   Hidden for double-blind review
 \end{acks}
