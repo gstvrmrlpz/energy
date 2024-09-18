@@ -151,7 +151,7 @@ rnd.w.secs.data %>%
 
 In this paper we set out to choose the most energy-efficient RNG for use in metaheuristics and other applications that have low sensitivity to the quality  of the RNG used. We have chosen 6 RNGs implemented in the language {\sf zig} and followed a methodology that allows us to compute the energy spent in every function call generating a random number. The methodology offers us a good estimation of the real value, although it is by no means a precise value; however, by eliminating the system overhead via a simple operation, we think that the results are solid enough to base a decision on them.
 
-It should be noted that in this paper we are not concerned with the speed. As a matter of fact, Romutrio is \Sexpr{round((rnd.w.secs.stats[3,]$mean/rnd.w.secs.stats[2,]$mean - 1)*100,2)}\% slower than the second that consumes the least.
+It should be noted that in this paper we are not concerned with the speed. As a matter of fact, Romutrio is \Sexpr{round((rnd.w.secs.stats[3,]$mean/rnd.w.secs.stats[2,]$mean - 1)*100,2)}\% slower than the second that consumes the least. This points to the fact that RomuTrio is drawing less power (power being energy/time) than the competitor, meaning that possibly the operations used employ specific parts of the CPU that draw less power, or taking into account the nature of modern CPU power management, that it employs {\em less} parts of them, enabling power management to simply turn them off.
 
 \begin{acks}
   Hidden for double-blind review
