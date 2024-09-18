@@ -23,7 +23,7 @@
 \title{Minimizing the energy consumption of (pseudo) random number generators}
 \subtitle{}
 
-\renewcommand{\shorttitle}{Minimizing the energy consumption of (pseudo) random number generators}
+\renewcommand{\shorttitle}{Minimizing the energy consumption of (pseudo) random number generators for evolutionary algorithms}
 
 \author{Ben Trovato}
 \authornote{Boilerplate author names have been kept for double-blind review.}
