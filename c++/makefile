@@ -19,7 +19,7 @@ WRK = g h i
 
 ###############################################################################
 
-CXXFLAGS = -flto -march=native -O3 -std=c++20 -Wall $(XTR) $(XT2)
+CXXFLAGS = -flto -march=native -O3 -std=c++20 -Wall $(XTR) $(XT2) $(XT3)
 
 ###############################################################################
 
@@ -60,7 +60,7 @@ exp: pre
 			FORMAT='%12s%12s%12s%12s%12s%12s%12s%12s\n'
 			;;
 		*)
-			echo "Unknown file extension: '$(OUT)'"
+			echo "Unknown format: '$(OUT)'"
 			exit 1;
 			;;
 	esac
