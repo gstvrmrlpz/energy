@@ -9,8 +9,14 @@
 #include <functional>
 #include <iostream>
 #include <random>
+#include <string_view>
 #include <tuple>
 #include <unistd.h>
+#include <unordered_map>
+
+//------------------------------------------------------------------------
+
+using namespace std::literals;
 
 //------------------------------------------------------------------------
 
@@ -18,17 +24,32 @@ const std::size_t POPULATION_SIZE = 40'000;
 
 //------------------------------------------------------------------------
 
-std::random_device device;
-std::default_random_engine engine(device());
+std::tuple<std::default_random_engine,
+           std::knuth_b,
+           std::minstd_rand0,
+           std::minstd_rand,
+           std::mt19937,
+           std::mt19937_64,
+           std::ranlux24,
+           std::ranlux48>
+    engines;
 
-std::bernoulli_distribution bernoulli;
-auto rng_ft = std::bind(std::ref(bernoulli), std::ref(engine));
+std::unordered_map<std::string_view, char> engine_map = {
+    {"default_random_engine"sv, 1},
+    {"knuth_b"sv, 2},
+    {"minstd_rand0"sv, 3},
+    {"minstd_rand"sv, 4},
+    {"mt19937"sv, 5},
+    {"mt19937_64"sv, 6},
+    {"ranlux24"sv, 7},
+    {"ranlux48"sv, 8}}; // don't use value 0, reserve for unknowns
 
-std::uniform_int_distribution<char> uniform_char('0', '1');
-auto rng_01 = std::bind(std::ref(uniform_char), std::ref(engine));
-
-std::uniform_int_distribution<> uniform_int;
-auto rng_size = std::bind(std::ref(uniform_int), std::ref(engine));
+std::function<bool()> rng_ft =
+    std::bind(std::bernoulli_distribution(), std::get<0>(engines));
+std::function<char()> rng_01 = std::bind(
+    std::uniform_int_distribution<char>('0', '1'), std::get<0>(engines));
+std::function<std::size_t()> rng_size =
+    std::bind(std::uniform_int_distribution<>(), std::get<0>(engines));
 
 //------------------------------------------------------------------------
 
@@ -42,15 +63,28 @@ template<typename chromosome> std::size_t hiff(const chromosome &);
 
 std::tuple<std::size_t, char> parser(int argc, char *argv[])
 {
+    std::string_view engine = "default_random_engine";
     int option = 0;
-    std::size_t size = 0;
+    std::size_t size = 0, seed = std::random_device()();
     char work = ' ';
 
-    while ((option = getopt(argc, argv, "hr:s:w:")) != -1)
+    while ((option = getopt(argc, argv, "e:hr:s:w:")) != -1)
         switch (option)
         {
+            case 'e':
+                engine = std::string_view(optarg);
+                break;
             case 'h':
                 std::cout << argv[0] << " options:\n"
+                          << "\t-e: random engine          (optional)\n"
+                          << "\t    default_random_engine   (default)\n"
+                          << "\t    knuth_b\n"
+                          << "\t    minstd_rand0\n"
+                          << "\t    minstd_rand\n"
+                          << "\t    mt19937\n"
+                          << "\t    mt19937_64\n"
+                          << "\t    ranlux24\n"
+                          << "\t    ranlux48\n"
                           << "\t-h: help                   (optional)\n"
                           << "\t-r: random seed            (optional)\n"
                           << "\t-s: chromosome size        (required)\n"
@@ -61,11 +95,10 @@ std::tuple<std::size_t, char> parser(int argc, char *argv[])
                 exit(EXIT_SUCCESS);
                 break;
             case 'r':
-                engine.seed(atoi(optarg));
+                seed = atoi(optarg);
                 break;
             case 's':
                 size = atoi(optarg);
-                uniform_int = std::uniform_int_distribution<>(0, size - 1);
                 break;
             case 'w':
                 work = optarg[0];
@@ -82,6 +115,106 @@ std::tuple<std::size_t, char> parser(int argc, char *argv[])
     {
         std::cout << "-w option must be one of {i, g, h}\n";
         exit(EXIT_FAILURE);
+    }
+
+    // random seed
+    std::apply([&](auto &...e) { (e.seed(seed), ...); }, engines);
+
+    // random engine
+    switch (engine_map[engine])
+    {
+        case 1:
+            rng_ft = std::bind(std::bernoulli_distribution(),
+                               std::get<0>(engines));
+            rng_01 =
+                std::bind(std::uniform_int_distribution<char>('0', '1'),
+                          std::get<0>(engines));
+            rng_size =
+                std::bind(std::uniform_int_distribution<>(0, size - 1),
+                          std::get<0>(engines));
+            break;
+
+        case 2:
+            rng_ft = std::bind(std::bernoulli_distribution(),
+                               std::get<1>(engines));
+            rng_01 =
+                std::bind(std::uniform_int_distribution<char>('0', '1'),
+                          std::get<1>(engines));
+            rng_size =
+                std::bind(std::uniform_int_distribution<>(0, size - 1),
+                          std::get<1>(engines));
+            break;
+
+        case 3:
+            rng_ft = std::bind(std::bernoulli_distribution(),
+                               std::get<2>(engines));
+            rng_01 =
+                std::bind(std::uniform_int_distribution<char>('0', '1'),
+                          std::get<2>(engines));
+            rng_size =
+                std::bind(std::uniform_int_distribution<>(0, size - 1),
+                          std::get<2>(engines));
+            break;
+
+        case 4:
+            rng_ft = std::bind(std::bernoulli_distribution(),
+                               std::get<3>(engines));
+            rng_01 =
+                std::bind(std::uniform_int_distribution<char>('0', '1'),
+                          std::get<3>(engines));
+            rng_size =
+                std::bind(std::uniform_int_distribution<>(0, size - 1),
+                          std::get<3>(engines));
+            break;
+
+        case 5:
+            rng_ft = std::bind(std::bernoulli_distribution(),
+                               std::get<4>(engines));
+            rng_01 =
+                std::bind(std::uniform_int_distribution<char>('0', '1'),
+                          std::get<4>(engines));
+            rng_size =
+                std::bind(std::uniform_int_distribution<>(0, size - 1),
+                          std::get<4>(engines));
+            break;
+
+        case 6:
+            rng_ft = std::bind(std::bernoulli_distribution(),
+                               std::get<5>(engines));
+            rng_01 =
+                std::bind(std::uniform_int_distribution<char>('0', '1'),
+                          std::get<5>(engines));
+            rng_size =
+                std::bind(std::uniform_int_distribution<>(0, size - 1),
+                          std::get<5>(engines));
+            break;
+
+        case 7:
+            rng_ft = std::bind(std::bernoulli_distribution(),
+                               std::get<6>(engines));
+            rng_01 =
+                std::bind(std::uniform_int_distribution<char>('0', '1'),
+                          std::get<6>(engines));
+            rng_size =
+                std::bind(std::uniform_int_distribution<>(0, size - 1),
+                          std::get<6>(engines));
+            break;
+
+        case 8:
+            rng_ft = std::bind(std::bernoulli_distribution(),
+                               std::get<7>(engines));
+            rng_01 =
+                std::bind(std::uniform_int_distribution<char>('0', '1'),
+                          std::get<7>(engines));
+            rng_size =
+                std::bind(std::uniform_int_distribution<>(0, size - 1),
+                          std::get<7>(engines));
+            break;
+
+        default:
+            std::cout << "Invalid random engine " << engine << "\n";
+            exit(EXIT_FAILURE);
+            break;
     }
 
     return {size, work};
