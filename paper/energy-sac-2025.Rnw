@@ -171,6 +171,10 @@ There is no single way of establishing this measurement. In \cite{icsoft23-anon}
 \end{algorithmic}
 \end{algorithm}
 
+Showing the size of the array of chromosomes simply disables the possibility of optimizing away all the generating code.
+
+We will perform these baseline measurements for two different data structures.
+
 \section{Results}\label{sec:results}
 
 \section{Conclusions}\label{sec:conclusions}
