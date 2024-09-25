@@ -10,6 +10,7 @@ use Utils qw(process_pinpoint_output);
 
 my $preffix = shift || die "I need a prefix for the data files";
 my $command = shift || die "I need a (single) command to run";
+my $work = shift || die "I need type of work, (i)nitialization (g)enetic ops or (h)iff";
 my $data_dir = shift || "data";
 my $ITERATIONS = 30;
 my ($mon,$day,$hh,$mm,$ss) = localtime() =~ /(\w+)\s+(\d+)\s+(\d+)\:(\d+)\:(\d+)/;
@@ -23,7 +24,7 @@ for my $l ( qw(512 1024 2048) ) {
   my $successful = 0;
   my @results;
   do {
-    my $command = "$command $l";
+    my $command = "$command -s $l -g $w";
     say $command;
     my $output = `pinpoint $command 2>&1`;
     say $output;
