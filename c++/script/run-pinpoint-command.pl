@@ -24,9 +24,9 @@ for my $l ( qw(512 1024 2048) ) {
   my $successful = 0;
   my @results;
   do {
-    my $command = "$command -s $l -g $w";
+    my $command = "$command -s $l -w $work";
     say $command;
-    my $output = `pinpoint $command 2>&1`;
+    my $output = `pinpoint -- $command 2>&1`;
     say $output;
     my ( $gpu, $pkg, $seconds ) = process_pinpoint_output $output;
     if ($gpu != 0 ) {
