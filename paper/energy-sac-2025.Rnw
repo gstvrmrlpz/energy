@@ -3,6 +3,7 @@
 \usepackage{booktabs} % For formal tables
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{gensymb}
 
 \setcopyright{acmcopyright}
 
@@ -138,7 +139,16 @@ The rest of the paper is organized as follows: in the next section we will revie
 
 \section{State of the art}
 
-Although there have been, since early in the century, different papers analyzing energy consumption in different programming languages \cite{PEREIRA2021102609,gordillo2024programming}, there are two issues with these: first, their results are shown on general workloads, and second, new or emerging languages like Zig are not included.
+Until recently, the main focus of energy consumption in software engineering was mobile devices, where battery life is a primary concern [ ]. However, with the increasing energy spending on IT in general [Koomey], including cloud computing, energy consumption has become a major concern in all areas of software engineering [Sung Lee]. In the 
+case of cloud computing, a survey by Katal et al. [] analyzes the data center from a systems perspective and identifies new technologies and measurements at various levels. In the case of software, four levels are considered: the operating system, virtualization, data center, and application software. In the case of application development, the survey includes several techniques applied at a high level to reduce energy usage in data-intensive and communication-intensive applications. In recent works, a more fine-grain analysis of the energy consumption of software has been carried out, focusing on the energy consumption of different programming languages and frameworks \cite{PEREIRA2021102609,gordillo2024programming}. Usually, developers are not trained or are aware of the energy consumption of their software [Candy Pang], so this is an important step forward because these works will allow developers to make more informed decisions. 
+
+Regardless of language, there are works on other programming aspects that also impact energy consumption. For instance, the flags used when compiling a program. Santos et al. examined the impact on energy consumption of selectively turning off 25 individual optimizations of the Glasgow Haskell Compiler when running 18 benchmarks from the NoFib Haskell Benchmark Suite. They recorded energy expenditure at three different initial temperatures (45 \degree C, 55 \degree C and 65 \degree C) and found that programs that 
+started at 55 \degree C tended to have lower energy consumption than those started at 45 \degree C or 65 \degree C. Another aspect that receives attention is the selection of complied libraries with bindings to other languages. In a recent work, Nahrsedt et al. compared the Rust-based Polars library for data analysis against Pandas, a Python data manipulation library. They found that the Rust-based Polars was the most energy efficient for large dataframes (15 million and 60 million rows), spending about eight times less energy on the synthetic DATs block and 67\% on the TPCH bencmarking DATs block. There were no significant differences for smaller data frames. 
+
+NLP has received attention because training deep learning networks on massive datasets is extremely energy-demanding, and the carbon footprint of training large models is a concern. Strubel et al. estimated that training one model on GPUs can emit 626,155 pounds of carbon dioxide, roughly the lifetime emissions of five cars (Car, avg incl. fuel, 1 lifetime 126,000 lbs). Works are comparing different libraries and frameworks for training deep learning models. 
+
+Although there have been, since early in the century, different papers analyzing energy consumption in different programming languages \cite{PEREIRA2021102609,gordillo2024programming}, there are two issues with these: first, their results are shown on general workloads, and second, new or emerging languages like Zig are not included. 
+
 
 At any rate, these papers, especially the last one, establish the state of the art in several aspects: first, the experimental design and measurement methodology, and a general idea of how different languages in different categories spend energy and the differences in order of magnitude. Finally, results will be discussed and conclusions drawn in Section \ref{sec:conclusions}.
 
