@@ -1,4 +1,5 @@
-include ./makefile
+ALL = bvector string
 
+STD = c++17
 CXXFLAGS = -flto -march=native -O3 -std=$(STD) -Wall $(XTR) $(XT2)
-STD = -std=c++17
+
