@@ -190,6 +190,31 @@ Showing the size of the array of chromosomes simply disables the possibility of 
 
 We will perform these baseline measurements for two different data structures, a character array (where every element is represented by a character 0 or 1) or a Boolean array (with every element represented by a value that is equal to {\sf True} or {\sf False}).
 
+<<energy.sac.generation, echo=FALSE>>=
+library(knitr)
+zig.gen.bool <- read.csv("../data/sac-gen-bool-25-Sep-19-46-01.csv")
+zig.gen.bool$Platform <- "bvector"
+zig.gen.string <- read.csv("../data/sac-gen-string-25-Sep-19-44-59.csv")
+zig.gen.string$Platform <- "string"
+cpp.gen.bool <- read.csv("../data/c++-bvector-gen.csv")
+cpp.gen.bool$Platform <- "bvector"
+
+gen.data <- rbind(zig.gen.bool, zig.gen.string, cpp.gen.bool)
+gen.data$language <- c(rep("zig", nrow(zig.gen.bool)), rep("zig", nrow(zig.gen.string)), rep("c++", nrow(cpp.gen.bool)))
+
+library(dplyr)
+gen.data %>% group_by(language, Platform) %>% summarise(mean(PKG), sd(PKG), mean(seconds), sd(seconds)) -> gen.data.summary
+
+library(ggplot2)
+
+ggplot(zig.gen.bool, aes(x=rndgen, y=PKG, fill=rndgen)) +
+  geom_boxplot(notch=T) +
+  theme_minimal() +
+  labs(title="PKG - Energy consumption of random number generators",
+       x="Random number generator",
+       y="Energy consumption (Joules)") +
+  theme(legend.position="none")
+@
 \section{Results}\label{sec:results}
 
 \section{Conclusions}\label{sec:conclusions}
