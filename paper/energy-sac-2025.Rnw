@@ -193,15 +193,16 @@ We will perform these baseline measurements for two different data structures, a
 <<energy.sac.generation, echo=FALSE, message=FALSE>>=
 library(knitr)
 zig.gen.bool <- read.csv("../data/sac-gen-bool-25-Sep-19-46-01.csv")
-zig.gen.bool$Platform <- "bvector"
+zig.gen.bool$data.structure <- "bvector"
 zig.gen.string <- read.csv("../data/sac-gen-string-25-Sep-19-44-59.csv")
-zig.gen.string$Platform <- "string"
+zig.gen.string$data.structure <- "string"
 cpp.gen.bool <- read.csv("../data/c++-bvector-gen.csv")
-cpp.gen.bool$Platform <- "bvector"
+cpp.gen.bool$data.structure <- "bvector"
+cpp.gen.string <- read.csv("../data/cpp-string-27-Sep-20-36-43.csv")
+cpp.gen.string$data.structure <- "string"
 
-gen.data <- rbind(zig.gen.bool, zig.gen.string, cpp.gen.bool)
-gen.data$language <- c(rep("zig", nrow(zig.gen.bool)), rep("zig", nrow(zig.gen.string)), rep("c++", nrow(cpp.gen.bool)))
-gen.data$data.structure <- gen.data$Platform
+gen.data <- rbind(zig.gen.bool, zig.gen.string, cpp.gen.bool, cpp.gen.string)
+gen.data$language <- c(rep("zig", nrow(zig.gen.bool)), rep("zig", nrow(zig.gen.string)), rep("c++", nrow(cpp.gen.bool)), rep("c++", nrow(cpp.gen.string)))
 gen.data$size <- as.factor(gen.data$size)
 
 library(dplyr)
