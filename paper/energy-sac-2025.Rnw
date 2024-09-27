@@ -190,7 +190,7 @@ Showing the size of the array of chromosomes simply disables the possibility of 
 
 We will perform these baseline measurements for two different data structures, a character array (where every element is represented by a character 0 or 1) or a Boolean array (with every element represented by a value that is equal to {\sf True} or {\sf False}).
 
-<<energy.sac.generation, echo=FALSE>>=
+<<energy.sac.generation, echo=FALSE, message=FALSE>>=
 library(knitr)
 zig.gen.bool <- read.csv("../data/sac-gen-bool-25-Sep-19-46-01.csv")
 zig.gen.bool$Platform <- "bvector"
@@ -201,19 +201,16 @@ cpp.gen.bool$Platform <- "bvector"
 
 gen.data <- rbind(zig.gen.bool, zig.gen.string, cpp.gen.bool)
 gen.data$language <- c(rep("zig", nrow(zig.gen.bool)), rep("zig", nrow(zig.gen.string)), rep("c++", nrow(cpp.gen.bool)))
+gen.data$data.structure <- gen.data$Platform
+gen.data$size <- as.factor(gen.data$size)
 
 library(dplyr)
-gen.data %>% group_by(language, Platform) %>% summarise(mean(PKG), sd(PKG), mean(seconds), sd(seconds)) -> gen.data.summary
+gen.data %>% group_by(language, data.structure) %>% summarise(mean(PKG), sd(PKG), mean(seconds), sd(seconds)) -> gen.data.summary
 
 library(ggplot2)
 
-ggplot(zig.gen.bool, aes(x=rndgen, y=PKG, fill=rndgen)) +
-  geom_boxplot(notch=T) +
-  theme_minimal() +
-  labs(title="PKG - Energy consumption of random number generators",
-       x="Random number generator",
-       y="Energy consumption (Joules)") +
-  theme(legend.position="none")
+ggplot(gen.data, aes(x=seconds, y=PKG, color=language)) + geom_point(aes(fill=data.structure,shape=size)) + theme_minimal() + geom_smooth(method="lm", aes( group=interaction(language,data.structure))) + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
+
 @
 \section{Results}\label{sec:results}
 
