@@ -3,6 +3,7 @@
 \usepackage{booktabs} % For formal tables
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{gensymb}
 
 \setcopyright{acmcopyright}
 
@@ -20,7 +21,7 @@
 \acmPrice{15.00}
 
 \begin{document}
-\title{TBD}
+\title{Energy consumption of evolutionary algorithms written in low-level languages}
 \subtitle{}
 
 \renewcommand{\shorttitle}{TBD}
@@ -72,34 +73,39 @@
 %
 \begin{CCSXML}
 <ccs2012>
- <concept>
-  <concept_id>10010520.10010553.10010562</concept_id>
-  <concept_desc>Computer systems organization~Embedded systems</concept_desc>
-  <concept_significance>500</concept_significance>
- </concept>
- <concept>
-  <concept_id>10010520.10010575.10010755</concept_id>
-  <concept_desc>Computer systems organization~Redundancy</concept_desc>
-  <concept_significance>300</concept_significance>
- </concept>
- <concept>
-  <concept_id>10010520.10010553.10010554</concept_id>
-  <concept_desc>Computer systems organization~Robotics</concept_desc>
-  <concept_significance>100</concept_significance>
- </concept>
- <concept>
-  <concept_id>10003033.10003083.10003095</concept_id>
-  <concept_desc>Networks~Network reliability</concept_desc>
-  <concept_significance>100</concept_significance>
- </concept>
-</ccs2012>
+   <concept>
+       <concept_id>10011007.10011074.10011075.10011079.10011080</concept_id>
+       <concept_desc>Software and its engineering~Software design techniques</concept_desc>
+       <concept_significance>300</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003752.10003809.10003716.10011136.10011797</concept_id>
+       <concept_desc>Theory of computation~Optimization with randomized search heuristics</concept_desc>
+       <concept_significance>300</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003752.10010061.10011795</concept_id>
+       <concept_desc>Theory of computation~Random search heuristics</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003752.10003809.10003716.10011136.10011797.10011799</concept_id>
+       <concept_desc>Theory of computation~Evolutionary algorithms</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10011007.10010940.10010941.10010949.10010957.10010964</concept_id>
+       <concept_desc>Software and its engineering~Power management</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+ </ccs2012>
 \end{CCSXML}
 
-\ccsdesc[500]{Computer systems organization~Embedded systems}
-\ccsdesc[300]{Computer systems organization~Redundancy}
-\ccsdesc{Computer systems organization~Robotics}
-\ccsdesc[100]{Networks~Network reliability}
-
+\ccsdesc[300]{Software and its engineering~Software design techniques}
+\ccsdesc[300]{Theory of computation~Optimization with randomized search heuristics}
+\ccsdesc[500]{Theory of computation~Random search heuristics}
+\ccsdesc[500]{Theory of computation~Evolutionary algorithms}
+\ccsdesc[500]{Software and its engineering~Power management}
 
 \keywords{Green computing, software engineering, evolutionary algorithms, genetic algorithms, energy-aware algorithms}
 
@@ -138,7 +144,16 @@ The rest of the paper is organized as follows: in the next section we will revie
 
 \section{State of the art}
 
+Until recently, the main focus of energy consumption in software engineering was mobile devices, where battery life is a primary concern [ ]. However, with the increasing energy spending on IT in general [Koomey], including cloud computing, energy consumption has become a major concern in all areas of software engineering [Sung Lee]. In the
+case of cloud computing, a survey by Katal et al. [] analyzes the data center from a systems perspective and identifies new technologies and measurements at various levels. In the case of software, four levels are considered: the operating system, virtualization, data center, and application software. In the case of application development, the survey includes several techniques applied at a high level to reduce energy usage in data-intensive and communication-intensive applications. In recent works, a more fine-grain analysis of the energy consumption of software has been carried out, focusing on the energy consumption of different programming languages and frameworks \cite{PEREIRA2021102609,gordillo2024programming}. Usually, developers are not trained or are aware of the energy consumption of their software [Candy Pang], so this is an important step forward because these works will allow developers to make more informed decisions.
+
+Regardless of language, there are works on other programming aspects that also impact energy consumption. For instance, the flags used when compiling a program. Santos et al. examined the impact on energy consumption of selectively turning off 25 individual optimizations of the Glasgow Haskell Compiler when running 18 benchmarks from the NoFib Haskell Benchmark Suite. They recorded energy expenditure at three different initial temperatures (45 \degree C, 55 \degree C and 65 \degree C) and found that programs that
+started at 55 \degree C tended to have lower energy consumption than those started at 45 \degree C or 65 \degree C. Another aspect that receives attention is the selection of complied libraries with bindings to other languages. In a recent work, Nahrsedt et al. compared the Rust-based Polars library for data analysis against Pandas, a Python data manipulation library. They found that the Rust-based Polars was the most energy efficient for large dataframes (15 million and 60 million rows), spending about eight times less energy on the synthetic DATs block and 67\% on the TPCH bencmarking DATs block. There were no significant differences for smaller data frames.
+
+NLP has received attention because training deep learning networks on massive datasets is extremely energy-demanding, and the carbon footprint of training large models is a concern. Strubel et al. estimated that training one model on GPUs can emit 626,155 pounds of carbon dioxide, roughly the lifetime emissions of five cars (Car, avg incl. fuel, 1 lifetime 126,000 lbs). Works are comparing different libraries and frameworks for training deep learning models.
+
 Although there have been, since early in the century, different papers analyzing energy consumption in different programming languages \cite{PEREIRA2021102609,gordillo2024programming}, there are two issues with these: first, their results are shown on general workloads, and second, new or emerging languages like Zig are not included.
+
 
 At any rate, these papers, especially the last one, establish the state of the art in several aspects: first, the experimental design and measurement methodology, and a general idea of how different languages in different categories spend energy and the differences in order of magnitude. Finally, results will be discussed and conclusions drawn in Section \ref{sec:conclusions}.
 
@@ -148,7 +163,7 @@ First and foremost, we need to decide the instrumentation we will use to measure
 
 These applications need to have some way of {\em reading} the sensors that the computer includes and that measure energy consumption in different devices. The sensors, and the API to read them, is processor and architecture specific; however, in Intel and AMD based processors a standard proposed by Intel called RAPL (Running Average Power Limit) \cite{rapl,david2010rapl} is available. This API provides a series of virtual registers that receive information on power consumed by different parts of the computer, usually called {\em domains}. We will especially pay attention to what is called the {\em package} (or PKG) domain, which includes the energy consumed by the whole processor package, all the cores, but also other so-called {\em uncore} components: the on-chip caches, for instance, but also in many cases the memory controller. This implies that although the energy consumed by  memory is not really considered here, memory operations will actually contribute to the measurements found here. This PKG is important for our purposes, not only because it might include the bulk of the energy consumption, but also because it is the minimum granularity level that is common to Intel and AMD processors. In general, PKG will include other sub-sensors in the case or Intel processors, but it will not do so in the case of AMD processors, so it is one of the measures that we can use to compare energy consumption in processors from different manufacturers \cite{khan2018rapl}.
 
-In order to take actual measurements, there are several options; either link our programs to a library that taps the RAPL API, or use a command-line tool that runs our scripts and takes measurements when the process exits. Since we are working with different languages, not all of which have published libraries that work with RAPL \footnote{C++ certainly has, but {\sf zig}, being a younger language, does not for the time being}, we will opt for the latter.
+In order to take actual measurements, there are several options; either link our programs to a library that taps the RAPL API, or use a command-line tool that runs our scripts and takes measurements when the process exits. Since we are working with different languages, not all of which have published libraries that work with RAPL \footnote{C++ certainly has one, but {\sf zig}, being a younger language, does not for the time being.}, we will opt for the latter.
 
 And once again, we are faced with different options. Linux includes a command-line tool called {\sf perf} \cite{de2010new} that is concerned with all kind of performance measurements, including energy consumption. It is an excellent tool as long as the only type of systems you are going to measure use that operating system. In the past, however, we have used another tool called {\sf pinpoint} \cite{pinpoint}, a tool that is available for Linux as well as MacOS, and besides offers a single interface for different power consumption APIs. However the most important thing for this paper is that we have used it for the measurements in previous papers. Using the same tool again gives us the capability of making comparisons with the results published in those papers, since the methodology used to estimate consumption from RAPL register reading will be exactly the same. {\sf pinpoint} is free software released under the MIT license and can be downloaded from its repository at \url{https://github.com/osmhpi/pinpoint}. As we have done in other papers \cite{wivace23-anon,lion24-anon}, a Perl script launches the program a certain amount of times, set to 30 in this case, and works on averages.
 
@@ -175,6 +190,28 @@ Showing the size of the array of chromosomes simply disables the possibility of 
 
 We will perform these baseline measurements for two different data structures, a character array (where every element is represented by a character 0 or 1) or a Boolean array (with every element represented by a value that is equal to {\sf True} or {\sf False}).
 
+<<energy.sac.generation, echo=FALSE, message=FALSE>>=
+library(knitr)
+zig.gen.bool <- read.csv("../data/sac-gen-bool-25-Sep-19-46-01.csv")
+zig.gen.bool$Platform <- "bvector"
+zig.gen.string <- read.csv("../data/sac-gen-string-25-Sep-19-44-59.csv")
+zig.gen.string$Platform <- "string"
+cpp.gen.bool <- read.csv("../data/c++-bvector-gen.csv")
+cpp.gen.bool$Platform <- "bvector"
+
+gen.data <- rbind(zig.gen.bool, zig.gen.string, cpp.gen.bool)
+gen.data$language <- c(rep("zig", nrow(zig.gen.bool)), rep("zig", nrow(zig.gen.string)), rep("c++", nrow(cpp.gen.bool)))
+gen.data$data.structure <- gen.data$Platform
+gen.data$size <- as.factor(gen.data$size)
+
+library(dplyr)
+gen.data %>% group_by(language, data.structure) %>% summarise(mean(PKG), sd(PKG), mean(seconds), sd(seconds)) -> gen.data.summary
+
+library(ggplot2)
+
+ggplot(gen.data, aes(x=seconds, y=PKG, color=language)) + geom_point(aes(fill=data.structure,shape=size)) + theme_minimal() + geom_smooth(method="lm", aes( group=interaction(language,data.structure))) + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
+
+@
 \section{Results}\label{sec:results}
 
 \section{Conclusions}\label{sec:conclusions}
