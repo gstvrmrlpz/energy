@@ -2,9 +2,12 @@
 #include "hiff.h"
 
 #include <algorithm>
-#include <ranges>
 #include <string>
 #include <string_view>
+
+#if __cplusplus > 201703L
+#include <ranges>
+#endif
 
 //------------------------------------------------------------------------
 
