@@ -24,7 +24,7 @@ template<typename F> void test(F f, const char *engine)
         min = std::min(min, (stop - start));
     }
 
-    std::cout << std::setw(8) << min.count() << " ns " << engine << "\n";
+    std::cout << std::setw(9) << min.count() << " ns " << engine << "\n";
 }
 
 int main()
