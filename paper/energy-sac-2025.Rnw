@@ -249,10 +249,12 @@ ggplot(gen.data, aes(x=seconds, y=PKG, color=language)) + geom_point(aes(fill=da
 
 What we have represented in Figure \ref{fig:energy.sac.generation} is an energy consumption ($y$ axis) vs time ($x$ axis) plot for every experiment in the two languages, using the two target data structures. We have plotted a linear regression for the slope, that would represent the power consumed (being power equal to energy divided by time). We can appreciate in this picture how the differences across languages and data structures are not so clear cut. C++ seems (red) seems better for the smallest size (512 bits), but it is definitely worse for the largest size. Differences are small and nuanced enough to proceed without discarding any language or any data structure before analyzing the results obtained for the genetic operators, which we will do next.
 
-<<energy.sac.generation.boxplot, echo=FALSE, message=FALSE, fig.cap="Energy boxplot time for the chromosome generation problem (baseline).">>=
+<<energy.sac.generation.boxplot, echo=FALSE, message=FALSE, fig.cap="Energy boxplot for the chromosome generation problem (baseline).">>=
 gen.data$size <- as.factor(gen.data$size)
 ggplot(gen.data, aes(x=size, y=PKG, fill=language,linetype=data.structure)) + geom_boxplot() + theme_minimal() + labs(x="Data structure", y="Energy (J)")
 @
+
+Figure \ref{fig:energy.sac.generation.boxplot} synthesizes in a single chart the energy consumption for the chromosome generation problem for both languages and data structures. It grows much faster for C++ than for {\sf zig}. While it is slightly better for the smallest size, energy consumption for strings is virtually the same for the middle size, but it takes off for the largest size. It is curious to observe, however, that a specific data structure does not guarantee better energy consumption: Boolean vectors consume more energy in C++, while they consume {\em less} in {\sf zig}.
 
 \section{Results}\label{sec:results}
 
