@@ -22,7 +22,7 @@
 
 \begin{document}
 \title{Energy consumption of evolutionary algorithms written in low-level languages}
-\subtitle{}
+\subtitle{Comparison of C++ and {\sf zig} in key evolutionary algorithm functions}
 
 \renewcommand{\shorttitle}{TBD}
 
@@ -224,7 +224,7 @@ Showing the size of the array of chromosomes simply disables the possibility of 
 
 We will perform these baseline measurements for two different data structures, a character array (where every element is represented by a character 0 or 1) or a Boolean array (with every element represented by a value that is equal to {\sf True} or {\sf False}).
 
-<<energy.sac.generation, echo=FALSE, message=FALSE>>=
+<<energy.sac.generation, echo=FALSE, message=FALSE, fig.cap="Energy vs. time for the chromosome generation problem (baseline). We use different shapes for data structures: circles for Boolean vectors, triangles for strings; languages are represented by different colors, with red representing C++ and blue zig; chromosome size is also represented by point size, with biggest corresponding to 2048, smallest to 512. Lines represent a linear regression over data form the same data structure.">>=
 library(knitr)
 zig.gen.bool <- read.csv("../data/sac-gen-bool-25-Sep-19-46-01.csv")
 zig.gen.bool$data.structure <- "bvector"
@@ -237,16 +237,18 @@ cpp.gen.string$data.structure <- "string"
 
 gen.data <- rbind(zig.gen.bool, zig.gen.string, cpp.gen.bool, cpp.gen.string)
 gen.data$language <- c(rep("zig", nrow(zig.gen.bool)), rep("zig", nrow(zig.gen.string)), rep("c++", nrow(cpp.gen.bool)), rep("c++", nrow(cpp.gen.string)))
-gen.data$size <- as.factor(gen.data$size)
+gen.data$point.size <- log2(gen.data$size)-7
 
 library(dplyr)
 gen.data %>% group_by(language, data.structure) %>% summarise(mean(PKG), sd(PKG), mean(seconds), sd(seconds)) -> gen.data.summary
 
 library(ggplot2)
 
-ggplot(gen.data, aes(x=seconds, y=PKG, color=language)) + geom_point(aes(fill=data.structure,shape=size)) + theme_minimal() + geom_smooth(method="lm", aes( group=interaction(language,data.structure))) + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
-
+ggplot(gen.data, aes(x=seconds, y=PKG, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + geom_smooth(method="lm", aes( group=interaction(language,data.structure))) + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
 @
+
+What we have represented in Figure \ref{fig:energy.sac.generation} is an energy consumption ($y$ axis) vs time ($x$ axis) plot for every experiment in the two languages, using the two target data structures. We have plotted a linear regression for the slope, that would represent the power consumed (being power equal to energy divided by time). We can appreciate in this picture how the differences across languages and data structures are not so clear cut. C++ seems (red) seems better for the smallest size (512 bits), but it is definitely worse for the largest size. Differences are small and nuanced enough to proceed without discarding any language or any data structure before analyzing the results obtained for the genetic operators, which we will do next.
+
 \section{Results}\label{sec:results}
 
 \section{Conclusions}\label{sec:conclusions}
