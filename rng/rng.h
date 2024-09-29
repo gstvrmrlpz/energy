@@ -33,9 +33,7 @@ template<class T> class splitmix
 public:
     typedef T result_type;
 
-    splitmix(result_type seed = std::random_device()()) : state(seed)
-    {
-    }
+    splitmix(result_type seed = std::random_device()()) : state(seed) {}
 
 protected:
     result_type state;
@@ -46,8 +44,7 @@ class splitmix32 : public splitmix<uint32_t>
 public:
     const result_type phi = 0x9e3779b9;
 
-    splitmix32(result_type seed = std::random_device()())
-        : splitmix(seed)
+    splitmix32(result_type seed = std::random_device()()) : splitmix(seed)
     {
     }
 
@@ -66,8 +63,7 @@ class splitmix64
 public:
     const result_type phi = 0x9e3779b97f4a7c15;
 
-    splitmix64(result_type seed = std::random_device()())
-        : splitmix(seed)
+    splitmix64(result_type seed = std::random_device()()) : splitmix(seed)
     {
     }
 
