@@ -256,7 +256,11 @@ ggplot(gen.data, aes(x=size, y=PKG, fill=language,linetype=data.structure)) + ge
 
 Figure \ref{fig:energy.sac.generation.boxplot} synthesizes in a single chart the energy consumption for the chromosome generation problem for both languages and data structures. It grows much faster for C++ than for {\sf zig}. While it is slightly better for the smallest size, energy consumption for strings is virtually the same for the middle size, but it takes off for the largest size. It is curious to observe, however, that a specific data structure does not guarantee better energy consumption: Boolean vectors consume more energy in C++, while they consume {\em less} in {\sf zig}.
 
+We need, however, to measure the consumption of actual genetic operators. We will do this in the next section.
+
 \section{Results}\label{sec:results}
+
+
 
 \section{Conclusions}\label{sec:conclusions}
 \begin{acks}
