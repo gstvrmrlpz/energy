@@ -33,7 +33,10 @@ template<class T> class splitmix
 public:
     typedef T result_type;
 
-    splitmix(result_type seed = std::random_device()()) : state(seed) {}
+    splitmix(result_type seed = std::random_device()())
+        : state(seed)
+    {
+    }
 
 protected:
     result_type state;
@@ -44,7 +47,8 @@ class splitmix32 : public splitmix<uint32_t>
 public:
     const result_type phi = 0x9e3779b9;
 
-    splitmix32(result_type seed = std::random_device()()) : splitmix(seed)
+    splitmix32(result_type seed = std::random_device()())
+        : splitmix(seed)
     {
     }
 
@@ -63,7 +67,8 @@ class splitmix64
 public:
     const result_type phi = 0x9e3779b97f4a7c15;
 
-    splitmix64(result_type seed = std::random_device()()) : splitmix(seed)
+    splitmix64(result_type seed = std::random_device()())
+        : splitmix(seed)
     {
     }
 
@@ -80,7 +85,7 @@ public:
 
 struct rand_t
 {
-    rand_t(int seed = int()) { srand(seed); }
+    rand_t(int seed = std::random_device()()) { srand(seed); }
     int operator()() { return std::rand(); }
     int min() { return 0; }
     int max() { return RAND_MAX; }
@@ -287,7 +292,7 @@ private:
 
 //-----------------------------------------------------------------------------
 
-class xoshiro256p : public engine_base<uint64_t, 4> // zigs' xoshiro256
+class xoshiro256p : public engine_base<uint64_t, 4> // zig's xoshiro256
 {
 public:
     result_type operator()()
@@ -484,8 +489,6 @@ typedef std::mersenne_twister_engine<uint32_t,
 
 //-----------------------------------------------------------------------------
 
-#endif // RNG_H
-
 /*
 pub fn next(self: *Xoroshiro128) u64 {
     const s0 = self.s[0];
@@ -516,3 +519,7 @@ pub fn next(self: *Xoshiro256) u64 {
     return r;
 }
 */
+
+//-----------------------------------------------------------------------------
+
+#endif // RNG_H
