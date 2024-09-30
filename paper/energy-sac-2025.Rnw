@@ -144,23 +144,7 @@ The rest of the paper is organized as follows: in the next section we will revie
 
 \section{State of the art}
 
-Until recently, the main focus of energy consumption in software engineering
-was mobile devices, where battery life is a primary concern \cite{ahmad2015review,alam2014energy}. However, with
-  the increasing energy spending on IT in general \cite{koomey2007estimating}, including cloud
-computing, energy consumption has become a major concern in all areas of
-software engineering \cite{lee2024survey}. In the case of cloud computing, a survey by
-Katal et al. \cite{katal2023energy} analyzes the data center from a systems perspective and
-identifies new technologies and measurements at various levels. In the case of
-software, four levels are considered: the operating system, virtualization,
-data center, and application software. In the case of application development,
-the survey includes several techniques applied at a high level to reduce energy
-usage in data-intensive and communication-intensive applications. In recent
-works, a more fine-grain analysis of the energy consumption of software has
-been carried out, focusing on the energy consumption of different programming
-languages and frameworks \cite{PEREIRA2021102609,gordillo2024programming}.
-Usually, developers are not trained or are aware of the energy consumption of
-their software \cite{pang2016what}, so this is an important step forward because these
-works will allow developers to make more informed decisions.
+Until recently, the main focus of energy consumption in software engineering was mobile devices, where battery life is a primary concern \cite{ahmad2015review,alam2014energy}. However, with the increasing energy spending on IT \cite{koomey2007estimating}, including cloud computing, energy consumption has become a major concern in all areas of software engineering \cite{lee2024survey}. In the case of cloud computing, a survey by Katal et al. \cite{katal2023energy} analyzes the data center from a systems perspective and identifies new technologies and measurements at various levels. In the case of software, they consider four levels: the operating system, virtualization, data center, and application software. On the side of application development, the survey includes several techniques applied at a high level (for instance, application placement on a particular computer in a data center) to reduce energy usage in data-intensive and communication-intensive applications. In recent works, a more fine-grain analysis of the energy consumption of software has been carried out, focusing on the energy consumption of different programming languages and frameworks \cite{PEREIRA2021102609,gordillo2024programming}. Also, some works are focused on energy consumption measuring tools,  comparing the available options \cite{jay2023experimental}. Raffin and Trystram \cite{raffin2024dissecting} compared the efficiency of RAPL's various mechanisms for measuring energy consumption and their impact on parallel applications. Usually, developers are not trained or are aware of the energy consumption of their software \cite{pang2016what}, so this is an important step forward because these works will allow developers to make more informed decisions.
 
 Regardless of language, there are works on other programming aspects that also
 impact energy consumption. For instance, the flags used when compiling a
@@ -170,26 +154,41 @@ running 18 benchmarks from the NoFib Haskell Benchmark Suite. They recorded
 energy expenditure at three different initial temperatures (45 \degree C, 55
 \degree C and 65 \degree C) and found that programs that started at 55 \degree
 C tended to have lower energy consumption than those started at 45 \degree C or
-65 \degree C. Another aspect that receives attention is the selection of
-complied libraries with bindings to other languages. In a recent work, Nahrsedt
-et al. \cite{nahrstedt2024empirical} compared the Rust-based Polars library for data analysis against Pandas,
-a Python data manipulation library. They found that the Rust-based Polars was
-the most energy efficient for large dataframes (15 million and 60 million
-rows), spending about eight times less energy on the synthetic DATs block and
-67\% on the TPCH bencmarking DATs block. There were no significant differences
-for smaller data frames.
+65 \degree C. 
 
-NLP has received attention because training deep learning networks on massive
-datasets is extremely energy-demanding, and the carbon footprint of training
-large models is a concern. Strubel et al. \cite{strubell2020energy} estimated that training one model on
-GPUs can emit 626,155 pounds of carbon dioxide, roughly the lifetime emissions
-of five cars (Car, avg incl. fuel, 1 lifetime 126,000 lbs). Works are comparing
-different libraries and frameworks for training deep learning models.
+On the side of computer science applications NLP has received special attention
+because training deep learning (DL) networks on massive datasets is extremely
+energy-demanding, and the carbon footprint of training large models is a
+concern. Strubel et al. \cite{strubell2020energy} estimated that training one
+model on GPUs can emit 626,155 pounds of carbon dioxide, roughly the lifetime
+emissions of five cars (Car, avg incl. fuel, 1 lifetime 126,000 lbs).  In this
+regard, researchers are comparing different libraries and frameworks for
+training deep learning models. Another aspect that receives attention is the
+selection of complied libraries with bindings to other languages. In a recent
+work, Nahrsedt et al. \cite{nahrstedt2024empirical} compared the Rust-based
+Polars library for data analysis against Pandas, a Python data manipulation
+library. They found that the Rust-based Polars was the most energy efficient
+for large dataframes (15 million and 60 million rows), spending about eight
+times less energy on the synthetic DATs block and 67\% on the TPCH bencmarking
+DATs block. There were no significant differences for smaller data frames. DL
+frameworks are also compared in terms of energy consumption. For instance,
+PyTorch runtime infrastructures are compared to TensorFlow´s, and the
+infrastructure of the interchange format ONNX by Alizadeh and Castor
+\cite{alizadeh2024green}, with the latter giving significant performance
+improvements on most of cases.
 
-Although there have been, since early in the century, different papers analyzing energy consumption in different programming languages \cite{PEREIRA2021102609,gordillo2024programming}, there are two issues with these: first, their results are shown on general workloads, and second, new or emerging languages like Zig are not included.
-
-
-At any rate, these papers, especially the last one, establish the state of the art in several aspects: first, the experimental design and measurement methodology, and a general idea of how different languages in different categories spend energy and the differences in order of magnitude. Finally, results will be discussed and conclusions drawn in Section \ref{sec:conclusions}.
+There are still few works on the energy consumption of evolutionary algorithms.
+Earlier works have focused on the programming languages and data structures
+used to implement standard evolutionary operators \cite{merelo2017ranking},
+comparing high-level languages like Python and Java against low-level languages
+like C and C++ \cite{merelo2016ranking} and emerging, performance-oriented
+languages like {\sf zig} \cite{merelo2024best}. Cotta and Martínez \cite{10.1145/3638530.3664093}
+explored the practical implication of running evolutionary algorithms several
+times to obtain statistically significant results. Their work found that
+introducing a delay between experiments can reduce energy consumption between
+5\% and 8\%. This reduction is related to the increased CPU temperature from
+running the last experiment at higher temperatures in the CPU, which might cause
+the CPU to throttle or increase the energy consumption of fans.
 
 \section{Methodology}\label{sec:methodology}
 
