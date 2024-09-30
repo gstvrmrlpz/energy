@@ -179,10 +179,10 @@ improvements on most of cases.
 
 There are still few works on the energy consumption of evolutionary algorithms.
 Earlier works have focused on the programming languages and data structures
-used to implement standard evolutionary operators \cite{merelo2017ranking},
+used to implement standard evolutionary operators \cite{merelo2017ranking-anon},
 comparing high-level languages like Python and Java against low-level languages
-like C and C++ \cite{merelo2016ranking} and emerging, performance-oriented
-languages like {\sf zig} \cite{merelo2024best}. Cotta and Martínez \cite{10.1145/3638530.3664093}
+like C and C++ \cite{lion24-anon} and emerging, performance-oriented
+languages like {\sf zig} \cite{zig1-anon}. Cotta and Martínez \cite{10.1145/3638530.3664093}
 explored the practical implication of running evolutionary algorithms several
 times to obtain statistically significant results. Their work found that
 introducing a delay between experiments can reduce energy consumption between
