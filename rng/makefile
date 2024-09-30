@@ -38,7 +38,6 @@ exe: $(EXE)
 	printf $$FORMAT engine energy cpu | tee $@
 	for eng in $(ENG); do
 		for (( rep = 0; rep < $(REP); ++rep )); do
-			./$< -e $$eng | tee -a $@
 			-perf stat -a -e power/energy-pkg/ 2> $*.log -- ./$< -e $$eng
 			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' $*.log)
 			cpu=$$(grep seconds $*.log | tr -s ' ' | cut -d' ' -f2)
