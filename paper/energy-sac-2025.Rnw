@@ -240,7 +240,7 @@ gen.data$language <- c(rep("zig", nrow(zig.gen.bool)), rep("zig", nrow(zig.gen.s
 gen.data$point.size <- log2(gen.data$size)-7
 
 library(dplyr)
-gen.data %>% group_by(language, data.structure) %>% summarise(mean(PKG), sd(PKG), mean(seconds), sd(seconds)) -> gen.data.summary
+gen.data %>% group_by(language, data.structure, size ) %>% summarise(mean(PKG), sd(PKG), mean(seconds), sd(seconds)) -> gen.data.summary
 
 library(ggplot2)
 
@@ -260,7 +260,32 @@ We need, however, to measure the consumption of actual genetic operators. We wil
 
 \section{Results}\label{sec:results}
 
+<<energy.sac.ops, echo=FALSE, message=FALSE, fig.cap="Energy vs. time for the chromosome generation problem (baseline). We use different shapes for data structures: circles for Boolean vectors, triangles for strings; languages are represented by different colors, with red representing C++ and blue zig; chromosome size is also represented by point size, with biggest corresponding to 2048, smallest to 512. Lines represent a linear regression over data form the same data structure.">>=
+zig.ops.bool <- read.csv("../data/sac-2025-zig-ops-bool.csv")
+zig.ops.bool$data.structure <- "bvector"
 
+zig.ops.bool %>% group_by( size ) %>% mutate(delta.PKG=PKG - gen.data.summary[ gen.data.summary$language =="zig" & gen.data.summary$data.structure=="bvector" & gen.data.summary$size==size,]$`mean(PKG)`, delta.seconds=seconds - gen.data.summary[ gen.data.summary$language =="zig" & gen.data.summary$data.structure=="bvector" & gen.data.summary$size==size,]$`mean(seconds)`) -> zig.ops.bool
+
+zig.ops.string <- read.csv("../data/sac-2025-zig-ops-string.csv")
+zig.ops.string$data.structure <- "string"
+zig.ops.string$delta.PKG <- zig.ops.string$PKG - gen.data.summary[ gen.data.summary$language =="zig" & gen.data.summary$data.structure=="string",]$`mean(PKG)`
+zig.ops.string$delta.seconds <- zig.ops.string$seconds - gen.data.summary[ gen.data.summary$language =="zig" & gen.data.summary$data.structure=="string",]$`mean(seconds)`
+cpp.ops.bool <- read.csv("../data/cpp-bool-ops-30-Sep-09-03-07.csv")
+cpp.ops.bool$data.structure <- "bvector"
+cpp.ops.string <- read.csv("../data/cpp-string-ops-30-Sep-09-00-11.csv")
+cpp.gen.string$data.structure <- "string"
+
+ops.data <- rbind(zig.ops.bool, zig.ops.string, cpp.ops.bool, cpp.ops.string)
+gen.data$language <- c(rep("zig", nrow(zig.gen.bool)), rep("zig", nrow(zig.gen.string)), rep("c++", nrow(cpp.gen.bool)), rep("c++", nrow(cpp.gen.string)))
+gen.data$point.size <- log2(gen.data$size)-7
+
+library(dplyr)
+gen.data %>% group_by(language, data.structure) %>% summarise(mean(PKG), sd(PKG), mean(seconds), sd(seconds)) -> gen.data.summary
+
+library(ggplot2)
+
+ggplot(gen.data, aes(x=seconds, y=PKG, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + geom_smooth(method="lm", aes( group=interaction(language,data.structure))) + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
+@
 
 \section{Conclusions}\label{sec:conclusions}
 \begin{acks}
