@@ -2,7 +2,6 @@
 # makefile
 ###############################################################################
 
-SHELL := bash
 .ONESHELL:
 
 ###############################################################################
@@ -41,13 +40,13 @@ perf:
 %.csv: % | perf
 	@LANG=C
 	FORMAT='%s,%s,%s\n'
-	printf $$FORMAT engine energy cpu | tee $@
+	printf $$FORMAT engine pkg cpu | tee $@
 	for eng in $(ENG); do
 		for (( rep = 0; rep < $(REP); ++rep )); do
 			-perf stat -a -e power/energy-pkg/ 2> $*.log -- ./$< -e $$eng
-			energy=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' $*.log)
+			pkg=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' $*.log)
 			cpu=$$(grep seconds $*.log | tr -s ' ' | cut -d' ' -f2)
-			printf $$FORMAT $$eng $$energy $$cpu | tee -a $@
+			printf $$FORMAT $$eng $$pkg $$cpu | tee -a $@
 			rm -f $*.log
 		done
 	done
