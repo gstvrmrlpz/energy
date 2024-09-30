@@ -6,7 +6,7 @@
 
 ###############################################################################
 
-CSV = $(EXE:=.csv)
+CSV = $(wildcard *.csv)
 EXE = $(basename $(SRC))
 GP  = $(EXE:=.gp)
 LOG = $(EXE:=.log)
@@ -23,42 +23,38 @@ CXXFLAGS = -flto -march=native -O3 -Wall
 
 ###############################################################################
 
-all: csv
+all: svg
 
 clean:
-	-rm -fv $(CSV) $(EXE) $(LOG) $(SVG) core* *~
-
-csv: $(CSV)
+	-rm -fv $(EXE) $(LOG) $(SVG) core* *~
 
 exe: $(EXE)
 
 perf:
-	@if perf stat -a -e power/energy-pkg/ true |& grep 'not supported' &> /dev/null; then
+	if perf stat -a -e 'power/energy-pkg/' true |& grep 'not supported' &> /dev/null; then
 		sudo sysctl kernel.perf_event_paranoid=-1
 	fi
 
-svg: $(GP)
-	gnuplot $<
-
-###############################################################################
-
-%.csv: % | perf
-	@LANG=C
+run: $(EXE) | perf
+	LANG=C
+	file=$(EXE)-$${HOSTNAME%%.*}-$$(date '+%Y%m%d-%H%M%S').csv
 	FORMAT='%s,%s,%s\n'
-	printf $$FORMAT engine pkg cpu | tee $@
+	printf $$FORMAT engine pkg cpu | tee $$file
 	for eng in $(ENG); do
 		for (( rep = 0; rep < $(REP); ++rep )); do
-			-perf stat -a -e power/energy-pkg/ 2> $*.log -- ./$< -e $$eng
-			pkg=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' $*.log)
-			cpu=$$(grep seconds $*.log | tr -s ' ' | cut -d' ' -f2)
-			printf $$FORMAT $$eng $$pkg $$cpu | tee -a $@
-			rm -f $*.log
+			-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- ./$< -e $$eng
+			pkg=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
+			cpu=$$(grep seconds /tmp/$@ | tr -s ' ' | cut -d' ' -f2)
+			printf $$FORMAT $$eng $$pkg $$cpu | tee -a $$file
 		done
 	done
 
+svg: $(GP) | $(CSV)
+	gnuplot < <(sed "s/^files=.*/files='$(CSV)'/" $<)
+
 ###############################################################################
 
-.PHONY: all clean csv exe
+.PHONY: all clean exe perf run svg
 .PRECIOUS: $(CSV)
 
 ###############################################################################

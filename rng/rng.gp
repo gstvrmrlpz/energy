@@ -4,7 +4,7 @@
 
 columns='engine'
 engines='default_random_engine knuth_b minstd_rand minstd_rand0 mt11213b mt19937 mt19937_64 rand_t ranlux24 ranlux24_base ranlux48 ranlux48_base xoroshiro128p xoshiro256p'
-files='rng.csv'
+files=
 quantitys='pkg cpu'
 
 #-----------------------------------------------------------------------------
