@@ -12,19 +12,11 @@ using namespace std::literals;
 
 template<typename F> std::size_t test(F f, const char *engine)
 {
-    const std::size_t N = 1'000'000, R = 100;
-
+    const std::size_t N = 1'000'000;
     std::size_t r = 0;
-    auto min = 999'999'999'999ns;
 
-    for (std::size_t i = 0; i < R; ++i)
-    {
-        auto start = std::chrono::high_resolution_clock::now();
-        for (std::size_t j = 0; j < N; ++j)
-            r ^= f();
-        auto stop = std::chrono::high_resolution_clock::now();
-        min = std::min(min, (stop - start));
-    }
+    for (std::size_t j = 0; j < N; ++j)
+        r ^= f();
 
     return r;
 }
@@ -37,9 +29,7 @@ std::string_view parser(int argc, char **argv)
     while ((option = getopt(argc, argv, "e:h")) != -1)
         switch (option)
         {
-            case 'e':
-                engine = std::string_view(optarg);
-                break;
+            case 'e': engine = std::string_view(optarg); break;
             case 'h':
                 std::cout << argv[0] << " options:\n"
                           << "\t-e: random engine          (optional)\n"
@@ -50,7 +40,7 @@ std::string_view parser(int argc, char **argv)
                           << "\t    mt19937\n"
                           << "\t    mt19937_64\n"
                           << "\t    mt11213b\n"
-                          << "\t    rand\n"
+                          << "\t    rand_t\n"
                           << "\t    ranlux24_base\n"
                           << "\t    ranlux48_base\n"
                           << "\t    ranlux24\n"
@@ -84,7 +74,7 @@ int main(int argc, char *argv[])
         return test(std::mt19937_64(), engine.data());
     else if (engine == "mt11213b")
         return test(mt11213b(), engine.data());
-    else if (engine == "rand")
+    else if (engine == "rand_t")
         return test(rand_t(), engine.data());
     else if (engine == "ranlux24_base")
         return test(std::ranlux24_base(), engine.data());

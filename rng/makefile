@@ -8,12 +8,14 @@
 
 CSV = $(EXE:=.csv)
 EXE = $(basename $(SRC))
+GP  = $(EXE:=.gp)
 LOG = $(EXE:=.log)
 SRC = $(wildcard *.cc)
 ENG = default_random_engine knuth_b minstd_rand0 minstd_rand \
 	mt19937 mt19937_64 mt11213b rand \
 	ranlux24_base ranlux48_base ranlux24 ranlux48 xoroshiro128p xoshiro256p
 REP = 15
+SVG = $(wildcard *.svg)
 
 ###############################################################################
 
@@ -24,7 +26,7 @@ CXXFLAGS = -flto -march=native -O3 -Wall
 all: csv
 
 clean:
-	-rm -fv $(CSV) $(EXE) $(LOG) core* *~
+	-rm -fv $(CSV) $(EXE) $(LOG) $(SVG) core* *~
 
 csv: $(CSV)
 
@@ -34,6 +36,9 @@ perf:
 	@if perf stat -a -e power/energy-pkg/ true |& grep 'not supported' &> /dev/null; then
 		sudo sysctl kernel.perf_event_paranoid=-1
 	fi
+
+svg: $(GP)
+	gnuplot $<
 
 ###############################################################################
 
