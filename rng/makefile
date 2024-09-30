@@ -8,12 +8,10 @@
 
 CSV = $(wildcard *.csv)
 EXE = $(basename $(SRC))
-GP  = $(EXE:=.gp)
-LOG = $(EXE:=.log)
+GP  = $(wildcard *.gp)
 SRC = $(wildcard *.cc)
-ENG = default_random_engine knuth_b minstd_rand0 minstd_rand \
-	mt19937 mt19937_64 mt11213b rand \
-	ranlux24_base ranlux48_base ranlux24 ranlux48 xoroshiro128p xoshiro256p
+ENG = knuth_b minstd_rand0 minstd_rand mt19937 mt19937_64 mt11213b rand \
+      ranlux24_base ranlux48_base ranlux24 ranlux48 xoroshiro128+ xoshiro256+
 REP = 15
 SVG = $(wildcard *.svg)
 
