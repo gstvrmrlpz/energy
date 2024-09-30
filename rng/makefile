@@ -2,6 +2,7 @@
 # makefile
 ###############################################################################
 
+SHELL := bash
 .ONESHELL:
 
 ###############################################################################
@@ -30,9 +31,14 @@ csv: $(CSV)
 
 exe: $(EXE)
 
+perf:
+	@if perf stat -a -e power/energy-pkg/ true |& grep 'not supported' &> /dev/null; then
+		sudo sysctl kernel.perf_event_paranoid=-1
+	fi
+
 ###############################################################################
 
-%.csv: %
+%.csv: % | perf
 	@LANG=C
 	FORMAT='%s,%s,%s\n'
 	printf $$FORMAT engine energy cpu | tee $@
