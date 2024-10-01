@@ -305,9 +305,9 @@ We have performed a series of experiments using a triad of genetic operators: cr
 \end{algorithmic}
 \end{algorithm}
 
-The results of applying this chromosome has been shown in Figure~\ref{fig:enery.sac.ops}, where the average energy consumption and time for every size, language and data structure has been subtracted from the numeric value obtained. What we observe, however, is that applying the genetic operators {\em after} its generation results in less-than-0 energy consumption, as well as in some cases negative time. But what we see also is a clear separation between circles (corresponding to Boolean vectors) and triangles (corresponding to strings); the former {\em do} have some energy consumption, and can then be discarded as more energy-consuming, at least in the context of this experiment. However we do observe that the (negative) energy consumption is larger for C++ than for Zig, so even if it means combining two operations (generation and genetic operators) that are performed usually in disparate number of calls, we will compare the actual wallclock time. For the time being, we will not discuss the interpretation of this negative time/consumption, however, leaving that to the last Section.
+The results of applying these operators to the chromomosome has been shown in Figure~\ref{fig:energy.sac.ops}, where the average energy consumption and time for every size, language and data structure has been subtracted from the numeric value obtained. What we observe, however, is that applying the genetic operators {\em after} its generation results in less-than-0 energy consumption, as well as in some cases negative time. But what we see also is a clear separation between circles (corresponding to Boolean vectors) and triangles (corresponding to strings); the former {\em do} have some energy consumption, and can then be discarded as more energy-consuming, at least in the context of this experiment. However we do observe that the (negative) energy consumption is larger for C++ than for Zig, so even if it means combining two operations (generation and genetic operators) that are performed usually in disparate number of calls, we will compare the actual wallclock time. For the time being, we will not discuss the interpretation of this negative time/consumption, however, leaving that to the last Section.
 
-<<energy.sac.string, fig.cap="Boxplot of PKG energy consumption using the bit string chromosome for the two languages and different sizes",  fig.align="center">>=
+<<energy.sac.string, echo=F, message=F, fig.cap="Boxplot of PKG energy consumption using the bit string chromosome for the two languages and different sizes",  fig.align="center">>=
 ops.data$size <- as.factor(ops.data$size)
 ggplot(ops.data[ops.data$data.structure=="string",], aes(x=size, y=PKG, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)")
 string.ops.data <- ops.data[ops.data$data.structure=="string",]
@@ -315,6 +315,8 @@ differences.512 <- t.test(string.ops.data[string.ops.data$size==512 & string.ops
 differences.1024 <- t.test(string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="c++",]$PKG, string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="zig",]$PKG,alternative = "less")
 differences.2048 <- t.test(string.ops.data[string.ops.data$size==2048 & string.ops.data$language=="c++",]$PKG, string.ops.data[string.ops.data$size==2048 & string.ops.data$language=="zig",]$PKG, alternative = "greater")
 @
+
+We have plotted total energy consumed for the program that generates 40K bitstrings and then performs genetic operators on them in Figure \ref{fig:energy.sac.string}; side by side, energy spent by C++ (left) and {\sf zig} (right) are shown. The picture is more nuanced than what we observed in Figure \ref{fig:energy.sac.generation.boxplot}: C++ beats {\sf zig} for the lesser sizes, and is beaten by {\sf zig} by a small margin for the larger size.
 
 \section{Conclusions}\label{sec:conclusions}
 \begin{acks}
