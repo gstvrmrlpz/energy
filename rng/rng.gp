@@ -12,9 +12,9 @@ set encoding utf8
 set key autotitle columnhead
 set datafile columnheaders separator ','
 set size ratio 2/(1+sqrt(5))
+set style boxplot nooutliers medianlinewidth 1.33
 set style data lines
 set terminal svg noenhanced size 1200,750 # 1600,1000
-#set terminal epscairo enhanced
 unset key
 
 #-----------------------------------------------------------------------------
