@@ -316,7 +316,14 @@ differences.1024 <- t.test(string.ops.data[string.ops.data$size==1024 & string.o
 differences.2048 <- t.test(string.ops.data[string.ops.data$size==2048 & string.ops.data$language=="c++",]$PKG, string.ops.data[string.ops.data$size==2048 & string.ops.data$language=="zig",]$PKG, alternative = "greater")
 @
 
-We have plotted total energy consumed for the program that generates 40K bitstrings and then performs genetic operators on them in Figure \ref{fig:energy.sac.string}; side by side, energy spent by C++ (left) and {\sf zig} (right) are shown. The picture is more nuanced than what we observed in Figure \ref{fig:energy.sac.generation.boxplot}: C++ beats {\sf zig} for the lesser sizes, and is beaten by {\sf zig} by a small margin for the larger size.
+We have plotted total energy consumed for the program that generates 40K bitstrings and then performs genetic operators on them in Figure \ref{fig:energy.sac.string}; side by side, energy spent by C++ (left) and {\sf zig} (right) are shown. The picture is more nuanced than what we observed in Figure \ref{fig:energy.sac.generation.boxplot}: C++ beats {\sf zig} for the lesser sizes, and is beaten by {\sf zig} by a small margin for the larger size. Side-by-side differences are significant, so in this case there is a real difference between the two languages, although it is not always in the same direction.
+
+<<energy.sac.string.power, echo=F, message=F, fig.cap="Boxplot of PKG power consumption using the bit string chromosome for the two languages and different sizes",  fig.align="center">>=
+string.ops.data$power <- string.ops.data$PKG/string.ops.data$seconds
+ggplot(string.ops.data, aes(x=size, y=power, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Time (s)", y="Power (w)")
+@
+
+In order to ascertain what is the key of the low energy consumption in the case of C++, we also plot the power consumption in Figure \ref{fig:energy.sac.string.power}, by dividing energy by time. The result shows that while C++ draws an apparently constant amount of power from the package (processor and memory), the amount used by {\sf zig} increases with the amount of memory needed for the different computations. This is an interesting result, which is probably related to the different way C++ and {\sf zig} handle memory allocation. At any rate, it shows less power consumption in the case of C++, which makes us conclude that  {\sf zig} achieves better energy consumption by taking less to perform in a specific workload, possibly using more memory to do so. This might be the case for more general workloads, but it would need to be confirmed, due to the small amount of these studies that have been published so far.
 
 \section{Conclusions}\label{sec:conclusions}
 \begin{acks}
