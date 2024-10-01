@@ -278,14 +278,35 @@ cpp.ops.string$delta.seconds <- cpp.ops.string$seconds - c(rep(gen.data.summary[
 
 ops.data <- rbind(zig.ops.bool, zig.ops.string, cpp.ops.bool, cpp.ops.string)
 ops.data$language <- c(rep("zig", nrow(zig.gen.bool)), rep("zig", nrow(zig.gen.string)), rep("c++", nrow(cpp.gen.bool)), rep("c++", nrow(cpp.gen.string)))
-ops.data$point.size <- log2(gen.data$size)-7
+ops.data$point.size <- log2(ops.data$size)-7
 
 ops.data %>% group_by(language, data.structure, size) %>% summarise(mean(delta.PKG), sd(delta.PKG), mean(delta.seconds), sd(delta.seconds)) -> ops.data.summary
 
 ggplot(ops.data, aes(x=delta.seconds, y=delta.PKG, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
 @
 
-We have performed a series of experiments using a triad of genetic operators: crossover, mutation and count-ones.
+We have performed a series of experiments using a triad of genetic operators: crossover, mutation and count-ones, following this algorithm
+\begin{algorithm}
+\caption{Appliation of genetic operators}
+\label{alg:chromgen}
+\begin{algorithmic}
+\FOR{$i=1$ to $N$ by 2}
+\STATE $c1 \leftarrow$ chromosome[i]
+\STATE $c2 \leftarrow$ chromosome[i+1]
+\STATE mutate($c1$)
+\STATE mutate($c2$)
+\STATE ($new\_c1, new\_c2$) $\leftarrow$ crossover($c1$, $c2$)
+\STATE fitnessArray.append(count\_ones($new\_c1$)
+\STATE fitnessArray.append(count\_ones($new\_c2$)
+\STATE chromosomeArray.append($new\_c1$)
+\STATE chromosomeArray.append($new\_c2$)
+\ENDFOR
+\STATE Show size of chromosomeArray
+\end{algorithmic}
+\end{algorithm}
+
+The results of applying this chromosome has been shown in Figure~\ref{fig:enery.sac.ops}, where the average energy consumption and time for every size, language and data structure has been subtracted from the numeric value obtained. What we observe, however, is that applying the genetic operators {\em after} its generation results in less-than-0 energy consumption, as well as in some cases negative time. But what we see also is a clear separation between circles (corresponding to Boolean vectors) and triangles (corresponding to strings); the former {\em do} have some energy consumption, and can then be discarded as more energy-consuming, at least in the context of this experiment. However we do observe that the (negative) energy consumption is larger for C++ than for Zig, so even if it means combining two operations (generation and genetic operators) that are performed usually in disparate number of calls, we will compare the actual wallclock time. For the time being, we will not discuss the interpretation of this negative time/consumption, however, leaving that to the last Section.
+
 
 \section{Conclusions}\label{sec:conclusions}
 \begin{acks}
