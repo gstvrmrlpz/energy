@@ -12,7 +12,7 @@ GP  = $(wildcard *.gp)
 SRC = $(wildcard *.cc)
 ENG = knuth_b minstd_rand0 minstd_rand mt19937 mt19937_64 mt11213b rand \
       ranlux24_base ranlux48_base ranlux24 ranlux48 xoroshiro128+ xoshiro256+
-REP = 15
+REP = 100
 SVG = $(wildcard *.svg)
 
 ###############################################################################
