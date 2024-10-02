@@ -357,6 +357,10 @@ hiff.data.summary$"Ops per Joule" <- paste0(round(hiff.data.summary$`mean(ops.jo
 hiff.data.summary %>% select(language, size, Joules, "Ops per Joule") %>% arrange(size) %>% kable(digits=2, caption="\\protect\\label{tab:opsxjoule}Comparison of c++ and zig, HIFF function") %>% kable_styling(full_width = F)
 @
 
+This is summarized in Table \ref{tab:opsxjoule}, where we show the standard measurement for energy profiling, operations performed per Joule extracted. Across the board, the number of HIFF calls that C++ is able to perform is 2x (or more) those {\sf zig} makes for the same amount of Joules, and this for a function that really needs a good amount of energy.
+
+This last experiment proves that, for a wide range of optimization problems solved via evolutionary algorithms that is limited to integer-based functions, that is, most benchmark functions and many combinatorial optimization functions, C++ is likely to be a better choice than {\sf zig}, resulting in energy savings that can be considerable and up to 50\% in some cases\footnote{The fact that {\sf zig}, as an emerging language, has not gathered enough popularity to be even considered is not really relevant in this case. What this paper establishes is a checkpoint (for {\sf zig} in version 0.13) that will anyway need to be revisited in the future, as the language evolves and reaches version 1.0. At any rate, the wide advantage that C++ enjoys is not likely to be closed in the near future}.
+
 \section{Conclusions}\label{sec:conclusions}
 \begin{acks}
   Hidden for double-blind review
