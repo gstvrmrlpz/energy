@@ -61,8 +61,8 @@
 % The default list of authors is too long for headers}
 \renewcommand{\shortauthors}{B. Trovato et al.}
 
-
 \begin{abstract}
+Green software engineering is good software engineering, since trying to design systems in such a way that they consume a minimal amount of energy is simply an efficient way of consuming resources. Scientific software is no exception; in this case we will put our focus on evolutionary algorithms, and the patterns of energy consumption for two different, low-level, languages: The mature C++ and the emerging {\sf zig}. By setting up a methodology that gives us a precise measure of the energy spent by key evolutionary algorithm functions, we can give the scientifc software engineer some actionable insights on how to write energy-conscious evolutionary algorithms. Our experiments show that, even having very low energy consumption in both cases, C++ using the well known GNU compiler can can achieve a 50\% reduction in energy consumption for some integer-based fitness functions, as well as very good performance on classical genetic operators. Besides, the experimental results have a low variability, as compared to {\sf zig}, making it in the short and medium run the best of the two languages for evolutionary algorithms.
 
 \end{abstract}
 
