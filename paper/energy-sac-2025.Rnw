@@ -156,7 +156,7 @@ energy expenditure at three different initial temperatures (45 \degree C, 55
 C tended to have lower energy consumption than those started at 45 \degree C or
 65 \degree C.
 
-On the side of computer science applications NLP has received special attention
+On the side of computer science applications NLP (Natural Language Processing) has received special attention 
 because training deep learning (DL) networks on massive datasets is extremely
 energy-demanding, and the carbon footprint of training large models is a
 concern. Strubel et al. \cite{strubell2020energy} estimated that training one
