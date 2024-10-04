@@ -21,7 +21,7 @@
 \acmPrice{15.00}
 
 \begin{document}
-\title{Energy consumption of evolutionary algorithms written in low-level languages}
+\title{Energy consumption of evolutionary algorithms implemented in low-level languages}
 \subtitle{Comparison of C++ and {\sf zig} in key evolutionary algorithm functions}
 
 \renewcommand{\shorttitle}{TBD}
