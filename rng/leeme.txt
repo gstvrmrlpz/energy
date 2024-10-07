@@ -1,7 +1,21 @@
-gustavo@amd:~$ sleep 1; sudo perf stat -a -e 'power/energy-pkg/' -r 100 -- sleep 1
+###############################################################################
+
+gustavo@pccito:~$ ssh amd sudo perf stat -a -e power/energy-pkg/ -r 100 -- sleep 1
 
  Performance counter stats for 'system wide' (100 runs):
 
-             20,50 Joules power/energy-pkg/                                                       ( +-  0,04% )
+             20,22 Joules power/energy-pkg/                                                       ( +-  0,03% )
 
-        1,00089510 +- 0,00000676 seconds time elapsed  ( +-  0,00% )
+        1,00089681 +- 0,00000638 seconds time elapsed  ( +-  0,00% )
+
+###############################################################################
+
+gustavo@asus:~/escritorio/energy/rng$ ssh pccito.ugr.es sudo perf stat -a -e power/energy-pkg/ -r 100 -- sleep 1
+
+ Performance counter stats for 'system wide' (100 runs):
+
+             15,72 Joules power/energy-pkg/                                                       ( +-  0,55% )
+
+         1,0018791 +- 0,0000270 seconds time elapsed  ( +-  0,00% )
+
+###############################################################################
