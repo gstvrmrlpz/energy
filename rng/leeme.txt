@@ -1,0 +1,7 @@
+gustavo@amd:~$ sleep 1; sudo perf stat -a -e 'power/energy-pkg/' -r 100 -- sleep 1
+
+ Performance counter stats for 'system wide' (100 runs):
+
+             20,50 Joules power/energy-pkg/                                                       ( +-  0,04% )
+
+        1,00089510 +- 0,00000676 seconds time elapsed  ( +-  0,00% )
