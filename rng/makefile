@@ -2,6 +2,7 @@
 # makefile
 ###############################################################################
 
+BASH := bash
 .ONESHELL:
 
 ###############################################################################
@@ -36,14 +37,20 @@ perf:
 run: $(EXE) | perf
 	LANG=C
 	file=$(EXE)-$${HOSTNAME%%.*}-$$(date '+%Y%m%d-%H%M%S').csv
-	FORMAT='%s,%s,%s\n'
-	printf $$FORMAT engine pkg cpu | tee $$file
+	FORMAT='%s;%s;%s;%s\n'
+	printf $$FORMAT engine pkg cpu avg | tee $$file
 	for eng in $(ENG); do
 		for (( rep = 0; rep < $(REP); ++rep )); do
-			-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- ./$< -e $$eng
-			pkg=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
-			cpu=$$(grep seconds /tmp/$@ | tr -s ' ' | cut -d' ' -f2)
-			printf $$FORMAT $$eng $$pkg $$cpu | tee -a $$file
+			pkg=0
+			avg=0
+			while [ $$(echo "$$pkg <= $$avg" | bc) -eq 1 ]; do
+				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- ./$< -e $$eng
+				pkg=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
+				cpu=$$(grep seconds /tmp/$@ | tr -s ' ' | cut -d' ' -f2)
+				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- sleep $$cpu
+				avg=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
+				printf $$FORMAT $$eng $$pkg $$cpu $$avg | tee -a $$file
+			done
 		done
 	done
 
