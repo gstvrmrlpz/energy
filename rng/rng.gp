@@ -2,7 +2,6 @@
 # global variables
 #-----------------------------------------------------------------------------
 
-engines='knuth_b minstd_rand minstd_rand0 mt11213b mt19937 mt19937_64 rand ranlux24 ranlux24_base ranlux48 ranlux48_base xoroshiro128+ xoshiro256+'
 files='rng-amd-20241007-115802.csv'
 
 #-----------------------------------------------------------------------------
@@ -33,13 +32,6 @@ do for [file in files] {
     unset xlabel
 
     do for [quantity in 'pkg cpu'] {
-        #---------------------------------------------------------------------
-        # stats by quantity and engine
-        #---------------------------------------------------------------------
-        do for [engine in engines] {
-            stats '<(head -n1 '.file.'; grep ^'.engine.'\, '.file.'.)' using (column(quantity)) name 'kk' nooutput
-        }
-
         #---------------------------------------------------------------------
         # plot by column
         #---------------------------------------------------------------------
@@ -75,8 +67,7 @@ do for [file in files] {
     #---------------------------------------------------------------------
     # plot by column corrected substracting mean measured consumption
     #---------------------------------------------------------------------
-    max(a, b) = a < b ? b : a;
     set output file.'-pkg-a.svg'
-    plot file u (1):(max(column('pkg') - column('avg'), value(pkg_.column('engine').'_min'))):(0.75):(column('engine')) w boxplot lc variable
+    plot file u (1):(column('pkg') - column('avg')):(0.75):(column('engine')) w boxplot lc variable
 
 }

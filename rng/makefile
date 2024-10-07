@@ -41,8 +41,8 @@ run: $(EXE) | perf
 	printf $$FORMAT engine pkg cpu avg | tee $$file
 	for eng in $(ENG); do
 		for (( rep = 0; rep < $(REP); ++rep )); do
-			pkg=0
-			avg=0
+			pkg=0.0
+			avg=0.0
 			while [ $$(echo "$$pkg <= $$avg" | bc) -eq 1 ]; do
 				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- ./$< -e $$eng
 				pkg=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
