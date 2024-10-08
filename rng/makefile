@@ -48,19 +48,10 @@ run: $(EXE) | perf
 				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- ./$< -e $$eng
 				pkg=$$(sed -n 's/[[:space:]]*\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
 				cpu=$$(grep seconds /tmp/$@ | tr -s ' ' | cut -d' ' -f2)
-<<<<<<< HEAD
 				-perf stat -a -e power/energy-pkg/ -r 3 2> /tmp/$@ -- sleep $$cpu
 				avg=$$(sed -n 's/[[:space:]]*\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
 			done
 			printf $$FORMAT $$eng $$pkg $$cpu $$avg | tee -a $$file
-=======
-				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- sleep $$cpu
-				avg=$$(sed -n 's/[[:space:]]*\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
-				# echo "	[2] pkg='$$pkg' avg='$$avg'"
-			done
-			printf $$FORMAT $$eng $$pkg $$cpu $$avg | tee -a $$file
-			# echo "	[3] pkg='$$pkg' avg='$$avg'"
->>>>>>> e0faa21b26cd9980ead7547a653a3fefa0bed00e
 		done
 	done
 
