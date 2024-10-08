@@ -43,14 +43,17 @@ run: $(EXE) | perf
 		for (( rep = 0; rep < $(REP); ++rep )); do
 			pkg=0.0
 			avg=0.0
+			# echo "	[1] pkg='$$pkg' avg='$$avg'"
 			while [ $$(echo "$$pkg <= $$avg" | bc) -eq 1 ]; do
 				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- ./$< -e $$eng
-				pkg=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
+				pkg=$$(sed -n 's/[[:space:]]*\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
 				cpu=$$(grep seconds /tmp/$@ | tr -s ' ' | cut -d' ' -f2)
 				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- sleep $$cpu
-				avg=$$(sed -n 's/\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
-				printf $$FORMAT $$eng $$pkg $$cpu $$avg | tee -a $$file
+				avg=$$(sed -n 's/[[:space:]]*\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
+				# echo "	[2] pkg='$$pkg' avg='$$avg'"
 			done
+			printf $$FORMAT $$eng $$pkg $$cpu $$avg | tee -a $$file
+			# echo "	[3] pkg='$$pkg' avg='$$avg'"
 		done
 	done
 
