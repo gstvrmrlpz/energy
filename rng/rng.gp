@@ -63,6 +63,6 @@ do for [file in files] {
     # plot by column corrected substracting mean measured consumption
     #---------------------------------------------------------------------
     set output file.'-pkg-a.svg'
-    plot file u (1):(column('pkg') - column('avg')):(0.75):(column('engine')) w boxplot lc variable
+    plot file u (1):(column('pkg') - column('avg') / 1.5):(0.75):(column('engine')) w boxplot lc variable
 
 }
