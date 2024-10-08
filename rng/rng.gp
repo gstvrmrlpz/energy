@@ -8,14 +8,20 @@ files=''
 # global options
 #-----------------------------------------------------------------------------
 
+set border 2
+set datafile columnheaders separator ';'
 set encoding utf8
 set key autotitle columnhead
-set datafile columnheaders separator ';'
+set logscale y
 set pointsize 0.75
 set size ratio 2/(1+sqrt(5))
-set style boxplot medianlinewidth 2 pt 6 # nooutliers
+set style boxplot medianlinewidth 2 pointtype 6 # nooutliers
 set style fill solid 0.125
 set terminal svg noenhanced size 1200,750 # 1600,1000
+set xlabel 'pseudo random number generator engine'
+set xtics rotate by 45 right scale 0
+set ylabel 'pkg (J)'
+set ytics nomirror
 unset key
 
 #-----------------------------------------------------------------------------
@@ -24,45 +30,16 @@ unset key
 
 do for [file in files] {
     #---------------------------------------------------------------------
-    # local options
+    # stats
     #---------------------------------------------------------------------
-    set border 2
-    set logscale y
-    set xtics rotate by 45 right scale 0
-    set ytics nomirror
-    unset xlabel
-
-    do for [quantity in 'pkg cpu'] {
-        #---------------------------------------------------------------------
-        # plot by column
-        #---------------------------------------------------------------------
-        if (quantity eq 'pkg') { set ylabel 'pkg (J)' }
-        else                   { set ylabel 'cpu (s)' }
-        #set output file.'-'.quantity.'.svg'
-        #plot file u (1):(column(quantity)):(0.75):(column('engine')) w boxplot lc variable
-   }
-
-    #---------------------------------------------------------------------
-    # plot by column corrected substracting mean consumption
-    #---------------------------------------------------------------------
-    set xlabel 'engine'
-    set ylabel 'pkg (J)'
-
-    #---------------------------------------------------------------------
-    # plot by column corrected substracting mean generic consumption
-    #---------------------------------------------------------------------
-    if (strstrt(file, 'amd') != 0) { avg = 20.22 }
-    else {
-            if (strstrt(file, 'pccito') != 0) { avg = 15.72 }
-            else { exit message 'no average consumption for '.file}
+    do for [col in 'pkg cpu avg'] {
+        stats file using (column(col)) name col nooutput
     }
-    set output file.'-pkg-c.svg'
-    plot file u (1):(column('pkg') - avg * column('cpu')):(0.75):(column('engine')) w boxplot lc variable
 
     #---------------------------------------------------------------------
     # plot by column corrected substracting mean measured consumption
     #---------------------------------------------------------------------
-    set output file.'-pkg-a.svg'
-    plot file u (1):(column('pkg') - column('avg') / 1.5):(0.75):(column('engine')) w boxplot lc variable
-
+    set output file.'.svg'
+    #set yrange [0:pkg_max / 2]
+    plot file using (1):(column('pkg') - column('avg') / 1.5):(0.75):(column('engine')) with boxplot linecolor variable
 }
