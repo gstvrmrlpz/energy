@@ -2,7 +2,7 @@
 # global variables
 #-----------------------------------------------------------------------------
 
-files='rng-amd-20241007-115802.csv'
+files=''
 
 #-----------------------------------------------------------------------------
 # global options
@@ -14,6 +14,7 @@ set datafile columnheaders separator ';'
 set pointsize 0.75
 set size ratio 2/(1+sqrt(5))
 set style boxplot medianlinewidth 2 pt 6 # nooutliers
+set style fill solid 0.125
 set terminal svg noenhanced size 1200,750 # 1600,1000
 unset key
 
@@ -50,16 +51,10 @@ do for [file in files] {
     #---------------------------------------------------------------------
     # plot by column corrected substracting mean generic consumption
     #---------------------------------------------------------------------
-    if (strstrt(file, 'amd') != 0) {
-        avg = 20.22
-    }
+    if (strstrt(file, 'amd') != 0) { avg = 20.22 }
     else {
-        if (strstrt(file, 'pccito') != 0) {
-            avg = 15.72
-        }
-        else {
-            exit message 'no average consumption for '.file
-        }
+            if (strstrt(file, 'pccito') != 0) { avg = 15.72 }
+            else { exit message 'no average consumption for '.file}
     }
     set output file.'-pkg-c.svg'
     plot file u (1):(column('pkg') - avg * column('cpu')):(0.75):(column('engine')) w boxplot lc variable
