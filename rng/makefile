@@ -36,21 +36,21 @@ perf:
 
 run: $(EXE) | perf
 	LANG=C
-	file=$(EXE)-$${HOSTNAME%%.*}-$$(date '+%Y%m%d-%H%M%S').csv
+	file=$${HOSTNAME%%.*}-$$(date '+%s').csv
 	FORMAT='%s;%s;%s;%s\n'
-	printf $$FORMAT engine pkg cpu avg | tee $$file
+	printf $$FORMAT engine pkg cpu sleep | tee $$file
 	for eng in $(ENG); do
 		for (( rep = 0; rep < $(REP); ++rep )); do
 			pkg=0.0
-			avg=0.0
-			while [ $$(echo "$$pkg <= $$avg" | bc) -eq 1 ]; do
+			sleep=0.0
+			while [ $$(echo "$$pkg <= $$sleep" | bc) -eq 1 ]; do
 				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- ./$< -e $$eng
 				pkg=$$(sed -n 's/[[:space:]]*\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
 				cpu=$$(grep seconds /tmp/$@ | tr -s ' ' | cut -d' ' -f2)
-				-perf stat -a -e power/energy-pkg/ -r 2 2> /tmp/$@ -- sleep $$cpu
-				avg=$$(sed -n 's/[[:space:]]*\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
+				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- sleep $$cpu
+				sleep=$$(sed -n 's/[[:space:]]*\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
 			done
-			printf $$FORMAT $$eng $$pkg $$cpu $$avg | tee -a $$file
+			printf $$FORMAT $$eng $$pkg $$cpu $$sleep | tee -a $$file
 		done
 	done
 

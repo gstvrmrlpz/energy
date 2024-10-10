@@ -4,15 +4,11 @@
 #include <iostream>
 #include <random>
 #include <string_view>
-#include <tuple>
 #include <unistd.h>
-
-using namespace std::chrono_literals;
-using namespace std::literals;
 
 template<typename Engine> std::size_t test(Engine engine = Engine())
 {
-    const std::size_t N = 1'000'000;
+    const std::size_t N = 1 << 25;
     std::size_t r = 0;
 
     for (std::size_t j = 0; j < N; ++j)
