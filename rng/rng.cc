@@ -8,7 +8,7 @@
 
 template<typename Engine> std::size_t test(Engine engine = Engine())
 {
-    const std::size_t N = 1 << 25;
+    const std::size_t N = 10'000'000;
     std::size_t r = 0;
 
     for (std::size_t j = 0; j < N; ++j)
