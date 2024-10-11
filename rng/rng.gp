@@ -38,6 +38,13 @@ do for [file in files] {
     }
     stats file using (column('pkg') - column('sleep')) name 'diff' nooutput
 
+    do for[e in engines] {
+        print '##########################################################'
+        print '# '.e.' stats in '.file
+        print '##########################################################'
+        stats '<(head -n 1 '.file.'; grep '.e.' '.file.')' using (column('pkg') - column('sleep'))
+    }
+
     #---------------------------------------------------------------------
     # pkg plot
     #---------------------------------------------------------------------
@@ -101,10 +108,11 @@ do for [file in files] {
     set ytic offset 0.5,0
     unset key
     unset xtics
-    unset ylabel
     set output stem.'-all.svg'
     set multiplot layout 1,13 margin 0.033,0.99,0.05,0.99 spacing 0.033,0
     do for[e in engines] {
+        if (e eq 'knuth_b') { set ylabel 'power/energy-pkg (J)' offset 2.5}
+        else                { unset ylabel }
         set xlabel e
         plot '<(head -n 1 '.file.'; grep '.e.' '.file.')' using (1):(column('pkg') - column('sleep')):(0.75) with boxplot
     }
