@@ -42,7 +42,7 @@ do for [file in files] {
         print '##########################################################'
         print '# '.e.' stats in '.file
         print '##########################################################'
-        stats '<(head -n 1 '.file.'; grep '.e.' '.file.')' using (column('pkg') - column('sleep'))
+        stats '<(head -n 1 '.file.'; grep ^'.e.'\; '.file.')' using (column('pkg') - column('sleep'))
     }
 
     #---------------------------------------------------------------------
@@ -114,7 +114,7 @@ do for [file in files] {
         if (e eq 'knuth_b') { set ylabel 'power/energy-pkg (J)' offset 2.5}
         else                { unset ylabel }
         set xlabel e
-        plot '<(head -n 1 '.file.'; grep '.e.' '.file.')' using (1):(column('pkg') - column('sleep')):(0.75) with boxplot
+        plot '<(head -n 1 '.file.'; grep ^'.e.'\; '.file.')' using (1):(column('pkg') - column('sleep')):(0.75) with boxplot
     }
     unset multiplot
 
