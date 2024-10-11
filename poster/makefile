@@ -21,6 +21,6 @@ clean:
 	-rm -fv $(AUX) $(BBL) $(BLG) $(FDB) $(FLS) $(LOG) $(PDF) $(SPL) *~
 
 %.pdf: %.tex
-	latexmk -pdf -shell-escape $<
+	latexmk -f -pdf -shell-escape $<
 
 .PHONY: all auto clean
