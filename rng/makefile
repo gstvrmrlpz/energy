@@ -13,6 +13,7 @@ GP  = $(wildcard *.gp)
 SRC = $(wildcard *.cc)
 ENG = knuth_b minstd_rand0 minstd_rand mt19937 mt19937_64 mt11213b rand \
       ranlux24_base ranlux48_base ranlux24 ranlux48 xoroshiro128+ xoshiro256+
+PNG = $(SVG:.svg=.png)
 REP = 100
 STA = $(CSV:.csv=.sta)
 SVG = $(wildcard *.svg)
@@ -24,9 +25,10 @@ CXXFLAGS = -flto -march=native -O3 -Wall
 ###############################################################################
 
 all: $(STA)
+	make $(PNG)
 
 clean: stop
-	-rm -fv $(EXE) $(LOG) $(STA) $(SVG) core* *~
+	-rm -fv $(EXE) $(LOG) $(PNG) $(STA) $(SVG) core* *~
 
 exe: $(EXE)
 
@@ -65,12 +67,15 @@ stop:
 
 ###############################################################################
 
+%.png: %.svg
+	convert $< $@
+
 %.sta: %.csv | $(GP)
 	gnuplot < <(sed "s/^files=.*/files='$<'/" $(GP)) 2> $@
 
 ###############################################################################
 
 .PHONY: all clean exe run start stop
-.PRECIOUS: $(CSV) $(STA)
+.PRECIOUS: $(CSV) $(PNG) $(STA)
 
 ###############################################################################
