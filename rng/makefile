@@ -29,18 +29,10 @@ clean: stop
 
 exe: $(EXE)
 
-perf:
-	if perf stat -a -e 'power/energy-pkg/' true |& grep 'not supported' &> /dev/null; then
-		sudo sysctl kernel.perf_event_paranoid=-1
-	fi
-
-start:
-    sudo cpupower frequency-set --governor performance
-    echo 0 | sudo tee /sys/devices/system/cpu/cpufreq/boost
-
-run: $(EXE) stop | perf start
-	LANG=C
+run: rng
+	make -s start
 	file=$${HOSTNAME%%.*}-$$(date '+%s').csv
+	LANG=C
 	FORMAT='%s;%s;%s;%s\n'
 	printf $$FORMAT engine pkg cpu sleep | tee $$file
 	for eng in $(ENG); do
@@ -48,7 +40,7 @@ run: $(EXE) stop | perf start
 			pkg=0.0
 			sleep=0.0
 			while [ $$(echo "$$pkg <= $$sleep" | bc) -eq 1 ]; do
-				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- ./$< -e $$eng
+				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- ./rng -e $$eng
 				pkg=$$(sed -n 's/[[:space:]]*\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
 				cpu=$$(grep seconds /tmp/$@ | tr -s ' ' | cut -d' ' -f2)
 				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- sleep $$cpu
@@ -57,17 +49,25 @@ run: $(EXE) stop | perf start
 			printf $$FORMAT $$eng $$pkg $$cpu $$sleep | tee -a $$file
 		done
 	done
+	make -s stop
 
-schedutil:
-    sudo cpupower frequency-set --governor schedutil
-    echo 1 | sudo tee /sys/devices/system/cpu/cpufreq/boost
+start:
+	sudo sysctl kernel.perf_event_paranoid=-1
+	sudo cpupower frequency-set --governor performance
+	echo 0 | sudo tee /sys/devices/system/cpu/cpufreq/boost
+	sleep 1
+
+stop:
+	sudo sysctl kernel.perf_event_paranoid=2
+	sudo cpupower frequency-set --governor schedutil
+	echo 1 | sudo tee /sys/devices/system/cpu/cpufreq/boost
 
 svg: $(GP) | $(CSV)
 	gnuplot < <(sed "s/^files=.*/files='$(CSV)'/" $<)
 
 ###############################################################################
 
-.PHONY: all clean exe perf run start stop svg
+.PHONY: all clean exe run start stop svg
 .PRECIOUS: $(CSV)
 
 ###############################################################################
