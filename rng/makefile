@@ -24,7 +24,7 @@ CXXFLAGS = -flto -march=native -O3 -Wall
 
 all: svg
 
-clean:
+clean: stop
 	-rm -fv $(EXE) $(LOG) $(SVG) core* *~
 
 exe: $(EXE)
@@ -34,7 +34,11 @@ perf:
 		sudo sysctl kernel.perf_event_paranoid=-1
 	fi
 
-run: $(EXE) | perf
+start:
+    sudo cpupower frequency-set --governor performance
+    echo 0 | sudo tee /sys/devices/system/cpu/cpufreq/boost
+
+run: $(EXE) stop | perf start
 	LANG=C
 	file=$${HOSTNAME%%.*}-$$(date '+%s').csv
 	FORMAT='%s;%s;%s;%s\n'
@@ -54,12 +58,16 @@ run: $(EXE) | perf
 		done
 	done
 
+schedutil:
+    sudo cpupower frequency-set --governor schedutil
+    echo 1 | sudo tee /sys/devices/system/cpu/cpufreq/boost
+
 svg: $(GP) | $(CSV)
 	gnuplot < <(sed "s/^files=.*/files='$(CSV)'/" $<)
 
 ###############################################################################
 
-.PHONY: all clean exe perf run svg
+.PHONY: all clean exe perf run start stop svg
 .PRECIOUS: $(CSV)
 
 ###############################################################################
