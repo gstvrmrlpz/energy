@@ -14,6 +14,7 @@ SRC = $(wildcard *.cc)
 ENG = knuth_b minstd_rand0 minstd_rand mt19937 mt19937_64 mt11213b rand \
       ranlux24_base ranlux48_base ranlux24 ranlux48 xoroshiro128+ xoshiro256+
 REP = 100
+STA = $(CSV:.csv=.sta)
 SVG = $(wildcard *.svg)
 
 ###############################################################################
@@ -22,10 +23,10 @@ CXXFLAGS = -flto -march=native -O3 -Wall
 
 ###############################################################################
 
-all: svg
+all: $(STA)
 
 clean: stop
-	-rm -fv $(EXE) $(LOG) $(SVG) core* *~
+	-rm -fv $(EXE) $(LOG) $(STA) $(SVG) core* *~
 
 exe: $(EXE)
 
@@ -62,12 +63,14 @@ stop:
 	sudo cpupower frequency-set --governor schedutil
 	echo 1 | sudo tee /sys/devices/system/cpu/cpufreq/boost
 
-svg: $(GP) | $(CSV)
-	gnuplot < <(sed "s/^files=.*/files='$(CSV)'/" $<)
+###############################################################################
+
+%.sta: %.csv | $(GP)
+	gnuplot < <(sed "s/^files=.*/files='$<'/" $(GP)) 2> $@
 
 ###############################################################################
 
-.PHONY: all clean exe run start stop svg
-.PRECIOUS: $(CSV)
+.PHONY: all clean exe run start stop
+.PRECIOUS: $(CSV) $(STA)
 
 ###############################################################################
