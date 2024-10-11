@@ -23,7 +23,7 @@ do for [file in files] {
     set size ratio 2/(1+sqrt(5))
     set style boxplot medianlinewidth 2 pointtype 6
     set style fill solid 0.125
-    set terminal svg noenhanced size 1200,750 # 1600,1000
+    set terminal svg noenhanced size 1200,750 # 1600,1000 2400,1500 3200,2000
     set xlabel 'pseudo random number generator engine'
     set xtics rotate by 33 right scale 0
     set ytics nomirror
@@ -111,9 +111,9 @@ do for [file in files] {
     set output stem.'-all.svg'
     set multiplot layout 1,13 margin 0.033,0.99,0.05,0.99 spacing 0.033,0
     do for[e in engines] {
+        set xlabel e
         if (e eq 'knuth_b') { set ylabel 'power/energy-pkg (J)' offset 2.5}
         else                { unset ylabel }
-        set xlabel e
         plot '<(head -n 1 '.file.'; grep ^'.e.'\; '.file.')' using (1):(column('pkg') - column('sleep')):(0.75) with boxplot
     }
     unset multiplot

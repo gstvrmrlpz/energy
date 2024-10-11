@@ -20,7 +20,12 @@ clean:
 	-latexmk -C -f -shell-escape $(TEX)
 	-rm -fv $(AUX) $(BBL) $(BLG) $(FDB) $(FLS) $(LOG) $(PDF) $(SPL) *~
 
-%.pdf: %.tex
+img: $(wildcard *.svg)
+	@for i in $^; do
+		inkscape $$i -o $${i%.svg}.png
+	done
+
+%.pdf: %.tex | img
 	latexmk -f -pdf -shell-escape $<
 
 .PHONY: all auto clean
