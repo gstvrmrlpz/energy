@@ -12,7 +12,7 @@ TEX = $(wildcard *.tex)
 
 all: $(PDF)
 
-auto: all
+auto: $(PDF)
 	latexmk -f -pdf -pvc -shell-escape -silent $< && killall -q latexmk &
 	while ps $$! > /dev/null; do inotifywait -e modify -qr .; make -s $<; done
 
