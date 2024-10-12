@@ -6,10 +6,10 @@
 #include <string_view>
 #include <unistd.h>
 
-template<typename Engine> std::size_t test(Engine engine = Engine())
+template<typename Engine> typename Engine::result_type test(Engine engine = Engine())
 {
-    const std::size_t N = 10'000'000;
-    std::size_t r = 0;
+    const std::size_t N = 100'000'000;
+    typename Engine::result_type r = 0;
 
     for (std::size_t j = 0; j < N; ++j)
         r ^= engine();
