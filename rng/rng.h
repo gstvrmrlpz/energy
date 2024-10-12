@@ -85,10 +85,11 @@ public:
 
 struct rand_t
 {
+    typedef int result_type;
     rand_t(int seed = std::random_device()()) { srand(seed); }
-    int operator()() { return std::rand(); }
-    int min() { return 0; }
-    int max() { return RAND_MAX; }
+    result_type operator()() { return std::rand(); }
+    result_type min() { return 0; }
+    result_type max() { return RAND_MAX; }
 };
 
 //-----------------------------------------------------------------------------
