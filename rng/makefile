@@ -2,7 +2,6 @@
 # makefile
 ###############################################################################
 
-BASH := bash
 .ONESHELL:
 
 ###############################################################################
@@ -24,8 +23,7 @@ CXXFLAGS = -flto -march=native -O3 -Wall
 
 ###############################################################################
 
-all: $(STA)
-	make $(PNG)
+all: sta
 
 clean: stop
 	-rm -fv $(EXE) $(LOG) $(PNG) $(STA) $(SVG) core* *~
@@ -36,8 +34,8 @@ run: rng
 	make -s start
 	file=$${HOSTNAME%%.*}-$$(date '+%s').csv
 	LANG=C
-	FORMAT='%s;%s;%s;%s\n'
-	printf $$FORMAT engine pkg cpu sleep | tee $$file
+	FORMAT='%s;%s;%s;%s;%s\n'
+	printf $$FORMAT engine pkg cpu sleep diff | tee $$file
 	for eng in $(ENG); do
 		for (( rep = 0; rep < $(REP); ++rep )); do
 			pkg=0.0
@@ -48,22 +46,26 @@ run: rng
 				cpu=$$(grep seconds /tmp/$@ | tr -s ' ' | cut -d' ' -f2)
 				-perf stat -a -e power/energy-pkg/ 2> /tmp/$@ -- sleep $$cpu
 				sleep=$$(sed -n 's/[[:space:]]*\([[:digit:].,]*\) Joules .*/\1/p' /tmp/$@)
+				diff=$$(bc -l <<< "$$pkg - $$sleep")
 			done
-			printf $$FORMAT $$eng $$pkg $$cpu $$sleep | tee -a $$file
+			printf $$FORMAT $$eng $$pkg $$cpu $$sleep $$diff | tee -a $$file
 		done
 	done
 	make -s stop
 
+png: $(PNG) | sta
+
+sta: $(STA)
+
 start:
 	sudo sysctl kernel.perf_event_paranoid=-1
 	sudo cpupower frequency-set --governor performance
-	echo 0 | sudo tee /sys/devices/system/cpu/cpufreq/boost
-	sleep 1
+	sudo sh -c 'echo 0 > /sys/devices/system/cpu/cpufreq/boost'
 
 stop:
 	sudo sysctl kernel.perf_event_paranoid=2
-	sudo cpupower frequency-set --governor schedutil
-	echo 1 | sudo tee /sys/devices/system/cpu/cpufreq/boost
+	sudo cpupower frequency-set --governor schedutil || sudo cpupower frequency-set --governor powersave || true
+	sudo sh -c 'echo 1 > /sys/devices/system/cpu/cpufreq/boost'
 
 ###############################################################################
 
@@ -75,7 +77,7 @@ stop:
 
 ###############################################################################
 
-.PHONY: all clean exe run start stop
+.PHONY: all clean exe run png sta start stop
 .PRECIOUS: $(CSV) $(PNG) $(STA)
 
 ###############################################################################
