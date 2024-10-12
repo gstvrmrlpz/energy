@@ -53,7 +53,8 @@ run: rng
 	done
 	make -s stop
 
-png: $(PNG) | sta
+png: sta
+	make -s $(PNG)
 
 sta: $(STA)
 
