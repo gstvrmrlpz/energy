@@ -2,6 +2,7 @@
 # global variables
 #-----------------------------------------------------------------------------
 
+#engines='knuth_b minstd_rand0 minstd_rand mt19937 mt19937_64 mt11213b rand ranlux24_base ranlux48_base ranlux24 ranlux48 romutrio32 romutrio xoroshiro128+ xoshiro256+'
 engines='knuth_b minstd_rand0 minstd_rand mt19937 mt19937_64 mt11213b rand ranlux24_base ranlux48_base ranlux24 ranlux48 xoroshiro128+ xoshiro256+'
 files=''
 
@@ -36,11 +37,13 @@ do for [file in files] {
         stats file using (column(col)) name col nooutput
     }
 
-    do for[e in engines] {
-        print '##########################################################'
-        print '# '.e.' stats in '.file
-        print '##########################################################'
-        stats '<(head -n 1 '.file.'; grep ^'.e.'\; '.file.')' using (column('diff'))
+    do for [e in engines] {
+        do for [c in 'cpu diff'] {
+            print '##########################################################'
+            print '# '.e.' '.c.' stats in '.file
+            print '##########################################################'
+            stats '<(head -n 1 '.file.'; grep ^'.e.'\; '.file.')' using (column(c))
+        }
     }
 
     #---------------------------------------------------------------------

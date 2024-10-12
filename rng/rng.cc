@@ -6,7 +6,8 @@
 #include <string_view>
 #include <unistd.h>
 
-template<typename Engine> typename Engine::result_type test(Engine engine = Engine())
+template<typename Engine>
+typename Engine::result_type test(Engine engine = Engine())
 {
     const std::size_t N = 100'000'000;
     typename Engine::result_type r = 0;
@@ -42,6 +43,8 @@ std::string_view parser(int argc, char **argv)
                           << "\t    ranlux48_base\n"
                           << "\t    ranlux24\n"
                           << "\t    ranlux48\n"
+                          << "\t    romutrio32\n"
+                          << "\t    romutrio\n"
                           << "\t    xoroshiro128+\n"
                           << "\t    xoshiro256+\n"
                           << "\t-h: this help                (optional)\n";
@@ -78,6 +81,10 @@ int main(int argc, char *argv[])
         return test<std::ranlux24>();
     else if (engine == "ranlux48")
         return test<std::ranlux48>();
+    else if (engine == "romutrio32")
+        return test<romutrio32>();
+    else if (engine == "romutrio")
+        return test<romutrio>();
     else if (engine == "xoroshiro128+")
         return test<xoroshiro128p>();
     else if (engine == "xoshiro256+")

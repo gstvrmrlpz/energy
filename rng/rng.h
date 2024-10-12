@@ -33,10 +33,7 @@ template<class T> class splitmix
 public:
     typedef T result_type;
 
-    splitmix(result_type seed = std::random_device()())
-        : state(seed)
-    {
-    }
+    splitmix(result_type seed = std::random_device()()) : state(seed) {}
 
 protected:
     result_type state;
@@ -47,8 +44,7 @@ class splitmix32 : public splitmix<uint32_t>
 public:
     const result_type phi = 0x9e3779b9;
 
-    splitmix32(result_type seed = std::random_device()())
-        : splitmix(seed)
+    splitmix32(result_type seed = std::random_device()()) : splitmix(seed)
     {
     }
 
@@ -67,8 +63,7 @@ class splitmix64
 public:
     const result_type phi = 0x9e3779b97f4a7c15;
 
-    splitmix64(result_type seed = std::random_device()())
-        : splitmix(seed)
+    splitmix64(result_type seed = std::random_device()()) : splitmix(seed)
     {
     }
 
@@ -483,7 +478,24 @@ number = {4},
 issn = {0098-3500},
 url = {https://doi.org/10.1145/3460772},
 doi = {10.1145/3460772},
-abstract = {F2-linear pseudorandom number generators are very popular due to their high speed, to the ease with which generators with a sizable state space can be created, and to their provable theoretical properties. However, they suffer from linear artifacts that show as failures in linearity-related statistical tests such as the binary-rank and the linear-complexity test. In this article, we give two new contributions. First, we introduce two new F2-linear transformations that have been handcrafted to have good statistical properties and at the same time to be programmable very efficiently on superscalar processors, or even directly in hardware. Then, we describe some scramblers, that is, nonlinear functions applied to the state array that reduce or delete the linear artifacts, and propose combinations of linear transformations and scramblers that give extremely fast pseudorandom number generators of high quality. A novelty in our approach is that we use ideas from the theory of filtered linear-feedback shift registers to prove some properties of our scramblers, rather than relying purely on heuristics. In the end, we provide simple, extremely fast generators that use a few hundred bits of memory, have provable properties, and pass strong statistical tests.},
+abstract = {F2-linear pseudorandom number generators are very popular due
+to their high speed, to the ease with which generators with a sizable state
+space can be created, and to their provable theoretical properties.
+However, they suffer from linear artifacts that show as failures in
+linearity-related statistical tests such as the binary-rank and the
+linear-complexity test. In this article, we give two new contributions.
+First, we introduce two new F2-linear transformations that have been
+handcrafted to have good statistical properties and at the same time to be
+programmable very efficiently on superscalar processors, or even directly
+in hardware. Then, we describe some scramblers, that is, nonlinear
+functions applied to the state array that reduce or delete the linear
+artifacts, and propose combinations of linear transformations and
+scramblers that give extremely fast pseudorandom number generators of high
+quality. A novelty in our approach is that we use ideas from the theory of
+filtered linear-feedback shift registers to prove some properties of our
+scramblers, rather than relying purely on heuristics. In the end, we
+provide simple, extremely fast generators that use a few hundred bits of
+memory, have provable properties, and pass strong statistical tests.},
 journal = {ACM Trans. Math. Softw.},
 month = sep,
 articleno = {36},
@@ -513,9 +525,8 @@ typedef std::mersenne_twister_engine<uint32_t,
 /*
 @article{10.1145/272991.272995,
 author = {Matsumoto, Makoto and Nishimura, Takuji},
-title = {Mersenne twister: a 623-dimensionally equidistributed uniform pseudo-random number generator},
-year = {1998},
-issue_date = {Jan. 1998},
+title = {Mersenne twister: a 623-dimensionally equidistributed uniform
+pseudo-random number generator}, year = {1998}, issue_date = {Jan. 1998},
 publisher = {Association for Computing Machinery},
 address = {New York, NY, USA},
 volume = {8},
@@ -523,12 +534,26 @@ number = {1},
 issn = {1049-3301},
 url = {https://doi.org/10.1145/272991.272995},
 doi = {10.1145/272991.272995},
-abstract = {A new algorithm called Mersenne Twister (MT) is proposed for generating uniform pseudorandom numbers. For a particular choice of parameters, the algorithm provides a super astronomical period of 219937 −1 and 623-dimensional equidistribution up to 32-bit accuracy, while using a working area of only 624 words. This is a new variant of the previously proposed generators, TGFSR, modified so as to admit a Mersenne-prime period. The characteristic polynomial has many terms. The distribution up to v bits accuracy for 1 ≤ v ≤ 32 is also shown to be good. An algorithm is also given that checks the primitivity of the characteristic polynomial of MT with computational complexity O(p2) where  p is the degree of the polynomial.We implemented this generator in portable C-code. It passed several stringent statistical tests, including diehard. Its speed is comparable to other modern generators. Its merits are due to the efficient algorithms that are unique to polynomial calculations over the two-element field.},
-journal = {ACM Trans. Model. Comput. Simul.},
-month = jan,
-pages = {3–30},
-numpages = {28},
-keywords = {tempering, random number generation, primitive polynomials, multiple-recursive matrix method, inversive-decimation method, incomplete array, finite fields, TGFSR, Mersenne twister, Mersenne primes, MT19937, GFSR, m-sequences, k-distribution}
+abstract = {A new algorithm called Mersenne Twister (MT) is proposed for
+generating uniform pseudorandom numbers. For a particular choice of
+parameters, the algorithm provides a super astronomical period of 219937 −1
+and 623-dimensional equidistribution up to 32-bit accuracy, while using a
+working area of only 624 words. This is a new variant of the previously
+proposed generators, TGFSR, modified so as to admit a Mersenne-prime
+period. The characteristic polynomial has many terms. The distribution up
+to v bits accuracy for 1 ≤ v ≤ 32 is also shown to be good. An algorithm is
+also given that checks the primitivity of the characteristic polynomial of
+MT with computational complexity O(p2) where  p is the degree of the
+polynomial.We implemented this generator in portable C-code. It passed
+several stringent statistical tests, including diehard. Its speed is
+comparable to other modern generators. Its merits are due to the efficient
+algorithms that are unique to polynomial calculations over the two-element
+field.}, journal = {ACM Trans. Model. Comput. Simul.}, month = jan, pages =
+{3–30}, numpages = {28}, keywords = {tempering, random number generation,
+primitive polynomials, multiple-recursive matrix method,
+inversive-decimation method, incomplete array, finite fields, TGFSR,
+Mersenne twister, Mersenne primes, MT19937, GFSR, m-sequences,
+k-distribution}
 }
 */
 
@@ -564,6 +589,42 @@ pub fn next(self: *Xoshiro256) u64 {
     return r;
 }
 */
+
+//-----------------------------------------------------------------------------
+
+/*@misc{overton2020romufastnonlinearpseudorandom,
+      title={Romu: Fast Nonlinear Pseudo-Random Number Generators Providing
+High Quality}, author={Mark A. Overton}, year={2020}, eprint={2002.11331},
+      archivePrefix={arXiv},
+      primaryClass={cs.DC},
+      url={https://arxiv.org/abs/2002.11331},
+}*/
+
+class romutrio32 : public engine_base<uint32_t, 3>
+{
+public:
+    result_type operator()()
+    {
+        result_type xp = state[0], yp = state[1], zp = state[2];
+        state[0] = 3323815723u * zp;
+        state[1] = std::rotl(yp - xp, 6);
+        state[2] = std::rotl(zp - yp, 22);
+        return xp;
+    }
+};
+
+class romutrio : public engine_base<uint64_t, 3>
+{
+public:
+    result_type operator()()
+    {
+        result_type xp = state[0], yp = state[1], zp = state[2];
+        state[0] = 15241094284759029579u * zp;
+        state[1] = std::rotl(yp - xp, 12);
+        state[2] = std::rotl(zp - yp, 44);
+        return xp;
+    }
+};
 
 //-----------------------------------------------------------------------------
 
