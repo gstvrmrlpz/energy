@@ -116,7 +116,7 @@ To measure the energy consumption of C++ random number generators, we wrote a pr
 \end{itemize}
 
 %También hemos añadido otros generadores bien conocidos por su interés, por su inclusión en otros lenguajes de programación o por formar parte del estado del arte:
-We also included other well-known generators, either due to their relevance (\texttt{rand} de C), their inclusion in other programming languages like Rust and Zig, or their role in the state of the art :
+We also included other well-known generators, either due to their relevance (\texttt{rand} de C), their inclusion in trendy programming languages like Rust and Zig, or their role in the state of the art:
 
 \begin{itemize}
     \item \texttt{rand} de C.
@@ -166,7 +166,7 @@ As can be seen from the results in Figure \ref{fig:pkg}, the energy consumption 
 % \label{fig:all}
 % \end{figure}
 
-In our case, the 32 bits version of RomuTrio, \texttt{romurtio32}, is the most efficient in terms of energy consumption and CPU time, while the \texttt{ranlux48} generator is the least efficient. The differences between the generators are also reflected in Table \ref{tab:pkg}, which shows the means and standard deviations of the energy consumed and the CPU time spent by 100 runs of each engine creating 100 million random numbers. \texttt{romutrio32} consume the 0.09\% of the energy consumed by \texttt{ranlux48} and the 0.41\% of the CPU time spent by \texttt{ranlux48}.
+In our case, the 32 bits version of \texttt{romutrio}, \texttt{romutrio32}, is the most efficient in terms of energy consumption and CPU time, while the \texttt{ranlux48} generator is the least efficient. The differences between the generators are also reflected in Table \ref{tab:pkg}, which shows the means and standard deviations of the energy consumed and the CPU time spent by 100 runs of each engine creating 100 million random numbers. \texttt{romutrio32} consume the 0.09\% of the energy consumed by \texttt{ranlux48} and the 0.41\% of the CPU time spent by \texttt{ranlux48}.
 
 \begin{table}
 \centering
@@ -206,7 +206,6 @@ Is also important to note that most of the implementations with lower energy con
 The energy consumption of the classic C \texttt{rand} generator is also very high, which is consistent with its poor performance in terms of CPU time. In spite of being one of the 32 bits implementations.
 
 As a curious case, we can highlight \texttt{mt11213b}, one of the Mersenne Twister family generators. Its characteristics are among the best, and the only thing that differentiates it from \texttt{mt19937} is the set of constants and initial seeds. However, \texttt{mt11213b} consumes 34.16\% less energy and 40.18\% less CPU time than \texttt{mt19937}.
-
 
 After \texttt{romutrio32} and \texttt{romutrio}, the next best engines are the Mersenne Twister \texttt{mt11213b} and the XOR-based ones from Marsaglia, \texttt{xoroshiro128+} and \texttt{xoshiro256+}, though the differences are not significant.
 
