@@ -1,5 +1,5 @@
 ##########################################################
-# knuth_b cpu stats in asus-1728759638.csv
+# knuth_b cpu stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -11,28 +11,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               1.7553
-  Std Dev:            0.0005
-  Sample StdDev:      0.0005
-  Skewness:           1.0892
-  Kurtosis:           9.1713
-  Avg Dev:            0.0004
-  Sum:              175.5302
-  Sum Sq.:          308.1085
+  Mean:               0.9778
+  Std Dev:            0.0004
+  Sample StdDev:      0.0004
+  Skewness:           2.8998
+  Kurtosis:          14.7539
+  Avg Dev:            0.0003
+  Sum:               97.7802
+  Sum Sq.:           95.6096
 
   Mean Err.:          0.0000
   Std Dev Err.:       0.0000
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            1.7540 [  4]
-  Maximum:            1.7578 [ 10]
-  Quartile:           1.7550 
-  Median:             1.7553 
-  Quartile:           1.7556 
+  Minimum:            0.9773 [ 11]
+  Maximum:            0.9801 [ 13]
+  Quartile:           0.9776 
+  Median:             0.9777 
+  Quartile:           0.9779 
 
 ##########################################################
-# knuth_b diff stats in asus-1728759638.csv
+# knuth_b diff stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -44,28 +44,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               1.6705
-  Std Dev:            0.1524
-  Sample StdDev:      0.1532
-  Skewness:          -2.2969
-  Kurtosis:           8.7528
-  Avg Dev:            0.1043
-  Sum:              167.0500
-  Sum Sq.:          281.3793
+  Mean:               5.1256
+  Std Dev:            1.4059
+  Sample StdDev:      1.4130
+  Skewness:           1.0386
+  Kurtosis:           8.7515
+  Avg Dev:            0.8520
+  Sum:              512.5600
+  Sum Sq.:         2824.8246
 
-  Mean Err.:          0.0152
-  Std Dev Err.:       0.0108
+  Mean Err.:          0.1406
+  Std Dev Err.:       0.0994
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            1.0200 [ 41]
-  Maximum:            1.8700 [  0]
-  Quartile:           1.6550 
-  Median:             1.7200 
-  Quartile:           1.7600 
+  Minimum:            0.1700 [ 68]
+  Maximum:           11.4900 [ 30]
+  Quartile:           4.6250 
+  Median:             4.9000 
+  Quartile:           5.2100 
 
 ##########################################################
-# minstd_rand0 cpu stats in asus-1728759638.csv
+# minstd_rand0 cpu stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -77,28 +77,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               0.7035
-  Std Dev:            0.0003
-  Sample StdDev:      0.0003
-  Skewness:           1.9910
-  Kurtosis:          11.1658
+  Mean:               0.3985
+  Std Dev:            0.0002
+  Sample StdDev:      0.0002
+  Skewness:           0.1712
+  Kurtosis:           2.3736
   Avg Dev:            0.0002
-  Sum:               70.3454
-  Sum Sq.:           49.4848
+  Sum:               39.8531
+  Sum Sq.:           15.8827
 
   Mean Err.:          0.0000
   Std Dev Err.:       0.0000
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.7028 [ 82]
-  Maximum:            0.7053 [ 77]
-  Quartile:           0.7033 
-  Median:             0.7034 
-  Quartile:           0.7036 
+  Minimum:            0.3981 [ 12]
+  Maximum:            0.3990 [ 66]
+  Quartile:           0.3984 
+  Median:             0.3985 
+  Quartile:           0.3987 
 
 ##########################################################
-# minstd_rand0 diff stats in asus-1728759638.csv
+# minstd_rand0 diff stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -110,28 +110,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               0.6043
-  Std Dev:            0.1214
-  Sample StdDev:      0.1220
-  Skewness:          -1.6659
-  Kurtosis:           5.8837
-  Avg Dev:            0.0890
-  Sum:               60.4300
-  Sum Sq.:           37.9905
+  Mean:               1.3238
+  Std Dev:            0.7541
+  Sample StdDev:      0.7579
+  Skewness:           1.0932
+  Kurtosis:           3.1115
+  Avg Dev:            0.5974
+  Sum:              132.3800
+  Sum Sq.:          232.1070
 
-  Mean Err.:          0.0121
-  Std Dev Err.:       0.0086
+  Mean Err.:          0.0754
+  Std Dev Err.:       0.0533
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.1600 [ 21]
-  Maximum:            0.7600 [ 37]
-  Quartile:           0.5700 
-  Median:             0.6400 
-  Quartile:           0.6900 
+  Minimum:            0.0700 [ 59]
+  Maximum:            3.2400 [ 33]
+  Quartile:           0.8800 
+  Median:             1.0100 
+  Quartile:           1.4900 
 
 ##########################################################
-# minstd_rand cpu stats in asus-1728759638.csv
+# minstd_rand cpu stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -143,28 +143,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               0.7031
-  Std Dev:            0.0003
-  Sample StdDev:      0.0003
-  Skewness:           0.1297
-  Kurtosis:           2.7533
+  Mean:               0.3985
+  Std Dev:            0.0002
+  Sample StdDev:      0.0002
+  Skewness:           2.5931
+  Kurtosis:          14.9136
   Avg Dev:            0.0002
-  Sum:               70.3119
-  Sum Sq.:           49.4376
+  Sum:               39.8515
+  Sum Sq.:           15.8814
 
   Mean Err.:          0.0000
   Std Dev Err.:       0.0000
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.7025 [ 87]
-  Maximum:            0.7037 [ 65]
-  Quartile:           0.7029 
-  Median:             0.7031 
-  Quartile:           0.7033 
+  Minimum:            0.3982 [ 33]
+  Maximum:            0.4000 [ 18]
+  Quartile:           0.3984 
+  Median:             0.3985 
+  Quartile:           0.3986 
 
 ##########################################################
-# minstd_rand diff stats in asus-1728759638.csv
+# minstd_rand diff stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -176,61 +176,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               0.5858
-  Std Dev:            0.1609
-  Sample StdDev:      0.1617
-  Skewness:          -1.1606
-  Kurtosis:           3.6625
-  Avg Dev:            0.1279
-  Sum:               58.5800
-  Sum Sq.:           36.9050
+  Mean:               1.3379
+  Std Dev:            0.8194
+  Sample StdDev:      0.8235
+  Skewness:           0.7349
+  Kurtosis:           2.5863
+  Avg Dev:            0.6662
+  Sum:              133.7900
+  Sum Sq.:          246.1351
 
-  Mean Err.:          0.0161
-  Std Dev Err.:       0.0114
+  Mean Err.:          0.0819
+  Std Dev Err.:       0.0579
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.1200 [ 20]
-  Maximum:            0.8400 [ 21]
-  Quartile:           0.4900 
-  Median:             0.6350 
-  Quartile:           0.7000 
+  Minimum:            0.1600 [ 17]
+  Maximum:            3.1800 [ 89]
+  Quartile:           0.8200 
+  Median:             1.0600 
+  Quartile:           1.8250 
 
 ##########################################################
-# mt19937 cpu stats in asus-1728759638.csv
-##########################################################
-
-* FILE: 
-  Records:           100
-  Out of range:        0
-  Invalid:             0
-  Header records:      1
-  Blank:               0
-  Data Blocks:         1
-
-* COLUMN: 
-  Mean:               0.1877
-  Std Dev:            0.0005
-  Sample StdDev:      0.0005
-  Skewness:           1.3870
-  Kurtosis:           3.9868
-  Avg Dev:            0.0004
-  Sum:               18.7701
-  Sum Sq.:            3.5232
-
-  Mean Err.:          0.0000
-  Std Dev Err.:       0.0000
-  Skewness Err.:      0.2449
-  Kurtosis Err.:      0.4899
-
-  Minimum:            0.1869 [ 83]
-  Maximum:            0.1890 [ 14]
-  Quartile:           0.1874 
-  Median:             0.1875 
-  Quartile:           0.1878 
-
-##########################################################
-# mt19937 diff stats in asus-1728759638.csv
+# mt19937 cpu stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -242,127 +209,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               0.1324
-  Std Dev:            0.0539
-  Sample StdDev:      0.0542
-  Skewness:          -0.6025
-  Kurtosis:           2.4377
-  Avg Dev:            0.0455
-  Sum:               13.2400
-  Sum Sq.:            2.0440
-
-  Mean Err.:          0.0054
-  Std Dev Err.:       0.0038
-  Skewness Err.:      0.2449
-  Kurtosis Err.:      0.4899
-
-  Minimum:            0.0100 [ 38]
-  Maximum:            0.2400 [ 33]
-  Quartile:           0.1000 
-  Median:             0.1400 
-  Quartile:           0.1800 
-
-##########################################################
-# mt19937_64 cpu stats in asus-1728759638.csv
-##########################################################
-
-* FILE: 
-  Records:           100
-  Out of range:        0
-  Invalid:             0
-  Header records:      1
-  Blank:               0
-  Data Blocks:         1
-
-* COLUMN: 
-  Mean:               0.2082
+  Mean:               0.1891
   Std Dev:            0.0007
   Sample StdDev:      0.0007
-  Skewness:           2.0981
-  Kurtosis:           8.2327
-  Avg Dev:            0.0005
-  Sum:               20.8167
-  Sum Sq.:            4.3334
-
-  Mean Err.:          0.0001
-  Std Dev Err.:       0.0000
-  Skewness Err.:      0.2449
-  Kurtosis Err.:      0.4899
-
-  Minimum:            0.2071 [ 62]
-  Maximum:            0.2111 [ 33]
-  Quartile:           0.2078 
-  Median:             0.2080 
-  Quartile:           0.2083 
-
-##########################################################
-# mt19937_64 diff stats in asus-1728759638.csv
-##########################################################
-
-* FILE: 
-  Records:           100
-  Out of range:        0
-  Invalid:             0
-  Header records:      1
-  Blank:               0
-  Data Blocks:         1
-
-* COLUMN: 
-  Mean:               0.1450
-  Std Dev:            0.0586
-  Sample StdDev:      0.0589
-  Skewness:          -0.3939
-  Kurtosis:           2.0341
-  Avg Dev:            0.0506
-  Sum:               14.5000
-  Sum Sq.:            2.4456
-
-  Mean Err.:          0.0059
-  Std Dev Err.:       0.0041
-  Skewness Err.:      0.2449
-  Kurtosis Err.:      0.4899
-
-  Minimum:            0.0100 [ 79]
-  Maximum:            0.2500 [ 62]
-  Quartile:           0.0950 
-  Median:             0.1600 
-  Quartile:           0.2000 
-
-##########################################################
-# mt11213b cpu stats in asus-1728759638.csv
-##########################################################
-
-* FILE: 
-  Records:           100
-  Out of range:        0
-  Invalid:             0
-  Header records:      1
-  Blank:               0
-  Data Blocks:         1
-
-* COLUMN: 
-  Mean:               0.1847
-  Std Dev:            0.0008
-  Sample StdDev:      0.0008
-  Skewness:          -0.7301
-  Kurtosis:           3.1463
-  Avg Dev:            0.0006
-  Sum:               18.4683
-  Sum Sq.:            3.4108
+  Skewness:           5.5070
+  Kurtosis:          36.2902
+  Avg Dev:            0.0003
+  Sum:               18.9079
+  Sum Sq.:            3.5752
 
   Mean Err.:          0.0001
   Std Dev Err.:       0.0001
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.1823 [ 69]
-  Maximum:            0.1860 [ 31]
-  Quartile:           0.1842 
-  Median:             0.1848 
-  Quartile:           0.1852 
+  Minimum:            0.1886 [ 66]
+  Maximum:            0.1938 [ 41]
+  Quartile:           0.1887 
+  Median:             0.1891 
+  Quartile:           0.1892 
 
 ##########################################################
-# mt11213b diff stats in asus-1728759638.csv
+# mt19937 diff stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -374,28 +242,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               0.1318
-  Std Dev:            0.0514
-  Sample StdDev:      0.0517
-  Skewness:          -0.6276
-  Kurtosis:           2.1066
-  Avg Dev:            0.0447
-  Sum:               13.1800
-  Sum Sq.:            2.0018
+  Mean:               0.4116
+  Std Dev:            0.0693
+  Sample StdDev:      0.0696
+  Skewness:           0.5827
+  Kurtosis:           4.3006
+  Avg Dev:            0.0517
+  Sum:               41.1600
+  Sum Sq.:           17.4212
 
-  Mean Err.:          0.0051
-  Std Dev Err.:       0.0036
+  Mean Err.:          0.0069
+  Std Dev Err.:       0.0049
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.0100 [  8]
-  Maximum:            0.2000 [ 88]
-  Quartile:           0.0800 
-  Median:             0.1500 
-  Quartile:           0.1750 
+  Minimum:            0.2500 [ 87]
+  Maximum:            0.6700 [ 34]
+  Quartile:           0.3800 
+  Median:             0.4000 
+  Quartile:           0.4500 
 
 ##########################################################
-# rand cpu stats in asus-1728759638.csv
+# mt19937_64 cpu stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -407,28 +275,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               2.3647
-  Std Dev:            0.0047
-  Sample StdDev:      0.0047
-  Skewness:           2.2132
-  Kurtosis:          10.2990
-  Avg Dev:            0.0032
-  Sum:              236.4687
-  Sum Sq.:          559.1769
+  Mean:               0.1806
+  Std Dev:            0.0019
+  Sample StdDev:      0.0019
+  Skewness:           3.8173
+  Kurtosis:          17.9586
+  Avg Dev:            0.0010
+  Sum:               18.0640
+  Sum Sq.:            3.2634
 
-  Mean Err.:          0.0005
-  Std Dev Err.:       0.0003
+  Mean Err.:          0.0002
+  Std Dev Err.:       0.0001
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            2.3553 [  7]
-  Maximum:            2.3890 [ 26]
-  Quartile:           2.3616 
-  Median:             2.3634 
-  Quartile:           2.3663 
+  Minimum:            0.1795 [ 24]
+  Maximum:            0.1912 [ 95]
+  Quartile:           0.1798 
+  Median:             0.1801 
+  Quartile:           0.1807 
 
 ##########################################################
-# rand diff stats in asus-1728759638.csv
+# mt19937_64 diff stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -440,28 +308,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               2.2634
-  Std Dev:            0.2649
-  Sample StdDev:      0.2662
-  Skewness:          -4.0282
-  Kurtosis:          25.5546
-  Avg Dev:            0.1537
-  Sum:              226.3400
-  Sum Sq.:          519.3126
+  Mean:               0.4770
+  Std Dev:            0.0759
+  Sample StdDev:      0.0763
+  Skewness:          -1.0871
+  Kurtosis:           8.3250
+  Avg Dev:            0.0527
+  Sum:               47.7000
+  Sum Sq.:           23.3288
 
-  Mean Err.:          0.0265
-  Std Dev Err.:       0.0187
+  Mean Err.:          0.0076
+  Std Dev Err.:       0.0054
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.4200 [ 88]
-  Maximum:            2.6100 [ 87]
-  Quartile:           2.2600 
-  Median:             2.3300 
-  Quartile:           2.3850 
+  Minimum:            0.1200 [ 84]
+  Maximum:            0.7100 [ 85]
+  Quartile:           0.4400 
+  Median:             0.4800 
+  Quartile:           0.5100 
 
 ##########################################################
-# ranlux24_base cpu stats in asus-1728759638.csv
+# mt11213b cpu stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -473,28 +341,94 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               0.8962
-  Std Dev:            0.0068
-  Sample StdDev:      0.0069
-  Skewness:           2.2330
-  Kurtosis:           8.5736
-  Avg Dev:            0.0045
-  Sum:               89.6181
-  Sum Sq.:           80.3188
+  Mean:               0.1349
+  Std Dev:            0.0006
+  Sample StdDev:      0.0006
+  Skewness:           3.7172
+  Kurtosis:          20.4092
+  Avg Dev:            0.0004
+  Sum:               13.4907
+  Sum Sq.:            1.8200
 
-  Mean Err.:          0.0007
+  Mean Err.:          0.0001
+  Std Dev Err.:       0.0000
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            0.1342 [ 10]
+  Maximum:            0.1387 [ 43]
+  Quartile:           0.1346 
+  Median:             0.1347 
+  Quartile:           0.1350 
+
+##########################################################
+# mt11213b diff stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               0.3068
+  Std Dev:            0.0482
+  Sample StdDev:      0.0484
+  Skewness:          -1.2025
+  Kurtosis:           8.9644
+  Avg Dev:            0.0319
+  Sum:               30.6800
+  Sum Sq.:            9.6450
+
+  Mean Err.:          0.0048
+  Std Dev Err.:       0.0034
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            0.0900 [ 22]
+  Maximum:            0.4200 [ 84]
+  Quartile:           0.2900 
+  Median:             0.3100 
+  Quartile:           0.3300 
+
+##########################################################
+# rand cpu stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               1.1750
+  Std Dev:            0.0075
+  Sample StdDev:      0.0075
+  Skewness:          -7.8164
+  Kurtosis:          72.0846
+  Avg Dev:            0.0031
+  Sum:              117.5019
+  Sum Sq.:          138.0726
+
+  Mean Err.:          0.0008
   Std Dev Err.:       0.0005
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.8854 [ 78]
-  Maximum:            0.9263 [ 40]
-  Quartile:           0.8931 
-  Median:             0.8939 
-  Quartile:           0.8967 
+  Minimum:            1.1058 [  4]
+  Maximum:            1.1817 [ 84]
+  Quartile:           1.1741 
+  Median:             1.1762 
+  Quartile:           1.1776 
 
 ##########################################################
-# ranlux24_base diff stats in asus-1728759638.csv
+# rand diff stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -506,28 +440,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               0.6734
-  Std Dev:            0.2594
-  Sample StdDev:      0.2607
-  Skewness:          -0.6552
-  Kurtosis:           2.2653
-  Avg Dev:            0.2254
-  Sum:               67.3400
-  Sum Sq.:           52.0768
+  Mean:               7.6998
+  Std Dev:            1.1038
+  Sample StdDev:      1.1093
+  Skewness:           0.2811
+  Kurtosis:           5.1307
+  Avg Dev:            0.7877
+  Sum:              769.9800
+  Sum Sq.:         6050.5194
 
-  Mean Err.:          0.0259
-  Std Dev Err.:       0.0183
+  Mean Err.:          0.1104
+  Std Dev Err.:       0.0780
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.0700 [ 62]
-  Maximum:            1.0100 [ 56]
-  Quartile:           0.4500 
-  Median:             0.7600 
-  Quartile:           0.8900 
+  Minimum:            3.4600 [ 59]
+  Maximum:           10.7600 [ 29]
+  Quartile:           7.1350 
+  Median:             7.4350 
+  Quartile:           8.1250 
 
 ##########################################################
-# ranlux48_base cpu stats in asus-1728759638.csv
+# ranlux24_base cpu stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -539,28 +473,160 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               0.7036
-  Std Dev:            0.0196
-  Sample StdDev:      0.0197
-  Skewness:           0.5303
-  Kurtosis:           1.4987
-  Avg Dev:            0.0180
-  Sum:               70.3630
-  Sum Sq.:           49.5481
+  Mean:               0.5636
+  Std Dev:            0.0013
+  Sample StdDev:      0.0013
+  Skewness:           0.7680
+  Kurtosis:           3.5631
+  Avg Dev:            0.0011
+  Sum:               56.3644
+  Sum Sq.:           31.7696
 
-  Mean Err.:          0.0020
+  Mean Err.:          0.0001
+  Std Dev Err.:       0.0001
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            0.5616 [ 24]
+  Maximum:            0.5678 [ 13]
+  Quartile:           0.5626 
+  Median:             0.5635 
+  Quartile:           0.5645 
+
+##########################################################
+# ranlux24_base diff stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               3.0864
+  Std Dev:            1.1094
+  Sample StdDev:      1.1150
+  Skewness:           2.0023
+  Kurtosis:           7.7576
+  Avg Dev:            0.7912
+  Sum:              308.6400
+  Sum Sq.:         1075.6600
+
+  Mean Err.:          0.1109
+  Std Dev Err.:       0.0784
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            1.4100 [ 11]
+  Maximum:            7.6300 [  8]
+  Quartile:           2.5100 
+  Median:             2.6750 
+  Quartile:           3.3450 
+
+##########################################################
+# ranlux48_base cpu stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               0.5145
+  Std Dev:            0.0009
+  Sample StdDev:      0.0009
+  Skewness:           1.7446
+  Kurtosis:           8.5527
+  Avg Dev:            0.0006
+  Sum:               51.4535
+  Sum Sq.:           26.4747
+
+  Mean Err.:          0.0001
+  Std Dev Err.:       0.0001
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            0.5128 [ 14]
+  Maximum:            0.5188 [ 54]
+  Quartile:           0.5140 
+  Median:             0.5144 
+  Quartile:           0.5149 
+
+##########################################################
+# ranlux48_base diff stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               2.5486
+  Std Dev:            0.9063
+  Sample StdDev:      0.9109
+  Skewness:           1.7381
+  Kurtosis:           7.5781
+  Avg Dev:            0.6252
+  Sum:              254.8600
+  Sum Sq.:          731.6734
+
+  Mean Err.:          0.0906
+  Std Dev Err.:       0.0641
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            0.1700 [ 83]
+  Maximum:            6.3700 [  0]
+  Quartile:           2.0950 
+  Median:             2.2650 
+  Quartile:           2.8900 
+
+##########################################################
+# ranlux24 cpu stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               5.3631
+  Std Dev:            0.0193
+  Sample StdDev:      0.0194
+  Skewness:           0.3496
+  Kurtosis:           3.0808
+  Avg Dev:            0.0153
+  Sum:              536.3112
+  Sum Sq.:         2876.3337
+
+  Mean Err.:          0.0019
   Std Dev Err.:       0.0014
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.6815 [ 45]
-  Maximum:            0.7352 [ 59]
-  Quartile:           0.6870 
-  Median:             0.6944 
-  Quartile:           0.7294 
+  Minimum:            5.3222 [ 46]
+  Maximum:            5.4215 [ 53]
+  Quartile:           5.3497 
+  Median:             5.3617 
+  Quartile:           5.3751 
 
 ##########################################################
-# ranlux48_base diff stats in asus-1728759638.csv
+# ranlux24 diff stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -572,28 +638,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               0.5651
-  Std Dev:            0.2033
-  Sample StdDev:      0.2044
-  Skewness:          -0.9605
-  Kurtosis:           2.9480
-  Avg Dev:            0.1682
-  Sum:               56.5100
-  Sum Sq.:           36.0685
+  Mean:              39.5458
+  Std Dev:            3.1765
+  Sample StdDev:      3.1925
+  Skewness:          -0.1977
+  Kurtosis:           8.2898
+  Avg Dev:            2.0111
+  Sum:             3954.5800
+  Sum Sq.:       157396.0288
 
-  Mean Err.:          0.0203
-  Std Dev Err.:       0.0144
+  Mean Err.:          0.3176
+  Std Dev Err.:       0.2246
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.0300 [ 86]
-  Maximum:            0.9000 [ 69]
-  Quartile:           0.4250 
-  Median:             0.6450 
-  Quartile:           0.7100 
+  Minimum:           26.9200 [ 92]
+  Maximum:           53.0300 [ 67]
+  Quartile:          38.3100 
+  Median:            39.4700 
+  Quartile:          40.8750 
 
 ##########################################################
-# ranlux24 cpu stats in asus-1728759638.csv
+# ranlux48 cpu stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -605,28 +671,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               8.8490
-  Std Dev:            0.0299
-  Sample StdDev:      0.0300
-  Skewness:           2.0724
-  Kurtosis:           7.0035
-  Avg Dev:            0.0205
-  Sum:              884.9025
-  Sum Sq.:         7830.6143
+  Mean:              20.2619
+  Std Dev:            0.0232
+  Sample StdDev:      0.0233
+  Skewness:          -0.6895
+  Kurtosis:           3.8286
+  Avg Dev:            0.0177
+  Sum:             2026.1898
+  Sum Sq.:        41054.5031
 
-  Mean Err.:          0.0030
-  Std Dev Err.:       0.0021
+  Mean Err.:          0.0023
+  Std Dev Err.:       0.0016
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            8.8152 [ 55]
-  Maximum:            8.9570 [ 27]
-  Quartile:           8.8310 
-  Median:             8.8398 
-  Quartile:           8.8551 
+  Minimum:           20.1835 [ 51]
+  Maximum:           20.3061 [ 10]
+  Quartile:          20.2486 
+  Median:            20.2638 
+  Quartile:          20.2783 
 
 ##########################################################
-# ranlux24 diff stats in asus-1728759638.csv
+# ranlux48 diff stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -638,61 +704,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               9.4909
-  Std Dev:            0.5020
-  Sample StdDev:      0.5046
-  Skewness:          -0.5305
-  Kurtosis:           2.7308
-  Avg Dev:            0.4088
-  Sum:              949.0900
-  Sum Sq.:         9032.9211
+  Mean:             153.1331
+  Std Dev:            6.6647
+  Sample StdDev:      6.6983
+  Skewness:          -1.8831
+  Kurtosis:          11.6962
+  Avg Dev:            4.5196
+  Sum:            15313.3100
+  Sum Sq.:       2.34942e+06
 
-  Mean Err.:          0.0502
-  Std Dev Err.:       0.0355
+  Mean Err.:          0.6665
+  Std Dev Err.:       0.4713
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            8.2000 [ 41]
-  Maximum:           10.3900 [ 39]
-  Quartile:           9.2050 
-  Median:             9.5950 
-  Quartile:           9.8800 
+  Minimum:          119.2400 [  6]
+  Maximum:          171.2100 [ 26]
+  Quartile:         149.8800 
+  Median:           153.8700 
+  Quartile:         156.6700 
 
 ##########################################################
-# ranlux48 cpu stats in asus-1728759638.csv
-##########################################################
-
-* FILE: 
-  Records:           100
-  Out of range:        0
-  Invalid:             0
-  Header records:      1
-  Blank:               0
-  Data Blocks:         1
-
-* COLUMN: 
-  Mean:              24.5318
-  Std Dev:            0.1048
-  Sample StdDev:      0.1053
-  Skewness:          -1.0671
-  Kurtosis:           5.0892
-  Avg Dev:            0.0799
-  Sum:             2453.1752
-  Sum Sq.:        60181.7835
-
-  Mean Err.:          0.0105
-  Std Dev Err.:       0.0074
-  Skewness Err.:      0.2449
-  Kurtosis Err.:      0.4899
-
-  Minimum:           24.1184 [ 68]
-  Maximum:           24.7533 [ 70]
-  Quartile:          24.4738 
-  Median:            24.5475 
-  Quartile:          24.6088 
-
-##########################################################
-# ranlux48 diff stats in asus-1728759638.csv
+# xoroshiro128+ cpu stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -704,127 +737,28 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:              27.2443
-  Std Dev:            0.7301
-  Sample StdDev:      0.7338
-  Skewness:          -1.8886
-  Kurtosis:           9.8251
-  Avg Dev:            0.4786
-  Sum:             2724.4300
-  Sum Sq.:        74278.4995
-
-  Mean Err.:          0.0730
-  Std Dev Err.:       0.0516
-  Skewness Err.:      0.2449
-  Kurtosis Err.:      0.4899
-
-  Minimum:           23.9400 [ 64]
-  Maximum:           28.9400 [ 73]
-  Quartile:          26.9950 
-  Median:            27.2850 
-  Quartile:          27.6350 
-
-##########################################################
-# xoroshiro128+ cpu stats in asus-1728759638.csv
-##########################################################
-
-* FILE: 
-  Records:           100
-  Out of range:        0
-  Invalid:             0
-  Header records:      1
-  Blank:               0
-  Data Blocks:         1
-
-* COLUMN: 
-  Mean:               0.1542
-  Std Dev:            0.0002
-  Sample StdDev:      0.0002
-  Skewness:           1.4225
-  Kurtosis:           7.7651
-  Avg Dev:            0.0002
-  Sum:               15.4220
-  Sum Sq.:            2.3784
-
-  Mean Err.:          0.0000
-  Std Dev Err.:       0.0000
-  Skewness Err.:      0.2449
-  Kurtosis Err.:      0.4899
-
-  Minimum:            0.1537 [ 83]
-  Maximum:            0.1552 [ 18]
-  Quartile:           0.1541 
-  Median:             0.1542 
-  Quartile:           0.1543 
-
-##########################################################
-# xoroshiro128+ diff stats in asus-1728759638.csv
-##########################################################
-
-* FILE: 
-  Records:           100
-  Out of range:        0
-  Invalid:             0
-  Header records:      1
-  Blank:               0
-  Data Blocks:         1
-
-* COLUMN: 
-  Mean:               0.1425
-  Std Dev:            0.0673
-  Sample StdDev:      0.0677
-  Skewness:          -0.0071
-  Kurtosis:           2.6965
-  Avg Dev:            0.0530
-  Sum:               14.2500
-  Sum Sq.:            2.4841
-
-  Mean Err.:          0.0067
-  Std Dev Err.:       0.0048
-  Skewness Err.:      0.2449
-  Kurtosis Err.:      0.4899
-
-  Minimum:            0.0100 [ 29]
-  Maximum:            0.3200 [ 77]
-  Quartile:           0.0950 
-  Median:             0.1500 
-  Quartile:           0.1900 
-
-##########################################################
-# xoshiro256+ cpu stats in asus-1728759638.csv
-##########################################################
-
-* FILE: 
-  Records:           100
-  Out of range:        0
-  Invalid:             0
-  Header records:      1
-  Blank:               0
-  Data Blocks:         1
-
-* COLUMN: 
-  Mean:               0.1244
+  Mean:               0.1021
   Std Dev:            0.0005
   Sample StdDev:      0.0005
-  Skewness:          -1.9054
-  Kurtosis:           7.6277
-  Avg Dev:            0.0003
-  Sum:               12.4363
-  Sum Sq.:            1.5466
+  Skewness:           5.1890
+  Kurtosis:          33.1033
+  Avg Dev:            0.0002
+  Sum:               10.2111
+  Sum Sq.:            1.0427
 
   Mean Err.:          0.0000
   Std Dev Err.:       0.0000
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.1224 [ 84]
-  Maximum:            0.1249 [ 43]
-  Quartile:           0.1242 
-  Median:             0.1244 
-  Quartile:           0.1247 
+  Minimum:            0.1018 [ 27]
+  Maximum:            0.1055 [ 96]
+  Quartile:           0.1019 
+  Median:             0.1020 
+  Quartile:           0.1021 
 
 ##########################################################
-# xoshiro256+ diff stats in asus-1728759638.csv
+# xoroshiro128+ diff stats in casa-1728771408.csv
 ##########################################################
 
 * FILE: 
@@ -836,23 +770,89 @@
   Data Blocks:         1
 
 * COLUMN: 
-  Mean:               0.1167
-  Std Dev:            0.0658
-  Sample StdDev:      0.0661
-  Skewness:           0.6650
-  Kurtosis:           4.3868
-  Avg Dev:            0.0518
-  Sum:               11.6700
-  Sum Sq.:            1.7943
+  Mean:               0.2037
+  Std Dev:            0.0313
+  Sample StdDev:      0.0314
+  Skewness:          -0.5960
+  Kurtosis:           4.7643
+  Avg Dev:            0.0236
+  Sum:               20.3700
+  Sum Sq.:            4.2471
 
-  Mean Err.:          0.0066
-  Std Dev Err.:       0.0046
+  Mean Err.:          0.0031
+  Std Dev Err.:       0.0022
   Skewness Err.:      0.2449
   Kurtosis Err.:      0.4899
 
-  Minimum:            0.0100 [ 19]
-  Maximum:            0.3800 [ 41]
-  Quartile:           0.0650 
-  Median:             0.1200 
-  Quartile:           0.1600 
+  Minimum:            0.0900 [  0]
+  Maximum:            0.2800 [ 28]
+  Quartile:           0.1900 
+  Median:             0.2000 
+  Quartile:           0.2200 
+
+##########################################################
+# xoshiro256+ cpu stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               0.0968
+  Std Dev:            0.0002
+  Sample StdDev:      0.0002
+  Skewness:           4.5173
+  Kurtosis:          32.7684
+  Avg Dev:            0.0001
+  Sum:                9.6815
+  Sum Sq.:            0.9373
+
+  Mean Err.:          0.0000
+  Std Dev Err.:       0.0000
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            0.0966 [ 86]
+  Maximum:            0.0986 [ 68]
+  Quartile:           0.0967 
+  Median:             0.0967 
+  Quartile:           0.0968 
+
+##########################################################
+# xoshiro256+ diff stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               0.1817
+  Std Dev:            0.0379
+  Sample StdDev:      0.0381
+  Skewness:          -0.0282
+  Kurtosis:           2.6698
+  Avg Dev:            0.0315
+  Sum:               18.1700
+  Sum Sq.:            3.4455
+
+  Mean Err.:          0.0038
+  Std Dev Err.:       0.0027
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            0.0800 [ 82]
+  Maximum:            0.2800 [  2]
+  Quartile:           0.1500 
+  Median:             0.1900 
+  Quartile:           0.2100 
 
