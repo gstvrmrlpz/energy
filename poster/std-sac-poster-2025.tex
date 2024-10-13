@@ -37,7 +37,6 @@
 \renewcommand{\shortauthors}{B. Trovato}
 
 \begin{abstract}
-%La generación de números aleatorios es un asunto tan empleado como poco conocido en profundidad por sus usuarios. En este trabajo queremos adentrarnos en uno de estos campos poco conocidos: su consumo de energía. La mayoría de los trabajos sobre el tema suelen centrarse en el estudio de la calidad de los mismos o en medir sus tiempos de ejecución. Sin embargo, el consumo de energía es un aspecto crítico en la actualidad, especialmente en dispositivos móviles. En este trabajo hemos medido el consumo de energía de los generadores de números aleatorios estándar de C++. Los resultados muestran que existen amplias diferencias entre ellos en cuanto a consumo de energía, lo que puede ser relevante en aplicaciones que requieran de la generación de grandes cantidades de números aleatorios, tales como los algoritmos de aprendizaje y las metaheurísticas.
 Random number generation is a widely used yet poorly understood topic among its users. In this paper, we aim to explore one of its lesser-known aspects: energy consumption. Most studies on the subject tend to focus on the quality of the generators or on measuring their execution times. However, energy consumption is a critical concern today, particularly for mobile devices. In this work, we have measured the energy consumption of standard C++ random number generators. The results reveal differences in energy usage of over a thousand-fold, which could be significant for applications that require the generation of large quantities of random numbers, such as learning algorithms and metaheuristics.
 \end{abstract}
 
@@ -89,20 +88,16 @@ Random number generation is a widely used yet poorly understood topic among its 
 \section{Introduction}
 \label{sec:introduction}
 
-%Los generadores de números pseudoaleatorios \cite{marsaglia2003random} son un recurso fundamental en computación. De ahí que hayan sido estudiados en prufundidad en multitud de trabajos. Sin embargo, la mayoría de estos trabajos se centran en la calidad de los números generados o en la eficiencia de los algoritmos que los generan. En este trabajo queremos centrarnos en un aspecto poco estudiado: el consumo de energía de los generadores de números aleatorios. Este aspecto es crítico en la actualidad, especialmente en dispositivos móviles, donde el consumo de energía es un factor limitante. En este trabajo hemos medido el consumo de energía de los generadores de números aleatorios estándar de C++.
-Pseudo-random number generators \cite{marsaglia2003random} are a fundamental resource in computing, which is why they have been extensively studied in numerous works. However, most of these studies focus on the quality of the generated numbers or the efficiency of the algorithms that produce them. In this paper, we aim to focus on a less-studied aspect: the energy consumption of random number generators. This aspect is critical today, especially in mobile devices, where energy consumption is a limiting factor. In this work, we have measured the energy consumption of standard C++ random number generators.
+Pseudo-random number generators \cite{marsaglia2003random} are a fundamental resource in computing, which is why they have been extensively studied in numerous works. However, most of these studies focus on the quality of the generated numbers or the efficiency of the algorithms that produce them. In this paper, we aim to focus on a less-studied aspect: the energy consumption of RNGs. This aspect is critical today, especially in mobile devices, where energy consumption is a limiting factor. In this work, we have measured the energy consumption of standard C++ RNGs.
 
-%Su método general de funcionamiento se basa en el uso de una serie de semillas que se inicializan a un estado. Luego se aplica una función unidireccional sobre dichas semillas dando lugar a un número aleatorio. Para producir un nuevo número aleatorio, el último se usa como la nueva semilla y se somete al mismo proceso.
 Most of them are initialized with a series of numbers used as seeds. A one-way function is then applied to these seeds, resulting in a random number. To generate a new random number, the previous one is used as the new seed and is subjected to the same process.
 
-%Las propiedades de los generadores de números aleatorios pueden ser muy diversas según el ámbito en vayan a ser utilizadas. Para algunos de usos como la criptografía, los generadores deben pasar pruebas de calidad muy rigurosas tal como Diehard de Marsaglia \cite{marsaglia1997diehard}. Sin embargo, para otros muchos usos como los algoritmos genéticos, los generadores deben ser rápidos y eficientes aun a costa de su baja calidad. De hecho, algunos estudios sugieren que los algoritmos genéticos son poco sensibles a la calidad de los generadores de números aleatorios \cite{cardenas2011sensitiveness}.
-The properties of random number generators can vary significantly depending on the field in which they are used. For certain applications, such as cryptography, generators must pass highly rigorous quality tests, such as Diehard \cite{marsaglia1997diehard} or TestU01 \cite{testu01}. However, for many other applications, such as genetic algorithms, the generators must be fast and efficient, even at the expense of lower quality. In fact, some studies suggest that genetic algorithms are not highly sensitive to the quality of random number generators \cite{cardenas2011sensitiveness}.
+The properties of RNGs can vary significantly depending on the field in which they are used. For certain applications, such as cryptography, generators must pass highly rigorous quality tests, such as Diehard \cite{marsaglia1997diehard} or TestU01 \cite{testu01}. However, for many other applications, such as genetic algorithms, the generators must be fast and efficient, even at the expense of lower quality. In fact, some studies suggest that genetic algorithms are not highly sensitive to the quality of RNGs \cite{cardenas2011sensitiveness}.
 
 \section{Methodology}
 \label{sec:methodology}
 
-%Para poder medir el consumo de energía de los generadores de números aleatorios de C++ hemos escrito un programa que genera 100 millones de números aleatorios mediante cada uno de los generadores estándar de C++:
-To measure the energy consumption of C++ random number generators, we wrote a program that generates 100 million random numbers using each of the C++ standard engines:
+To measure the energy consumption of C++ RNGs, we wrote a program that generates 100 million random numbers using each of the C++ standard engines:
 \begin{itemize}
     \item \texttt{std::knuth\_b}
     \item \texttt{std::minstd\_rand0} (\texttt{std::default\_random\_generator})
@@ -115,7 +110,6 @@ To measure the energy consumption of C++ random number generators, we wrote a pr
     \item \texttt{std::ranlux48} \cite{JAMES1994111}.
 \end{itemize}
 
-%También hemos añadido otros generadores bien conocidos por su interés, por su inclusión en otros lenguajes de programación o por formar parte del estado del arte:
 We also included other well-known generators, either due to their relevance (\texttt{rand} de C), their inclusion in trendy programming languages like Rust and Zig, or their role in the state of the art:
 
 \begin{itemize}
@@ -126,10 +120,7 @@ We also included other well-known generators, either due to their relevance (\te
     \item \texttt{xoshiro256+} \cite{blackman2021scrambled}.
 \end{itemize}
 
-%Para medir el consumo de energía hemos empleado perf \cite{perf} que permite hacerlo a través del estándar Running Average Power Limit (RAPL) \cite{rapl}. Cada programa se ha ejecuta 100 para obtener una precisión estadística razonable dentro de un sistema Fedora Linux con un procesador AMD Ryzen3 3100.
 To measure energy consumption, we used perf \cite{perf}, which allows for this through the Running Average Power Limit (RAPL) standard \cite{rapl}. Each program was executed 100 times to obtain reasonable statistical accuracy on a Fedora Linux system with an AMD Ryzen3 3100 processor.
-
-%Dado que perf solo es capaz de medir el consumo de energía de todo el sistema en conjunto hemos tenmido que recurrir a un pequeño truco para medir el consumo de energía de un único proceso. Hemos medido el consumo de nuestro programa y después hemos medido el consumo de la ejecución de la orden \texttt{sleep} durante el mismo tiempo que ha tardado nuestro programa en ejecutarse. La diferencia refleja el consumo de nuestro programa de forma aislada.
 
 Since perf can only measure the energy consumption of the entire system as a whole, we implemented a specific methodology to isolate the energy consumption of a single process. Our approach involved two steps:
 
@@ -148,21 +139,21 @@ As can be seen from the results in Figure \ref{fig:pkg}, the energy consumption 
 \begin{figure}
 \centering
 \includegraphics[width=\columnwidth]{pkg.png}
-\caption{Energy consumption of C++ standard random number generators.}
-\label{fig:cpu}
+\caption{Energy consumption of C++ standard RNGs.}
+\label{fig:pkg}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=\columnwidth]{cpu.png}
-\caption{CPU time spent by C++ standard random number generators.}
-\label{fig:pkg}
+\caption{CPU time spent by C++ standard RNGs.}
+\label{fig:cpu}
 \end{figure}
 
 % \begin{figure}
 % \centering
 % \includegraphics[width=\columnwidth]{all.png}
-% \caption{Energy consumption of C++ standard random number generators.}
+% \caption{Energy consumption of C++ standard RNGs.}
 % \label{fig:all}
 % \end{figure}
 
@@ -224,7 +215,9 @@ A notable case is \texttt{mt11213b}, one of the Mersenne Twister family generato
 \section{Conclusions}
 \label{sec:conclusions}
 
-The difference in energy consumption between the best generator, \texttt{romutrio32}, and the worst, \texttt{ranlux48}, is over three orders of magnitude, with the latter consuming exactly 1,130.96 times more energy. This could be significant for applications that require the generation of large quantities of random numbers, such as artificial intelligence and evolutionary algorithms. In these cases, the choice of random number generator can significantly impact both energy consumption and execution time.
+This study highlights significant disparities in energy consumption among various C++ standard RNGs, revealing a difference of over three orders of magnitude between the most efficient generator, \texttt{romutrio32}, and the least efficient, \texttt{ranlux48}, with the latter consuming exactly 1,130.96 times more energy. This disparity has substantial implications for applications that require the generation of large volumes of random numbers, such as artificial intelligence, genetic algorithms, and other computational tasks with heavy random number usage.
+
+In conclusion, the significant variation in energy consumption among C++ standard RNGs not only emphasizes the importance of careful selection in algorithm design but also points to the need for a broader awareness of energy implications in software development practices. This research contributes to the growing discourse on green computing, encouraging ongoing efforts to develop energy-efficient algorithms and systems.
 
 \begin{acks}
 Hidden for double-blind review
