@@ -38,7 +38,7 @@
 
 \begin{abstract}
 %La generación de números aleatorios es un asunto tan empleado como poco conocido en profundidad por sus usuarios. En este trabajo queremos adentrarnos en uno de estos campos poco conocidos: su consumo de energía. La mayoría de los trabajos sobre el tema suelen centrarse en el estudio de la calidad de los mismos o en medir sus tiempos de ejecución. Sin embargo, el consumo de energía es un aspecto crítico en la actualidad, especialmente en dispositivos móviles. En este trabajo hemos medido el consumo de energía de los generadores de números aleatorios estándar de C++. Los resultados muestran que existen amplias diferencias entre ellos en cuanto a consumo de energía, lo que puede ser relevante en aplicaciones que requieran de la generación de grandes cantidades de números aleatorios, tales como los algoritmos de aprendizaje y las metaheurísticas.
-Random number generation is a widely used yet poorly understood topic among its users. In this paper, we aim to explore one of its lesser-known aspects: energy consumption. Most studies on the subject tend to focus on the quality of the generators or on measuring their execution times. However, energy consumption is a critical concern today, particularly for mobile devices. In this work, we have measured the energy consumption of standard C++ random number generators. The results show significant differences in energy usage between them, which could be relevant for applications that require the generation of large quantities of random numbers, such as learning algorithms and metaheuristics.
+Random number generation is a widely used yet poorly understood topic among its users. In this paper, we aim to explore one of its lesser-known aspects: energy consumption. Most studies on the subject tend to focus on the quality of the generators or on measuring their execution times. However, energy consumption is a critical concern today, particularly for mobile devices. In this work, we have measured the energy consumption of standard C++ random number generators. The results reveal differences in energy usage of over a thousand-fold, which could be significant for applications that require the generation of large quantities of random numbers, such as learning algorithms and metaheuristics.
 \end{abstract}
 
 %
@@ -224,7 +224,7 @@ A notable case is \texttt{mt11213b}, one of the Mersenne Twister family generato
 \section{Conclusions}
 \label{sec:conclusions}
 
-las conclusiones......
+The difference in energy consumption between the best generator, \texttt{romutrio32}, and the worst, \texttt{ranlux48}, is over three orders of magnitude, with the latter consuming exactly 1,130.96 times more energy. This could be significant for applications that require the generation of large quantities of random numbers, such as artificial intelligence and evolutionary algorithms. In these cases, the choice of random number generator can significantly impact both energy consumption and execution time.
 
 \begin{acks}
 Hidden for double-blind review
