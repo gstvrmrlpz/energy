@@ -27,6 +27,20 @@ keywords = {Pseudorandom number generators}
   organization={Springer}
 }
 
+@article{JAMES1994111,
+title = {RANLUX: A Fortran implementation of the high-quality pseudorandom number generator of Lüscher},
+journal = {Computer Physics Communications},
+volume = {79},
+number = {1},
+pages = {111-114},
+year = {1994},
+issn = {0010-4655},
+doi = {https://doi.org/10.1016/0010-4655(94)90233-X},
+url = {https://www.sciencedirect.com/science/article/pii/001046559490233X},
+author = {F. James},
+abstract = {Following some remarks on the quality of pseudorandom number generators commonly used in Monte Carlo calculations in computational physics, we offer a portable Fortran 77 implementation of a high-quality generator called RANLUX (for LUXury RANdom numbers), using the algorithm of Martin Lüscher described in an accompanying article. The implementation allows the user to select different quality or luxury levels, where higher quality requires somewhat longer computing time for the generation. There is a convenient way of initialization (appropriate also for massively parallel Monte Carlo computations) as well as two different methods of restarting from a break point.}
+}
+
 @article{marsaglia1997diehard,
   title={The Diehard random number testsuite},
   author={Marsaglia, George},
@@ -44,7 +58,7 @@ keywords = {Pseudorandom number generators}
   year={2003}
 }
 
-@article{mt11213b,
+@article{mersennetwister,
 author = {Matsumoto, Makoto and Nishimura, Takuji},
 title = {Mersenne twister: a 623-dimensionally equidistributed uniform pseudo-random number generator},
 year = {1998},
@@ -97,4 +111,24 @@ keywords = {tempering, random number generation, primitive polynomials, multiple
     title={Exploration of Energy Consumption Using the Intel Running Average Power Limit Interface},
     volume={},
     year={2019},
+}
+
+@article{testu01,
+author = {L'Ecuyer, Pierre and Simard, Richard},
+title = {TestU01: A C library for empirical testing of random number generators},
+year = {2007},
+issue_date = {August 2007},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {33},
+number = {4},
+issn = {0098-3500},
+url = {https://doi.org/10.1145/1268776.1268777},
+doi = {10.1145/1268776.1268777},
+abstract = {We introduce TestU01, a software library implemented in the ANSI C language, and offering a collection of utilities for the empirical statistical testing of uniform random number generators (RNGs). It provides general implementations of the classical statistical tests for RNGs, as well as several others tests proposed in the literature, and some original ones. Predefined tests suites for sequences of uniform random numbers over the interval (0, 1) and for bit sequences are available. Tools are also offered to perform systematic studies of the interaction between a specific test and the structure of the point sets produced by a given family of RNGs. That is, for a given kind of test and a given class of RNGs, to determine how large should be the sample size of the test, as a function of the generator's period length, before the generator starts to fail the test systematically. Finally, the library provides various types of generators implemented in generic form, as well as many specific generators proposed in the literature or found in widely used software. The tests can be applied to instances of the generators predefined in the library, or to user-defined generators, or to streams of random numbers produced by any kind of device or stored in files. Besides introducing TestU01, the article provides a survey and a classification of statistical tests for RNGs. It also applies batteries of tests to a long list of widely used RNGs.},
+journal = {ACM Trans. Math. Softw.},
+month = aug,
+articleno = {22},
+numpages = {40},
+keywords = {statistical test, random number tests, random number generators, Statistical software}
 }
