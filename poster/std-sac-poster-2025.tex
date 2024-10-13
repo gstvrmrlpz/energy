@@ -37,7 +37,17 @@
 \renewcommand{\shortauthors}{B. Trovato}
 
 \begin{abstract}
-Random number generation is a widely used yet poorly understood topic among its users. In this paper, we aim to explore one of its lesser-known aspects: energy consumption. Most studies on the subject tend to focus on the quality of the generators or on measuring their execution times. However, energy consumption is a critical concern today, particularly for mobile devices. In this work, we have measured the energy consumption of standard C++ random number generators. The results reveal differences in energy usage of over a thousand-fold, which could be significant for applications that require the generation of large quantities of random numbers, such as learning algorithms and metaheuristics.
+  Random number generation is widely used in many different algorithms, yet its
+  inner workings and performance is poorly understood among its users. In this
+  paper, we aim to explore one of its lesser-known aspects: energy
+  consumption. Most studies on the subject tend to focus on the quality of the
+  generators or on measuring their execution times. However, energy consumption
+  is a critical concern today, particularly for mobile devices. In this work, we
+  have measured the energy consumption of standard C++ random number
+  generators. The results reveal differences in energy usage of over a
+  thousand-fold, which could be significant for applications that require the
+  generation of large quantities of random numbers, such as learning algorithms
+  and metaheuristics.
 \end{abstract}
 
 %
@@ -81,7 +91,7 @@ Random number generation is a widely used yet poorly understood topic among its 
 \ccsdesc[500]{Theory of computation~Evolutionary algorithms}
 \ccsdesc[500]{Software and its engineering~Power management}
 
-\keywords{Green computing, software engineering, evolutionary algorithms, genetic algorithms, energy-aware algorithms, random number generators}
+\keywords{Green computing, software engineering, evolutionary algorithms, genetic algorithms, energy-aware algorithms, RNGs}
 
 \maketitle
 
@@ -94,31 +104,21 @@ Most of them are initialized with a series of numbers used as seeds. A one-way f
 
 The properties of RNGs can vary significantly depending on the field in which they are used. For certain applications, such as cryptography, generators must pass highly rigorous quality tests, such as Diehard \cite{marsaglia1997diehard} or TestU01 \cite{testu01}. However, for many other applications, such as genetic algorithms, the generators must be fast and efficient, even at the expense of lower quality. In fact, some studies suggest that genetic algorithms are not highly sensitive to the quality of RNGs \cite{cardenas2011sensitiveness}.
 
-\section{Methodology}
+\section{Methodology and results}
 \label{sec:methodology}
 
-To measure the energy consumption of C++ RNGs, we wrote a program that generates 100 million random numbers using each of the C++ standard engines:
-\begin{itemize}
-    \item \texttt{std::knuth\_b}
-    \item \texttt{std::minstd\_rand0} (\texttt{std::default\_random\_generator})
-    \item \texttt{std::minstd\_rand}
-    \item \texttt{std::mt19937} \cite{mersennetwister}.
-    \item \texttt{std::mt19937\_64} \cite{mersennetwister}.
-    \item \texttt{std::ranlux24\_base}
-    \item \texttt{std::ranlux48\_base}
-    \item \texttt{std::ranlux24} \cite{JAMES1994111}.
-    \item \texttt{std::ranlux48} \cite{JAMES1994111}.
-\end{itemize}
+To measure the energy consumption of C++ RNGs, we wrote a program that generates
+100 million random numbers using each of the C++ standard engines:
+\texttt{std::knuth\_b},  \texttt{std::minstd\_rand0}
+(\texttt{std::default\_random\_generator}),  \texttt{std::minstd\_rand},
+\texttt{std::mt19937}~\cite{mersennetwister},  \texttt{std::mt19937\_64}~\cite{mersennetwister},  \texttt{std::ranlux24\_base},  \texttt{std::ranlux48\_base},  \texttt{std::ranlux24}~\cite{JAMES1994111},  \texttt{std::ranlux48}~\cite{JAMES1994111}.
 
-We also included other well-known generators, either due to their relevance (\texttt{rand} de C), their inclusion in trendy programming languages like Rust and Zig, or their role in the state of the art:
+We also included other well-known generators, either due to their relevance
+(\texttt{rand} de C), their inclusion in trendy programming languages like Rust
+and Zig, or their role in the state of the art: \texttt{rand} from C,
+\texttt{mt11213b}~\cite{mersennetwister}, \texttt{romutrio32} and
+\texttt{romutrio}~\cite{overton2020romufastnonlinearpseudorandom} and \texttt{xoroshiro128+}/\texttt{xoshiro256+} \cite{blackman2021scrambled}.
 
-\begin{itemize}
-    \item \texttt{rand} de C.
-    \item \texttt{mt11213b} \cite{mersennetwister}.
-    \item \texttt{romutrio32} y \texttt{romutrio} \cite{overton2020romufastnonlinearpseudorandom}.
-    \item \texttt{xoroshiro128+} \cite{blackman2021scrambled}.
-    \item \texttt{xoshiro256+} \cite{blackman2021scrambled}.
-\end{itemize}
 
 To measure energy consumption, we used perf \cite{perf}, which allows for this through the Running Average Power Limit (RAPL) standard \cite{rapl}. Each program was executed 100 times to obtain reasonable statistical accuracy on a Fedora Linux system with an AMD Ryzen3 3100 processor.
 
@@ -131,10 +131,9 @@ Since perf can only measure the energy consumption of the entire system as a who
 
 The difference between these two measurements provides an estimate of the isolated energy consumption of our program. This method allows us to differentiate between the baseline system energy consumption and the additional energy consumed by our specific process.
 
-\section{Results}
-\label{sec:results}
-
-As can be seen from the results in Figure \ref{fig:pkg}, the energy consumption of the different generators varies significantly. The CPU time spent by the generators is also shown in Figure \ref{fig:cpu}. There is a clear correlation between energy consumption and CPU time, with the most efficient generators in terms of energy consumption also being the fastest.
+As can be seen from the results in Figure \ref{fig:pkg}, the energy consumption
+of the different generators varies significantly.
+% The CPU time spent by the generators is also shown in Figure \ref{fig:cpu}. There is a clear correlation between energy consumption and CPU time, with the most efficient generators in terms of energy consumption also being the fastest.
 
 \begin{figure}
 \centering
@@ -143,12 +142,12 @@ As can be seen from the results in Figure \ref{fig:pkg}, the energy consumption 
 \label{fig:pkg}
 \end{figure}
 
-\begin{figure}
-\centering
-\includegraphics[width=\columnwidth]{cpu.png}
-\caption{CPU time spent by C++ standard RNGs.}
-\label{fig:cpu}
-\end{figure}
+% \begin{figure}
+% \centering
+% \includegraphics[width=\columnwidth]{cpu.png}
+% \caption{CPU time spent by C++ standard RNGs.}
+% \label{fig:cpu}
+% \end{figure}
 
 % \begin{figure}
 % \centering
@@ -197,20 +196,6 @@ Is also important to note that most of the implementations with lower energy con
 The energy consumption of the classic C \texttt{rand} generator is also very high, which is consistent with its poor performance in terms of CPU time. In spite of being one of the 32 bits implementations.
 
 As a curious case, we can highlight \texttt{mt11213b}, one of the Mersenne Twister family generators. Its characteristics are among the best, and the only thing that differentiates it from \texttt{mt19937} is the set of constants and initial seeds. However, \texttt{mt11213b} consumes 34.16\% less energy and 40.18\% less CPU time than \texttt{mt19937}.
-
-After \texttt{romutrio32} and \texttt{romutrio}, the next best engines are the Mersenne Twister \texttt{mt11213b} and the XOR-based ones from Marsaglia, \texttt{xoroshiro128+} and \texttt{xoshiro256+}, though the differences are not significant.
-
-It is also important to note that most of the implementations with lower energy consumption are 32-bit based, although their corresponding 64-bit versions are not much worse. This can be observed in the following comparisons:
-
-\begin{itemize}
-    \item \texttt{mt19937\_64}, the 64-bit version of \texttt{mt19937}, consumes 15.89\% more energy and uses 4.49\% less CPU time.
-    \item \texttt{romutrio}, the 64-bit version of \texttt{romutrio32}, consumes 4.27\% more energy and uses 2.66\% less CPU time.
-\end{itemize}
-
-The energy consumption of the classic C \texttt{rand} generator is also very high, which is consistent with its poor performance in terms of CPU time, despite being one of the 32-bit implementations.
-
-A notable case is \texttt{mt11213b}, one of the Mersenne Twister family generators. Its characteristics are among the best, and the only difference between it and \texttt{mt19937} is the set of constants and initial seeds. However, \texttt{mt11213b} consumes 25.46\% less energy and 28.66\% less CPU time than \texttt{mt19937}.
-
 
 \section{Conclusions}
 \label{sec:conclusions}
