@@ -725,6 +725,138 @@
   Quartile:         156.6700 
 
 ##########################################################
+# romutrio32 cpu stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               0.0826
+  Std Dev:            0.0004
+  Sample StdDev:      0.0004
+  Skewness:           5.5856
+  Kurtosis:          42.7011
+  Avg Dev:            0.0002
+  Sum:                8.2645
+  Sum Sq.:            0.6830
+
+  Mean Err.:          0.0000
+  Std Dev Err.:       0.0000
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            0.0824 [ 91]
+  Maximum:            0.0860 [  0]
+  Quartile:           0.0824 
+  Median:             0.0826 
+  Quartile:           0.0827 
+
+##########################################################
+# romutrio32 diff stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               0.1357
+  Std Dev:            0.0340
+  Sample StdDev:      0.0342
+  Skewness:          -0.2032
+  Kurtosis:           4.0590
+  Avg Dev:            0.0260
+  Sum:               13.5700
+  Sum Sq.:            1.9571
+
+  Mean Err.:          0.0034
+  Std Dev Err.:       0.0024
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            0.0200 [ 50]
+  Maximum:            0.2300 [  1]
+  Quartile:           0.1100 
+  Median:             0.1300 
+  Quartile:           0.1600 
+
+##########################################################
+# romutrio cpu stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               0.0848
+  Std Dev:            0.0005
+  Sample StdDev:      0.0005
+  Skewness:           5.3031
+  Kurtosis:          34.0088
+  Avg Dev:            0.0002
+  Sum:                8.4795
+  Sum Sq.:            0.7191
+
+  Mean Err.:          0.0001
+  Std Dev Err.:       0.0000
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            0.0844 [ 58]
+  Maximum:            0.0886 [ 39]
+  Quartile:           0.0846 
+  Median:             0.0847 
+  Quartile:           0.0848 
+
+##########################################################
+# romutrio diff stats in casa-1728771408.csv
+##########################################################
+
+* FILE: 
+  Records:           100
+  Out of range:        0
+  Invalid:             0
+  Header records:      1
+  Blank:               0
+  Data Blocks:         1
+
+* COLUMN: 
+  Mean:               0.1415
+  Std Dev:            0.0405
+  Sample StdDev:      0.0407
+  Skewness:           0.9375
+  Kurtosis:           7.1691
+  Avg Dev:            0.0283
+  Sum:               14.1500
+  Sum Sq.:            2.1659
+
+  Mean Err.:          0.0040
+  Std Dev Err.:       0.0029
+  Skewness Err.:      0.2449
+  Kurtosis Err.:      0.4899
+
+  Minimum:            0.0100 [ 67]
+  Maximum:            0.3200 [  0]
+  Quartile:           0.1200 
+  Median:             0.1400 
+  Quartile:           0.1650 
+
+##########################################################
 # xoroshiro128+ cpu stats in casa-1728771408.csv
 ##########################################################
 
