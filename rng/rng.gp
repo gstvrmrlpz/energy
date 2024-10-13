@@ -109,7 +109,7 @@ do for [file in files] {
     set ytic offset 0.75,0
     unset xtics
     set output stem.'-all.svg'
-    set multiplot layout 1,13 margin 0.075,0.99,0.14,0.99 spacing 0.05,0
+    set multiplot layout 1,words(engines) margin 0.075,0.99,0.14,0.99 spacing 0.05,0
     do for[e in engines] {
         set xlabel e rotate by 33 right
         if (e eq 'knuth_b') { set ylabel 'power/energy-pkg (J)' offset 3.25 }
