@@ -10,35 +10,43 @@
 
 \acmISBN{979-8-4007-0629-5/25/03}
 
-%Conference
-\acmConference[SAC'25]{ACM SAC Conference}{March 31 –April 4, 2025}{Sicily, Italy}
-\acmYear{2025}
-\copyrightyear{2025}
-
 
 \acmArticle{4}
 \acmPrice{15.00}
 
 \begin{document}
-\title{Minimizing the energy consumption of (pseudo) random number generators}
+\title{Minimizing the energy consumption of (pseudo) random number generators in the low-level language {\sf zig}}
 \subtitle{}
 
 \renewcommand{\shorttitle}{Minimizing the energy consumption of (pseudo) random number generators for evolutionary algorithms}
 
-\author{Ben Trovato}
-\authornote{Boilerplate author names have been kept for double-blind review.}
-\orcid{1234-5678-9012}
+\author{Juan J. Merelo}
+\orcid{0000-0002-1385-9741}
 \affiliation{%
-  \institution{Institute for Clarity in Documentation}
-  \streetaddress{P.O. Box 1212}
-  \city{Dublin}
-  \state{Ohio}
-  \country{USA}
-  \postcode{43017-6221}
-}
-\email{trovato@corporation.com}
+    \institution{Department of Computer Engineering, Automatics and Robotics, Universidad de Granada/CITIC}
+    \city{Granada}
+    \country{Spain}
+  }
+\email{jmerelo@ugr.es}
 
-\renewcommand{\shortauthors}{B. Trovato}
+\author{Gustavo Romero-López}
+\affiliation{%
+    \institution{Department of Computer Engineering, Automatics and Robotics, Universidad de Granada/CITIC}
+    \city{Granada}
+    \country{Spain}
+  }
+\email{gustavo@ugr.es}
+
+
+\author{Mario Garc\'ia Valdez}
+\affiliation{%
+    \institution{Tecnol\'ogico Nacional de M\'exico}
+    \city{Tijuana}
+    \country{M\'exico}
+}
+\email{mario@tectijuana.edu.mx}
+
+\renewcommand{\shortauthors}{Merelo et al.}
 
 
 \begin{abstract}
