@@ -115,10 +115,12 @@ Thus, in this paper, we will compare different implementations of the essential 
 \item Of the two factors that determine energy consumption, time and power, can we determine if there is a dominant term that makes the specific combination found above faster?
 \end{itemize}
 
+We will work with two different languages: C++ and {\sf zig}; the first is mature and popular, the second has yet to enter the mainstream but can offer new solutions in this area. We will also focus on two different data structures: bit vectors and bit strings, that have a different storage model and in general different energy profiles.
+
 As was established in other papers \cite{wivace23}, we have used {\sf pinpoint} \cite{pinpoint}, an open source tool, to measure the energy consumed by specific processes. This tool taps the RAPL API to collect the energy consumption by the "package" (PKG), that is, the CPU as well as the memory. Measurements are repeated 30 times, using
 a Linux machine {\tt 5.15.0-119-generic \#129~20.04.1-Ubuntu SMP} with an AMD Ryzen 9 3950X 16-Core Processor, we use {\sf zig}  version 0.13.0, which is the last stable one at the time of writing this paper; {\tt g++} used is at version {\tt 10.5.0}.
 
-We take measurements in two stages: first we establish baseline measurements using the generation of chromosomes. This allows us to eliminate the background consumption, as well as all consumption that does not correspond precisely to the functions under study; if needed, this will allow us also to drop some combination of data structure and language that are especially inefficient. We will perform these baseline measurements for two different data structures, a character array (where every element is represented by a character 0 or 1) or a Boolean array (with every element represented by a value that is equal to {\sf True} or {\sf False}).
+We will perform the experiment in two stages: first we establish baseline measurements using the generation of chromosomes. This allows us to eliminate the background consumption, as well as all consumption that does not correspond precisely to the functions under study; if needed, this will allow us also to drop some combination of data structure and language that are especially inefficient. We will perform these baseline measurements for two different data structures, a character array (where every element is represented by a character 0 or 1) or a Boolean array (with every element represented by a value that is equal to {\sf True} or {\sf False}).
 
 <<energy.sac.generation, echo=FALSE, message=FALSE, fig.height=3, fig.cap="Energy vs. time for the chromosome generation problem. Point size changes with chromosome size.">>=
 library(knitr)
@@ -140,29 +142,12 @@ gen.data %>% group_by(language, data.structure, size ) %>% summarise(mean(PKG), 
 
 library(ggplot2)
 ggplot(gen.data, aes(x=seconds, y=PKG, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + geom_smooth(method="lm", aes( group=interaction(language,data.structure))) + labs(x="Time (s)", y="Energy (J)")+guides(size="none")
-@
-
-What we have represented in Figure~\ref{fig:energy.sac.generation} is an energy consumption ($y$ axis) vs time ($x$ axis) plot for every experiment in the two languages, using the two target data structures. We have plotted a linear regression for the slope, that would represent the power consumed (being power equal to energy divided by time). We can appreciate in this picture how the differences across languages and data structures are not so clear cut. C++ (red) seems better for the smallest size (512 bits), but it is definitely worse for the largest size. Differences are small and nuanced enough to proceed without discarding any language or data structure before analyzing the results obtained for the genetic operators, which we will do next.
-
-<<energy.sac.generation.boxplot, echo=FALSE, message=FALSE, fig.cap="Energy boxplot for the chromosome generation problem (baseline).">>=
 gen.data$size <- as.factor(gen.data$size)
-ggplot(gen.data, aes(x=size, y=PKG, fill=language,linetype=data.structure)) + geom_boxplot() + theme_minimal() + labs(x="Data structure", y="Energy (J)")
 @
 
-Figure~\ref{fig:energy.sac.generation.boxplot} synthesizes in a single chart the energy consumption for the chromosome generation problem for both languages and data structures. It grows much faster for C++ than for {\sf zig}. While it is slightly better for the smallest size, energy consumption for strings is virtually the same for the middle size, but it takes off for the largest size. However, it is curious to observe, that a specific data structure does not guarantee better energy consumption: Boolean vectors consume more energy in C++, while they consume {\em less} in {\sf zig}.
+What we have represented in Figure~\ref{fig:energy.sac.generation} is an energy consumption ($y$ axis) vs time ($x$ axis) plot for every experiment in the two languages, using the two target data structures. We have plotted a linear regression for the slope, that would represent the power consumed (being power equal to energy divided by time). We can appreciate in this picture how the differences across languages and data structures are not so clear cut. C++ (red) seems better for the smallest size (512 bits), but it is definitely worse for the largest size.
 
-<<energy.sac.histo, echo=F, message=F, fig.cap="Histogram of energy consumption for the generation of Boolean vectors in C++ of length 2048",  fig.align="center">>=
-ggplot(cpp.gen.bool[ cpp.gen.bool$size == 2048,], aes(x=PKG)) + geom_histogram(binwidth = 2) + theme_minimal() + labs(x="Energy (J)", y="Frequency")
-@
-
-It is interesting to note in this Figure~\ref{fig:energy.sac.ops}, however, the dispersion of the data points along the $y$ axis (Energy). While other factors in the hardware and operating system may cause some spread over the $x$ axis (time), variation is relatively small; however, energy spent even for running times that are very similar might experience variations on the order of 10 joules (for this specific problem), which is around 20\% of the total energy measured. In Figure \ref{fig:energy.sac.histo} we plot the histogram of energy consumption for the option with the most extensive range, Boolean vectors in C++ of length 2048. Besides seeing a skewed distribution, the range of variation goes from 50 to 90 for the 30 experiments. This, on one hand, indicates the presence of a system overhead that is difficult to eliminate, but also is a symptom of the complicated relationship between hardware and software managed by the different energy handling mechanisms in the operating system, firmware, and CPU microcode. This makes energy consumption relatively unpredictable (within a certain range of variation). In this set of experiments, we have increased the number to 30 (as opposed to 15), trying to follow a more rigorous statistical approach.
-
-
-We need, however, to measure the consumption of actual genetic operators. We will do this in the next section.
-
-\section{Results}\label{sec:results}
-
-<<energy.sac.ops, echo=FALSE, message=FALSE, fig.cap="Delta energy from baseline vs. delta time from baseline for genetic operators problem. Shapes and colors as in the previous Figure.">>=
+<<energy.sac.ops, echo=FALSE, message=FALSE, fig.height=3, fig.cap="Boxplot of PKG energy consumption using the bit string chromosome for the two languages and different sizes",  fig.align="center">>=
 zig.ops.bool <- read.csv("../data/sac-2025-zig-ops-bool.csv")
 zig.ops.bool$data.structure <- "bvector"
 zig.ops.bool$delta.PKG <- zig.ops.bool$PKG - c(rep(gen.data.summary[gen.data.summary$language=="zig" & gen.data.summary$data.structure=="bvector" & gen.data.summary$size==512,]$`mean(PKG)`,30), rep(gen.data.summary[gen.data.summary$language=="zig" & gen.data.summary$data.structure=="bvector" & gen.data.summary$size==1024,]$`mean(PKG)`,30), rep(gen.data.summary[gen.data.summary$language=="zig" & gen.data.summary$data.structure=="bvector" & gen.data.summary$size==2048,]$`mean(PKG)`,30))
@@ -186,49 +171,18 @@ ops.data$point.size <- log2(ops.data$size)-7
 
 ops.data %>% group_by(language, data.structure, size) %>% summarise(mean(delta.PKG), sd(delta.PKG), mean(delta.seconds), sd(delta.seconds)) -> ops.data.summary
 
-ggplot(ops.data, aes(x=delta.seconds, y=delta.PKG, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
-@
+# ggplot(ops.data, aes(x=delta.seconds, y=delta.PKG, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
 
-We have performed a series of experiments using a triad of genetic operators: crossover, mutation and count-ones, following this algorithm
-\begin{algorithm}
-\caption{Appliation of genetic operators}
-\label{alg:ops}
-\begin{algorithmic}
-\FOR{$i=1$ to $N$ by 2}
-\STATE $c1 \leftarrow$ chromosome[i]
-\STATE $c2 \leftarrow$ chromosome[i+1]
-\STATE mutate($c1$)
-\STATE mutate($c2$)
-\STATE ($new\_c1, new\_c2$) $\leftarrow$ crossover($c1$, $c2$)
-\STATE fitnessArray.append(count\_ones($new\_c1$)
-\STATE fitnessArray.append(count\_ones($new\_c2$)
-\STATE chromosomeArray.append($new\_c1$)
-\STATE chromosomeArray.append($new\_c2$)
-\ENDFOR
-\STATE Show size of chromosomeArray
-\end{algorithmic}
-\end{algorithm}
-
-The results of applying these operators to the chromosome have been shown in Figure~\ref{fig:energy.sac.ops}, where the average energy consumption and time for every size, language, and data structure have been subtracted from the numeric value obtained. However, we observe  that applying the genetic operators {\em after} its generation results in less-than-0 energy consumption and, in some cases, negative time. Nevertheless, what we see also is a clear separation between circles (corresponding to Boolean vectors) and triangles (corresponding to strings); the former {\em do} have some energy consumption and can then be discarded as more energy-consuming, at least in the context of this experiment. However, we do observe that the (negative) energy consumption is larger for C++ than for Zig, so even if it means combining two operations (generation and genetic operators) that are usually performed in disparate number of calls, we will compare the actual wallclock time. For the time being, we will not discuss the interpretation of this negative time/consumption, however, we will leave that to the last Section.
-
-
-<<energy.sac.string, echo=F, message=F, fig.cap="Boxplot of PKG energy consumption using the bit string chromosome for the two languages and different sizes",  fig.align="center">>=
 ops.data$size <- as.factor(ops.data$size)
-ggplot(ops.data[ops.data$data.structure=="string",], aes(x=size, y=PKG, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)")
+ggplot(ops.data[ops.data$data.structure=="string",], aes(x=size, y=PKG, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Chromosome size", y="Energy (J)")
 string.ops.data <- ops.data[ops.data$data.structure=="string",]
 differences.512 <- t.test(string.ops.data[string.ops.data$size==512 & string.ops.data$language=="c++",]$PKG, string.ops.data[string.ops.data$size==512 & string.ops.data$language=="zig",]$PKG,alternative = "less")
 differences.1024 <- t.test(string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="c++",]$PKG, string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="zig",]$PKG,alternative = "less")
 differences.2048 <- t.test(string.ops.data[string.ops.data$size==2048 & string.ops.data$language=="c++",]$PKG, string.ops.data[string.ops.data$size==2048 & string.ops.data$language=="zig",]$PKG, alternative = "greater")
-@
-
-We have plotted the total energy consumed for the program that generates 40K bitstrings and then performs genetic operators on them in Figure \ref{fig:energy.sac.string}; side by side, energy spent by C++ (left of tick) and {\sf zig} (right) are shown. The picture is more nuanced than what we observed in Figure \ref{fig:energy.sac.generation.boxplot}: C++ beats {\sf zig} for the lesser sizes and is beaten by {\sf zig} by a small margin for the larger size. Side-by-side differences are significant, so in this case there is a real difference between the two languages, although it is not always in the same direction.
-
-<<energy.sac.string.power, echo=F, message=F, fig.cap="Boxplot of PKG power consumption using the bit string chromosome for the two languages and different sizes",  fig.align="center">>=
 string.ops.data$power <- string.ops.data$PKG/string.ops.data$seconds
-ggplot(string.ops.data, aes(x=size, y=power, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Time (s)", y="Power (w)")
 @
 
-In order to ascertain what is the key to the low energy consumption in the case of C++, we also plot the power consumption in Figure \ref{fig:energy.sac.string.power}, by dividing energy by time. The result shows that while C++ draws an apparently constant amount of power from the package (processor and memory), the amount used by {\sf zig} increases with the amount of memory needed for the different computations. This is an interesting result, which is probably related to the different way C++ and {\sf zig} handle memory allocation. At any rate, it shows less power consumption in the case of C++, which makes us conclude that  {\sf zig} achieves better energy consumption by taking less to perform in a specific workload, possibly using more memory to do so. This might be the case for more general workloads, but it needs to be confirmed, due to the small number of these studies that have been published so far.
+The second stage involves actual genetic operators. In order to measure energy consumed we generate 40K bitstrings and then performs genetic operators on them (mutation, crossover and application of the Count-ones (onemax) function. The result is shown in Figure \ref{fig:energy.sac.string}; side by side, energy spent by C++ (left of tick) and {\sf zig} (right) are shown. The picture is more nuanced than what we observed in Figure \ref{fig:energy.sac.generation}: C++ beats {\sf zig} for the lesser sizes and is beaten by {\sf zig} by a small margin for the larger size. Side-by-side differences are significant, so in this case there is a real difference between the two languages, although it is not always in the same direction. Initial experiments showed that in some cases, subtracting the baseline resulted in 0 or negative difference; this is why we have plotted the total energy consumed (which includes system overhead).
 
 <<energy.sac.hiff, echo=FALSE, message=FALSE, fig.cap="Delta energy from baseline vs. delta time from baseline for the HIFF fitness function for bitstring chromosomes in C++ and zig.">>=
 zig.hiff.string <- read.csv("../data/sac-hiff-string-1-Oct-17-33-52.csv")
@@ -245,9 +199,7 @@ hiff.data$size <- factor(hiff.data$size)
 ggplot(hiff.data, aes(x=delta.seconds, y=delta.PKG, color=language, shape=size)) + geom_point() + theme_minimal() + labs(x="Delta time from baseline (s)", y="Delta energy from baseline (J)")
 @
 
-Despite being pervasive and used extensively, and thus amenable to energy benchmarking, genetic operators and simple fitness functions do not spend a significant amount of energy, and any saving obtained will be relatively small (although, cumulatively throughout all experiments, it will amount to a considerable amount of energy saved). We would need a more heavy-duty function in order to give a definitive answer to which language would spend less energy in an evolutionary algorithm context. This is why we also test the HIFF (hierarchical if and only if) function \cite{watson1998modeling}, used extensively in evolutionary algorithm literature, which is a recursive integer arithmetic function that takes a Boolean string of 0s and 1s as input and returns an integer result. The function works by recursively splitting the input string into halves and applying itself to each half. The result depends on the arrangement of 0s and 1s in the original string, and the process of recursion involves many function calls that will require the use of the stack and, sometimes, the heap.
-
-From the point of view of evolutionary algorithms, it is a function that introduces a very rough fitness landscape, so it works to test the efficiency of different genetic operators \cite{khor2008problem,fernandes2014shuffle}, but from the point of view of benchmarking energy consumption its recursivity involve many heap allocations and handling of return values, as well as the pure integer operation of the most basic atomic function; this is why it is a good candidate for energy profiling. We have again worked only with bit strings (previously proved to be the most energy-efficient data structure) and tested for the three chromosome lengths used so far: 512, 1024 and 2048 bits. In this case, we have subtracted the baseline measurements used for chromosome creation. The result is plotted in Figure \ref{fig:energy.sac.hiff}. The advantage of C++, in red in this case, is quite clear, with {\sf zig} taking twice as much time and consuming double the energy of C++ for the biggest size, although we can observe again the high dispersion of values, which is higher for {\sf zig}, with many outliers and a high standard deviation. We do not think that this is a result of the experimental measurement, since the dispersion of C++ is much lower, and there does not seem to be a connection between the time every run needs and the standard deviation (which would be the case if unexpected system-level events would have caused that dispersion). This does not affect, however, the fact that C++ clearly consumes less energy for this problem.
+We would be also interested on the energy consumption of heavy-duty fitness functions. We will use HIFF (Hierarchical If and Only If) \cite{watson1998modeling}, which is a recursive integer arithmetic function that takes a Boolean string of 0s and 1s as input and returns an integer; the process of recursion involves many function calls that will require the use of the stack and, sometimes, the heap. From the point of view of benchmarking energy consumption its recursivity involve many heap allocations and handling of return values, as well as the raw integer operation of the most basic atomic function; this is why it is a good candidate for energy profiling. We have again worked only with bit strings (previously proved to be the most energy-efficient data structure) and tested for the three chromosome lengths used so far: 512, 1024 and 2048 bits. In this case, we have subtracted the baseline measurements used for chromosome creation. The result is plotted in Figure \ref{fig:energy.sac.hiff}. The advantage of C++, in red in this case, is quite clear, with {\sf zig} taking twice as much time and consuming double the energy of C++ for the biggest size, although we can observe again the high dispersion of values, which is higher for {\sf zig}, with many outliers and a high standard deviation. We do not think that this is a result of the experimental measurement, since the dispersion of C++ is much lower, and there does not seem to be a connection between the time every run needs and the standard deviation (which would be the case if unexpected system-level events would have caused that dispersion). This does not affect, however, the fact that C++ clearly consumes less energy for this problem.
 
 <<sac.hiff.opsxjoule, echo=F, message=F>>=
 hiff.data$ops.joule <- 40000/hiff.data$delta.PKG
