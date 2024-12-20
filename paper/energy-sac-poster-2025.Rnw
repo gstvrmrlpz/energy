@@ -5,20 +5,13 @@
 \usepackage{algorithmic}
 \usepackage{gensymb}
 
-\setcopyright{acmcopyright}
-
-\acmDOI{xx.xxx/xxx_x}
-
-\acmISBN{979-8-4007-0629-5/25/03}
-
-%Conference
-\acmConference[SAC'25]{ACM SAC Conference}{March 31 –April 4, 2025}{Sicily, Italy}
-\acmYear{2025}
 \copyrightyear{2025}
-
-
-\acmArticle{4}
-\acmPrice{15.00}
+\acmYear{2025}
+\setcopyright{rightsretained}
+\acmConference[SAC '25]{The 40th ACM/SIGAPP Symposium on Applied Computing}{March 31-April 4, 2025}{Catania, Italy}
+\acmBooktitle{The 40th ACM/SIGAPP Symposium on Applied Computing (SAC'25), March 31-April 4, 2025, Catania, Italy}
+\acmDOI{10.1145/3672608.3707829}
+\acmISBN{979-8-4007-0629-5/25/03}
 
 \begin{document}
 \title{Energy consumption of evolutionary algorithms implemented in low-level languages}
