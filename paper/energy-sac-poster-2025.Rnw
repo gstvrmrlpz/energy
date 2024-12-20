@@ -62,16 +62,6 @@ In this paper, we focus on how the main operations in evolutionary algorithms sp
 \begin{CCSXML}
 <ccs2012>
    <concept>
-       <concept_id>10011007.10011074.10011075.10011079.10011080</concept_id>
-       <concept_desc>Software and its engineering~Software design techniques</concept_desc>
-       <concept_significance>300</concept_significance>
-       </concept>
-   <concept>
-       <concept_id>10003752.10003809.10003716.10011136.10011797</concept_id>
-       <concept_desc>Theory of computation~Optimization with randomized search heuristics</concept_desc>
-       <concept_significance>300</concept_significance>
-       </concept>
-   <concept>
        <concept_id>10003752.10010061.10011795</concept_id>
        <concept_desc>Theory of computation~Random search heuristics</concept_desc>
        <concept_significance>500</concept_significance>
@@ -89,13 +79,11 @@ In this paper, we focus on how the main operations in evolutionary algorithms sp
  </ccs2012>
 \end{CCSXML}
 
-\ccsdesc[300]{Software and its engineering~Software design techniques}
-\ccsdesc[300]{Theory of computation~Optimization with randomized search heuristics}
 \ccsdesc[500]{Theory of computation~Random search heuristics}
 \ccsdesc[500]{Theory of computation~Evolutionary algorithms}
 \ccsdesc[500]{Software and its engineering~Power management}
 
-\keywords{Green computing, software engineering, evolutionary algorithms, genetic algorithms, energy-aware algorithms}
+\keywords{Green computing, evolutionary algorithms}
 
 
 \maketitle
