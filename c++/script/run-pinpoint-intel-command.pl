@@ -6,7 +6,7 @@ use warnings;
 use v5.14;
 
 use lib qw(lib ../lib ../../lib);
-use Utils qw(process_pinpoint_output);
+use Utils qw(process_pinpoint_intel_output);
 
 my $preffix = shift || die "I need a prefix for the data files";
 my $command = shift || die "I need a (single) command to run";
