@@ -5,7 +5,7 @@ use Time::Piece;
 
 use feature qw(say);
 
-our @EXPORT_OK = qw( %command_lines %command_lines_mac process_powermetrics_output process_pinpoint_output mini_slurp);
+our @EXPORT_OK = qw( %command_lines %command_lines_mac process_powermetrics_output process_pinpoint_output process_pinpoint_intel_output mini_slurp);
 
 our %command_lines = ( deno => "/home/jmerelo/.deno/bin/deno run scripts/",
                      bun => "/home/jmerelo/.bun/bin/bun run scripts/",
@@ -32,6 +32,17 @@ sub process_pinpoint_output {
       return $gpu, $pkg,$seconds;
     } else {
       return 0,0,0;
+    }
+}
+
+sub process_pinpoint_intel_output {
+  my $output = shift;
+  if ($output !~ /0.00\s+J/) {
+      my ( $ram, $cores, $psys, $gpu, $pkg ) = $output =~ /(\d+\.\d+)\s+J/g;
+      my ( $seconds ) = $output =~ /(\d+\.\d+) seconds/;
+      return $ram, $cores, $psys, $gpu, $pkg, $seconds;
+    } else {
+      return 0,0,0,0,0,0;
     }
 }
 
