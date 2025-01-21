@@ -10,12 +10,6 @@ PDF = $(TEX:.tex=.pdf)
 SPL = $(TEX:.tex=.spl)
 TEX = $(wildcard *.tex)
 
-kk: stats.txt
-	IFS=$$'\n' read -r -d '' -a my_array < <( grep -E '.csv|Mean:|Std Dev:' $< | grep -v Err && printf '\0' )
-	for i in $${my_array[@]}; do
-		echo $$i
-	done
-
 all: $(PDF)
 
 auto: $(PDF)
