@@ -5,3 +5,5 @@
 *.fls
 *.R
 *.out
+
+*.bak
