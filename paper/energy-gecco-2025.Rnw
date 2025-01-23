@@ -319,14 +319,14 @@ Once those methodology-related issues have been taken care of, what we see is a 
 
 <<energy.gecco.string, echo=F, message=F, fig.cap="Boxplot of PKG energy consumption using the bit string chromosome for the two languages and different sizes",  fig.align="center">>=
 ops.data$size <- as.factor(ops.data$size)
-ggplot(ops.data[ops.data$data.structure=="string",], aes(x=size, y=PKG, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)")
+ggplot(ops.data[ops.data$data.structure=="string",], aes(x=size, y=PSys, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)")
 string.ops.data <- ops.data[ops.data$data.structure=="string",]
-differences.512 <- t.test(string.ops.data[string.ops.data$size==512 & string.ops.data$language=="c++",]$PKG, string.ops.data[string.ops.data$size==512 & string.ops.data$language=="zig",]$PKG,alternative = "less")
-differences.1024 <- t.test(string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="c++",]$PKG, string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="zig",]$PKG,alternative = "less")
-differences.2048 <- t.test(string.ops.data[string.ops.data$size==2048 & string.ops.data$language=="c++",]$PKG, string.ops.data[string.ops.data$size==2048 & string.ops.data$language=="zig",]$PKG, alternative = "greater")
+differences.512 <- t.test(string.ops.data[string.ops.data$size==512 & string.ops.data$language=="c++",]$PSys, string.ops.data[string.ops.data$size==512 & string.ops.data$language=="zig",]$PSys,alternative = "less")
+differences.1024 <- t.test(string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="c++",]$PSys, string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="zig",]$PSys,alternative = "less")
+differences.2048 <- t.test(string.ops.data[string.ops.data$size==2048 & string.ops.data$language=="c++",]$PSys, string.ops.data[string.ops.data$size==2048 & string.ops.data$language=="zig",]$PKG, alternative = "greater")
 @
 
-We have plotted the total energy consumed for the program that generates 40K bitstrings and then performs genetic operators on them in Figure \ref{fig:energy.gecco.string}; side by side, energy spent by C++ (left of tick) and {\sf zig} (right) are shown. The picture is more nuanced than what we observed in Figure \ref{fig:energy.gecco.generation.boxplot}: C++ beats {\sf zig} for the lesser sizes and is beaten by {\sf zig} by a small margin for the larger size. Side-by-side differences are significant, so in this case there is a real difference between the two languages, although it is not always in the same direction.
+We have plotted the total energy consumed for the program that generates 40K bitstrings and then performs genetic operators on them in Figure \ref{fig:energy.gecco.string}; side by side, energy spent by C++ (left of tick) and {\sf zig} (right) are shown. The picture is more nuanced than what we observed in Figure \ref{fig:energy.gecco.generation.boxplot}: C++ beats {\sf zig} for the lesser sizes and is beaten by {\sf zig} by a small margin for the larger size. Side-by-side differences are significant, so in this case there is a real difference between the two languages, although it is not always in the same direction. Variability, in this case, plays against C++, since, except for 512 bits, the worst-case result is always worse than the worst-case for {\sf zig}, even for 1024 bits, where the average is much better.
 
 <<energy.gecco.string.power, echo=F, message=F, fig.cap="Boxplot of PKG power consumption using the bit string chromosome for the two languages and different sizes",  fig.align="center">>=
 string.ops.data$power <- string.ops.data$PKG/string.ops.data$seconds
