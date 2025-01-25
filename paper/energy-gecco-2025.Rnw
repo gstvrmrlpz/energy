@@ -126,7 +126,7 @@ In several of these experiments, low-level languages have been proven to be fast
 
 Thus, in this paper, we will compare different implementations of the essential functions in evolutionary algorithms in two languages, C++ and {\sf zig}, in a specific hardware environment, trying to find an answer to these questions:\begin{itemize}
 \item[RQ1] Is there a specific data structure that is more energy-efficient than others for the workload under study?
-\item Of the two factors that determine energy consumption, time and power, can we determine if there is a dominant term that makes the specific combination found above faster?
+\item[RQ2] If any of the two languages spends less energy, is performance or power the cause?
 \item Does the energy-efficiency ranking of data structures hold across different languages, allowing us to conclude which data structures could be best for working with these problems in the context of evolutionary algorithms?
 \end{itemize}
 
@@ -320,7 +320,7 @@ On the other hand, we do observe that the (negative) energy consumption is large
 
 <<energy.gecco.string, echo=F, message=F, fig.cap="Boxplot of PSys energy consumption using the bit string chromosome for the two languages and different sizes",  fig.align="center">>=
 ops.data$size <- as.factor(ops.data$size)
-ggplot(ops.data[ops.data$data.structure=="string",], aes(x=size, y=PSys, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)")
+ggplot(ops.data[ops.data$data.structure=="string",], aes(x=size, y=PSys, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Chromosome size", y="Energy (J)")
 string.ops.data <- ops.data[ops.data$data.structure=="string",]
 differences.512 <- t.test(string.ops.data[string.ops.data$size==512 & string.ops.data$language=="c++",]$PSys, string.ops.data[string.ops.data$size==512 & string.ops.data$language=="zig",]$PSys,alternative = "less")
 differences.1024 <- t.test(string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="c++",]$PSys, string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="zig",]$PSys,alternative = "less")
@@ -331,10 +331,12 @@ We have plotted the total energy consumed for the program that generates 40K bit
 
 <<energy.gecco.string.power, echo=F, message=F, fig.cap="Boxplot of PSys power (energy over time) consumption using the bit string chromosome for the two languages and different sizes.",  fig.align="center">>=
 string.ops.data$power <- string.ops.data$PSys/string.ops.data$seconds
-ggplot(string.ops.data, aes(x=size, y=power, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Time (s)", y="Power (w)")
+ggplot(string.ops.data, aes(x=size, y=power, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Chromosome size", y="Power (w)")
 @
 
-In order to ascertain what is the key to low energy consumption in the case of C++, we also plot the power consumption in Figure \ref{fig:energy.gecco.string.power}, obtained by dividing energy by time. The result shows that while C++ draws an amount of power that increases in a relatively slow way from the system-on-chip, the amount used by {\sf zig} remains almost constant; the problem is that this constant amount of power is always higher than for C++ for the same memory size. This is an interesting result, which is probably related to the different way C++ and {\sf zig} handle memory allocation, with {\sf zig} always using explicit memory allocation. At any rate, it shows less power consumption in the case of C++, which makes us conclude that  {\sf zig} achieves better energy consumption by taking less to perform in a specific workload, possibly using more memory to do so. This might be the case for more general workloads, but it needs to be confirmed, due to the small number of these studies that have been published so far.
+In order to ascertain what is the key to low energy consumption in the case of C++ (and answer RQ2), we also plot the power consumption in Figure \ref{fig:energy.gecco.string.power}, obtained by dividing energy by time. The result shows that while C++ draws an amount of power that increases in a relatively slow way from the system-on-chip, the amount used by {\sf zig} remains almost constant, albeit increasing; the problem is that this constant amount of power is always higher than for C++ for the same bit string size.
+
+Answering RQ2, this means that C++ consumes less energy not because it is faster (which in some cases might be the case, but because the machine-code instructions its compiler generates are less power-hungry than for the case of {\sf zig}. This is an interesting result, which is probably related to the different way C++ and {\sf zig} handle memory allocation, with {\sf zig} always using explicit memory allocation; this might be a stabilizing and safety factor, but certainly consumes more power. Since the low-level optimizations will be the same in both cases, since they both use the LLVM backend, that factor, along with other higher-level optimizations performed by the language compilers themselves might be the factors that cause this difference. This might be the case for more general workloads, but it needs to be confirmed, due to the small number of these studies that have been published so far.
 
 <<energy.gecco.hiff, echo=FALSE, message=FALSE, fig.cap="Delta energy from baseline vs. delta time from baseline for the HIFF fitness function for bitstring chromosomes in C++ and zig.">>=
 zig.hiff.string <- read.csv("../data/sea25-hiff-11-Jan-12-03-44.csv")
