@@ -14,7 +14,6 @@
 \begin{document}
 \title{Analyzing per-component energy consumption of evolutionary algorithms implemented in low-level languages}
 \subtitle{Comparison of C++ and {\sf zig} in key evolutionary algorithm functions}
-
 \renewcommand{\shorttitle}{TBD}
 
 \author{Ben Trovato}
@@ -125,9 +124,8 @@ We will follow the latter approach in this paper, a choice that has been validat
 
 In several of these experiments, low-level languages have been proven to be faster and also less energy-consuming than VM based languages (like Java or Kotlin) or interpreted languages (like JavaScript or Python), which is more or less in accordance with works that use general-purpose workloads \cite{PEREIRA2021102609,pereira2017energy,gordillo2024programming}. However, \cite{lion24-anon} already revealed a slight mismatch between high-performance and low energy consumption. Besides, we will compare a language that has rarely entered a comparison list with the above-mentioned languages, {\sf zig} \cite{friesen2023designing}, against the well-established C++. With its tight control on memory assignment, {\sf zig} leaves to the user a decision that is bound to have impact on energy consumption; besides, depending on results, it might be a good alternative to implement a low-energy consumption evolutionary computation library, if proved to be better in that sense than C++, already well established as a platform for evolutionary computation libraries \cite{friesen2023designing,jakobovic2024ecf,dreo2021paradiseo}.
 
-
-Thus, in this paper, we will compare different implementations of the essential functions in evolutionary algorithms in two languages, C++ and {\sf zig}, looking at answering the following research questions:\begin{itemize}
-\item Is there a combination of data structure and language that is significantly better than the rest?
+Thus, in this paper, we will compare different implementations of the essential functions in evolutionary algorithms in two languages, C++ and {\sf zig}, in a specific hardware environment, trying to find an answer to these questions:\begin{itemize}
+\item[RQ1] Is there a specific data structure that is more energy-efficient than others for the workload under study?
 \item Of the two factors that determine energy consumption, time and power, can we determine if there is a dominant term that makes the specific combination found above faster?
 \item Does the energy-efficiency ranking of data structures hold across different languages, allowing us to conclude which data structures could be best for working with these problems in the context of evolutionary algorithms?
 \end{itemize}
@@ -207,7 +205,7 @@ There is no single way of establishing this measurement. In \cite{icsoft23-anon}
 \STATE $c \leftarrow$ new chromosome
 \STATE Append $c$ to $chromosomeArray$
 \ENDFOR
-\STATE Show the size of $chromosomeArray$
+\STATE print(size($chromosomeArray$))
 \end{algorithmic}
 \end{algorithm}
 
@@ -256,7 +254,6 @@ ggplot(cpp.gen.bool[ cpp.gen.bool$size == 1024,], aes(x=PSys)) + geom_histogram(
 
 It is interesting to note in this Figure~\ref{fig:energy.gecco.generation}, however, the dispersion of the data points along the $y$ axis (Energy). While other factors in the hardware and operating system may cause some spread over the $x$ axis (time), the variation is actually relatively small; however, energy spent even for running times that are very similar might experience variations on the order of 10 or more joules (for this specific problem), which is around 20\% of the total energy measured. In Figure \ref{fig:energy.gecco.histo} we plot the histogram of energy consumption for the option with the most extensive range, Boolean vectors in C++ of length 1024 (the one that presents the largest variation). Besides seeing a skewed distribution, the range of variation goes from around 60 to almost 90 for the 30 experiments. This, on one hand, indicates the presence of a system overhead that is difficult to eliminate, but is also a symptom of the complicated relationship between hardware and software managed by the different energy handling mechanisms in the operating system, firmware, and CPU microcode. This makes energy consumption relatively unpredictable (within a certain range of variation), but it indicates that any methodology for profiling energy consumption should, in many cases, take into account also this variability, beyond simply using averages or central measures. In this set of experiments, we have increased the number to 30 (as opposed to 15), trying to follow a more rigorous statistical approach.
 
-
 We need, however, to measure the consumption of actual genetic operators. We will do this in the next section.
 
 \section{Results}\label{sec:results}
@@ -297,18 +294,20 @@ We have performed a series of experiments using a triad of genetic operators: cr
 \caption{Appliation of genetic operators}
 \label{alg:ops}
 \begin{algorithmic}
+\STATE chromosomeArray $\leftarrow$ []
+\STATE fitnessArray $\leftarrow$ []
 \FOR{$i=1$ to $N$ by 2}
 \STATE $c1 \leftarrow$ chromosome[i]
 \STATE $c2 \leftarrow$ chromosome[i+1]
 \STATE mutate($c1$)
 \STATE mutate($c2$)
 \STATE ($new\_c1, new\_c2$) $\leftarrow$ crossover($c1$, $c2$)
-\STATE fitnessArray.append(count\_ones($new\_c1$)
-\STATE fitnessArray.append(count\_ones($new\_c2$)
+\STATE fitnessArray.append(count\_ones($new\_c1$))
+\STATE fitnessArray.append(count\_ones($new\_c2$))
 \STATE chromosomeArray.append($new\_c1$)
 \STATE chromosomeArray.append($new\_c2$)
 \ENDFOR
-\STATE Show size of chromosomeArray
+\STATE print(size(chromosomeArray))
 \end{algorithmic}
 \end{algorithm}
 
