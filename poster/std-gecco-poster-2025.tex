@@ -1,39 +1,43 @@
 \documentclass[dvipsnames,format=sigconf,anonymous=true,review=true]{acmart}
 
-% \acmDOI{10.1145/nnnnnnn.nnnnnnn} % To be updated after completing copyright process
-% \acmISBN{978-x-xxxx-xxxx-x/YY/MM} % To be updated after completing copyright process
-% \acmConference[GECCO '25]{The Genetic and Evolutionary Computation Conference 2025}{July 14--18, 2025}{Málaga, Spain}
-% \acmYear{2025}
-% \copyrightyear{2025}
+\acmDOI{10.1145/nnnnnnn.nnnnnnn} % To be updated after completing copyright process
+\acmISBN{978-x-xxxx-xxxx-x/YY/MM} % To be updated after completing copyright process
+\acmConference[GECCO '25]{The Genetic and Evolutionary Computation Conference 2025}{July 14--18, 2025}{Málaga, Spain}
+\acmYear{2025}
+\copyrightyear{2025}
 
 \begin{document}
 
-\title{Energy consumption of C++ standard random number generators}
+\title{Energy Efficiency of C++ Standard Random Number Generators}
 
-\author{Ben Trovato}
-\authornote{Boilerplate author names have been kept for double-blind review.}
-\orcid{1234-5678-9012}
+\author{Gustavo Romero López}
 \affiliation{%
-  \institution{Institute for Clarity in Documentation}
-  \streetaddress{P.O. Box 1212}
-  \city{Dublin}
-  \state{Ohio}
-  \country{USA}
-  \postcode{43017-6221}
+  \institution{Universidad de Granada}
+  \streetaddress{Avenida del Hospicio, s/n}
+  \postcode{18010}
+  \city{Granada}
+  \state{Andalucía}
+  \country{Spain}
 }
-\email{trovato@corporation.com}
+\email{gustavo@ugr.es}
+\orcid{0000-0002-5498-7512}
 
-% \author{Gustavo Romero López}
-% \affiliation{%
-%   \institution{Universidad de Granada}
-%   \city{Granada}
-%   \country{Spain}
-% }
-% \email{gustavo@ugr.es}
-% \orcid{0000-0002-5498-7512}
+\author{Juan Julián Merelo Guervos}
+\affiliation{%
+  \institution{Universidad de Granada}
+  \streetaddress{Avenida del Hospicio, s/n}
+  \postcode{18010}
+  \city{Granada}
+  \state{Andalucía}
+  \country{Spain}
+}
+\email{jmerelo@ugr.es}
+\orcid{0000-0002-1385-9741}
 
 \begin{abstract}
-  Random number generation is widely used in many different algorithms, yet its inner workings and performance are poorly understood among many of its users. In this paper, we aim to explore one of its lesser-known aspects: energy consumption. Most studies on the subject tend to focus on the quality of the generators or on measuring their execution times. However, energy consumption is a critical concern today, particularly for mobile devices. In this work, we have measured the energy consumption of standard C++ random number generators. The results reveal differences in energy usage of over a thousand-fold, which could be significant for applications that require the generation of large quantities of random numbers, such as learning algorithms and metaheuristics.
+  Random number generation is widely used in many different algorithms, yet its inner workings and performance are poorly understood among many of its users. In this paper, we aim to explore one of its lesser-known aspects: energy consumption. Most studies on the subject tend to focus on the quality of the generators or on measuring their execution times. However, energy consumption is a critical concern today, particularly for mobile devices.
+  
+  In this work, we have measured the energy consumption of standard C++ random number generators. The results reveal differences in energy usage of over a thousand-fold, which could be significant for applications that require the generation of large quantities of random numbers, such as learning algorithms and metaheuristics.
 \end{abstract}
 
 %
@@ -84,6 +88,13 @@ Most of them are initialized with a series of numbers used as seeds. A one-way f
 
 The properties of RNGs can vary significantly depending on the field in which they are used. For certain applications, such as cryptography, generators must pass highly rigorous quality tests, such as Diehard \cite{marsaglia1997diehard} or TestU01 \cite{testu01}. However, for many other applications, such as genetic algorithms, the generators must be fast and efficient, even at the expense of lower quality. In fact, some studies suggest that genetic algorithms are not highly sensitive to the quality of RNGs \cite{cardenas2011sensitiveness}.
 
+\subsection{State of the art}
+\label{sec:state-of-the-art}
+
+Pseudo-random number generation is a widely studied field \cite{marsaglia2003random}. However, its practical implementation in programming languages has not been as thoroughly explored. In the language we focus on in this work, C++, the standard library provides several pseudo-random number generators, each with its own characteristics and properties. Their efficiency has only been superficially examined in online resources \cite{kd9f9-2020,arbelaez-2016}, but not in rigorous scientific articles. Moreover, the energy efficiency of these generators has not been studied at all.
+
+On the other hand, there are numerous libraries for Genetic and Evolutionary Algorithms \cite{wall1996galib, keijzer2001evolving, levine1996users} that make extensive use of RNGs. Most of them either use standard RNGs or their own implementations, for which there are no comparative studies on efficiency, let alone energy consumption.
+
 \section{Methodology and results}
 \label{sec:methodology}
 
@@ -129,7 +140,7 @@ In our case, the 32 bits version of \texttt{romutrio}, \texttt{romutrio32}, is t
 
 \begin{table}
 \centering
-\caption{Means and standard deviations of energy consumption and CPU time of 100 runs of C++ standard engines when generating 100 million random numbers.}
+\caption{Average energy consumption and CPU time, along with their standard deviations, for 100 runs of C++ standard RNGs producing 100 million random numbers.}
 \begin{tabular}{lcc}
 \toprule
 Generator & Energy (J) & Time (s) \\
@@ -172,6 +183,8 @@ As a curious case, we can highlight \texttt{mt11213b}, one of the Mersenne Twist
 This study highlights significant disparities in energy consumption among various C++ standard RNGs, revealing a difference of over three orders of magnitude between the most efficient generator, \texttt{romutrio32}, and the least efficient, \texttt{ranlux48}, with the latter consuming exactly $1130.96$ times more energy. This disparity has substantial implications for applications that require the generation of large volumes of random numbers, such as artificial intelligence, genetic algorithms, and other computational tasks with heavy random number usage.
 
 In conclusion, the significant variation in energy consumption among C++ standard RNGs not only emphasizes the importance of careful selection in algorithm design but also points to the need for a broader awareness of energy implications in software development practices. This research contributes to the growing discourse on green computing, encouraging ongoing efforts to develop energy-efficient algorithms and systems.
+
+As future work, it would be interesting to replace the RNG in one of the genetic algorithm libraries mentioned in Section \ref{sec:state-of-the-art } to analyze its impact on energy efficiency.
 
 \begin{acks}
 Hidden for double-blind review
