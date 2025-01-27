@@ -82,7 +82,7 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Pseudo-random number generators \cite{marsaglia2003random} are a fundamental resource in computing, which is why they have been extensively studied in numerous works. However, most of these studies focus on the quality of the generated numbers or the efficiency of the algorithms that produce them. In this paper, we aim to focus on a less-studied aspect: the energy consumption of random number generators(RNGs). This aspect is critical today, especially in mobile devices, where energy consumption is a limiting factor. In this work, we have measured the energy consumption of standard C++ RNGs.
+Pseudo-random number generators \cite{marsaglia2003random} are a fundamental resource in computing, which is why they have been extensively studied in numerous works. However, most of these studies focus on the quality of the generated numbers or the efficiency of the algorithms that produce them. In this paper, we aim to focus on a less-studied aspect: the energy consumption of random number generators (RNGs). This aspect is critical today, especially in mobile devices, where energy consumption is a limiting factor. In this work, we have measured the energy consumption of standard C++ RNGs.
 
 Most of them are initialized with a series of numbers used as seeds. A one-way function is then applied to these seeds, resulting in a random number. To generate a new random number, the previous one is used as the new seed and is subjected to the same process.
 
@@ -93,7 +93,11 @@ The properties of RNGs can vary significantly depending on the field in which th
 
 Pseudo-random number generation is a widely studied field \cite{marsaglia2003random}. However, its practical implementation in programming languages has not been as thoroughly explored. In the language we focus on in this work, C++, the standard library provides several pseudo-random number generators, each with its own characteristics and properties. Their efficiency has only been superficially examined in online resources \cite{kd9f9-2020,arbelaez-2016}, but not in rigorous scientific articles. Moreover, the energy efficiency of these generators has not been studied at all.
 
-On the other hand, there are numerous libraries for Genetic and Evolutionary Algorithms such as OpenGA \cite{8122921}, EO \cite{keijzer2001evolving}, GAlib \cite{wall1996galib} and PGAPack \cite{levine1996users} that make extensive use of RNGs. Most of them either use standard RNGs or their own implementations, for which there are no comparative studies on efficiency, let alone energy consumption.
+On the other hand, there are numerous libraries for Genetic and Evolutionary Algorithms such as Pagmo \cite{Biscani2020}, OpenGA \cite{8122921}, ParadisEO \cite{Dreo-al_2021_Paradiseo}, GAlib \cite{wall1996galib} and PGAPack \cite{levine1996users} that make extensive use of RNGs. Most of them either use standard RNGs or their own implementations, for which there are no comparative studies on efficiency, let alone energy consumption.
+
+Pagmo, OpenGa and ParadisEO uses the Mersenne Twister \cite{mersennetwister} as its default RNG, which is one of the most widely used RNGs in the world. However, it is not the most efficient in terms of time and energy consumption, as we will show in this work. The same can be said for the other libraries mentioned above, which use the same or similar RNGs.
+
+GAlib and PGAPack can either use the C \texttt{rand} function or implement their own RNG as the default option. Both approaches are among the least efficient in terms of time and energy consumption, which is consistent with the results we will demonstrate in this work.
 
 \section{Methodology and results}
 \label{sec:methodology}
