@@ -119,23 +119,23 @@ The difference between these two measurements provides an estimate of the isolat
 
 As can be seen from the results in Figure \ref{fig:pkg}, the energy consumption of the different generators varies significantly. The CPU time spent by the generators is also shown in Figure \ref{fig:cpu}. There is a clear correlation between energy consumption and CPU time, with the most efficient generators in terms of energy consumption also being the fastest.
 
-\begin{figure}
+\begin{figure*}
 \centering
-\includegraphics[width=\columnwidth]{pkg.png}
+\includegraphics[width=\linewidth]{pkg.png}
 \caption{Energy consumption of C++ standard RNGs.}
 \label{fig:pkg}
-\end{figure}
+\end{figure*}
 
-\begin{figure}
+\begin{figure*}
 \centering
-\includegraphics[width=\columnwidth]{cpu.png}
+\includegraphics[width=\linewidth]{cpu.png}
 \caption{CPU time spent by C++ standard RNGs.}
 \label{fig:cpu}
-\end{figure}
+\end{figure*}
 
 % \begin{figure}
 % \centering
-% \includegraphics[width=\columnwidth]{all.png}
+% \includegraphics[width=\linewidth]{all.png}
 % \caption{Energy consumption of C++ standard RNGs.}
 % \label{fig:all}
 % \end{figure}
@@ -181,6 +181,8 @@ The energy consumption of the classic C \texttt{rand} generator is also very hig
 
 As a curious case, we can highlight \texttt{mt11213b}, one of the Mersenne Twister family generators. Its characteristics are among the best, and the only thing that differentiates it from \texttt{mt19937} is the set of constants and initial seeds. However, \texttt{mt11213b} consumes 34.16\% less energy and 40.18\% less CPU time than \texttt{mt19937}.
 
+In our experiments, a perfect correlation has been found between energy consumption and CPU time used, with the most energy-efficient generators also being the fastest. This is easy to see by comparing figures \ref{fig:pkg} and \ref{fig:cpu}.
+
 Both the code for the pseudo-random number generators implemented here and the code for the experiments conducted are available in the repository \url{https://github.com/gstvrmrlpz/energy}.
 
 \section{Conclusions}
@@ -190,7 +192,7 @@ This study highlights significant disparities in energy consumption among variou
 
 In conclusion, the significant variation in energy consumption among C++ standard RNGs not only emphasizes the importance of careful selection in algorithm design but also points to the need for a broader awareness of energy implications in software development practices. This research contributes to the growing discourse on green computing, encouraging ongoing efforts to develop energy-efficient algorithms and systems.
 
-As future work, it would be interesting to replace, where possible, the RNG in the genetic algorithm libraries mentioned in Section \ref{sec:state-of-the-art} to analyze its impact on energy efficiency.
+As future work, it would be interesting to replace, where possible, the RNG in the genetic algorithm libraries mentioned in Section \ref{sec:state-of-the-art} to analyze its impact on energy efficiency. Since random number generation takes up a large percentage of the execution time of evolutionary algorithms, the choice of an efficient generator should have a significant impact on the energy consumption of these algorithms.
 
 \begin{acks}
 Hidden for double-blind review
