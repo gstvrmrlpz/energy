@@ -2,7 +2,7 @@
 
 \acmDOI{10.1145/nnnnnnn.nnnnnnn} % To be updated after completing copyright process
 \acmISBN{978-x-xxxx-xxxx-x/YY/MM} % To be updated after completing copyright process
-\acmConference[GECCO '25]{The Genetic and Evolutionary Computation Conference 2025}{July 14--18, 2025}{Málaga, Spain}
+\acmConference[GECCO '25]{The Genetic and Evolutionary Computation Conference 2025}{July 14--18, 2025}{M\'{a}laga, Spain}
 \acmYear{2025}
 \copyrightyear{2025}
 
@@ -10,25 +10,25 @@
 
 \title{Energy Efficiency of C++ Standard Random Number Generators}
 
-\author{Gustavo Romero López}
+\author{Gustavo Romero L\'{o}pez}
 \affiliation{%
   \institution{Universidad de Granada}
   \streetaddress{Avenida del Hospicio, s/n}
   \postcode{18010}
   \city{Granada}
-  \state{Andalucía}
+  \state{Andaluc\'{i}a}
   \country{Spain}
 }
 \email{gustavo@ugr.es}
 \orcid{0000-0002-5498-7512}
 
-\author{Juan Julián Merelo Guervos}
+\author{Juan Juli\'{a}n Merelo Guervos}
 \affiliation{%
   \institution{Universidad de Granada}
   \streetaddress{Avenida del Hospicio, s/n}
   \postcode{18010}
   \city{Granada}
-  \state{Andalucía}
+  \state{Andaluc\'{i}a}
   \country{Spain}
 }
 \email{jmerelo@ugr.es}
@@ -183,7 +183,7 @@ As a curious case, we can highlight \texttt{mt11213b}, one of the Mersenne Twist
 
 In our experiments, a perfect correlation has been found between energy consumption and CPU time used, with the most energy-efficient generators also being the fastest. This is easy to see by comparing figures \ref{fig:pkg} and \ref{fig:cpu}.
 
-Both the code for the pseudo-random number generators implemented here and the code for the experiments conducted are available in the repository \url{https://github.com/gstvrmrlpz/energy}.
+Both the code for the pseudo-random number generators implemented here and the code for the experiments conducted are available in the repository \anon{\url{https://github.com/gstvrmrlpz/energy}}.
 
 \section{Conclusions}
 \label{sec:conclusions}
@@ -195,7 +195,7 @@ In conclusion, the significant variation in energy consumption among C++ standar
 As future work, it would be interesting to replace, where possible, the RNG in the genetic algorithm libraries mentioned in Section \ref{sec:state-of-the-art} to analyze its impact on energy efficiency. Since random number generation takes up a large percentage of the execution time of evolutionary algorithms, the choice of an efficient generator should have a significant impact on the energy consumption of these algorithms.
 
 \begin{acks}
-Hidden for double-blind review
+This work is supported by PID2023-147409NB-C21 and PID2020-115570GB-C22 projects funded by MICIU/AEI/10.13039/501100011033 (Ministerio Español de Ciencia, Innovación y Universidades), as well as C-ING-027-UGR23 project, funded by ERDF/EU.
 \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
