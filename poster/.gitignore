@@ -3,7 +3,6 @@
 *.cut
 *.fdb_latexmk
 *.fls
-*.R
 *.out
 
 *.bak
