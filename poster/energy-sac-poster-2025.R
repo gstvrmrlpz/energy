@@ -17,7 +17,14 @@ library(dplyr)
 gen.data %>% group_by(language, data.structure, size ) %>% summarise(mean(PKG), sd(PKG), mean(seconds), sd(seconds)) -> gen.data.summary
 
 library(ggplot2)
-ggplot(gen.data, aes(x=seconds, y=PKG, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + geom_smooth(method="lm", aes( group=interaction(language,data.structure))) + labs(x="Time (s)", y="Energy (J)")+guides(size="none")
+
+ggplot(gen.data, aes(x=seconds, y=PKG, color=language)) +
+    geom_point(aes(fill=data.structure, shape=data.structure, size=point.size), alpha=0.7, stroke=0.5) +
+    theme_minimal() +
+    geom_smooth(method="lm", aes(group=interaction(language, data.structure))) +
+    labs(x="Time (s)", y="Energy (J)") +
+    guides(size="none")
+
 gen.data$size <- as.factor(gen.data$size)
 
 
