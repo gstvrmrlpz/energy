@@ -18,12 +18,14 @@ gen.data %>% group_by(language, data.structure, size ) %>% summarise(mean(PKG), 
 
 library(ggplot2)
 
-ggplot(gen.data, aes(x=seconds, y=PKG, color=language)) +
+energy_vs_time <- ggplot(gen.data, aes(x=seconds, y=PKG, color=language)) +
     geom_point(aes(fill=data.structure, shape=data.structure, size=point.size), alpha=0.7, stroke=0.5) +
     theme_minimal() +
     geom_smooth(method="lm", aes(group=interaction(language, data.structure))) +
     labs(x="Time (s)", y="Energy (J)") +
     guides(size="none")
+
+ggsave("../img/energy_vs_time.png", energy_vs_time, width=6, height=4)
 
 gen.data$size <- as.factor(gen.data$size)
 
