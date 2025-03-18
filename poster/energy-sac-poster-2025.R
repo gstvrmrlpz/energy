@@ -57,7 +57,8 @@ ops.data %>% group_by(language, data.structure, size) %>% summarise(mean(delta.P
 # ggplot(ops.data, aes(x=delta.seconds, y=delta.PKG, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
 
 ops.data$size <- as.factor(ops.data$size)
-ggplot(ops.data[ops.data$data.structure=="string",], aes(x=size, y=PKG, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Chromosome size", y="Energy (J)")
+ops_energy_vs_chromosome_size <- ggplot(ops.data[ops.data$data.structure=="string",], aes(x=size, y=PKG, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Chromosome size", y="Energy (J)")+ggtitle("Genetic operators energy consumption for bitstring chromosomes")
+ggsave("../img/ops-string-boxplot.png", ops_energy_vs_chromosome_size, width=6, height=4)
 string.ops.data <- ops.data[ops.data$data.structure=="string",]
 differences.512 <- t.test(string.ops.data[string.ops.data$size==512 & string.ops.data$language=="c++",]$PKG, string.ops.data[string.ops.data$size==512 & string.ops.data$language=="zig",]$PKG,alternative = "less")
 differences.1024 <- t.test(string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="c++",]$PKG, string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="zig",]$PKG,alternative = "less")
