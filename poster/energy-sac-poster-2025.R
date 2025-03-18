@@ -78,8 +78,8 @@ cpp.hiff.string$language <- "c++"
 
 hiff.data <- rbind(zig.hiff.string, cpp.hiff.string)
 hiff.data$size <- factor(hiff.data$size)
-ggplot(hiff.data, aes(x=delta.seconds, y=delta.PKG, color=language, shape=size)) + geom_point() + theme_minimal() + labs(x="Delta time from baseline (s)", y="Delta energy from baseline (J)")
-
+delta_energy_vs_time_hiff <- ggplot(hiff.data, aes(x=delta.seconds, y=delta.PKG, color=language, shape=size)) + geom_point() + theme_minimal() + labs(x="Delta time from baseline (s)", y="Delta energy from baseline (J)") + ggtitle("Δ energy vs. Δ time HIFF, bitstring chromosomes.") + scale_shape_manual(values=c(1,2,3)) + scale_color_manual(values=c("blue", "red")) + theme(legend.position="bottom")
+ggsave("../img/delta_energy_vs_time_hiff.png", delta_energy_vs_time_hiff, width=6, height=4)
 
 ## ----sac.hiff.opsxjoule, echo=F, message=F---------------------------------------------------------
 hiff.data$ops.joule <- 40000/hiff.data$delta.PKG
