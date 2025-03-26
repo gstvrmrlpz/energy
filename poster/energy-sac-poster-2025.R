@@ -91,5 +91,5 @@ library(kableExtra)
 hiff.data.summary$Joules <- paste0(round(hiff.data.summary$`mean(delta.PKG)`,2), " (", round(hiff.data.summary$`sd(delta.PKG)`,2), ")")
 hiff.data.summary$"Ops per Joule" <- paste0(round(hiff.data.summary$`mean(ops.joule)`,2), " (", round(hiff.data.summary$`sd(ops.joule)`,2), ")")
 
-hiff.data.summary %>% select(language, size, Joules, "Ops per Joule") %>% arrange(size) %>% kable(digits=2, caption="\\protect\\label{tab:opsxjoule}Comparison of c++ and zig, HIFF function") %>% kable_styling(full_width = F)
+hiff.data.summary %>% select(language, size, Joules, "Ops per Joule") %>% arrange(size) %>% kable(digits=2, caption="\\protect\\label{tab:opsxjoule}Comparison of c++ and zig, HIFF function", "html") %>% kable_styling(full_width = F)
 
