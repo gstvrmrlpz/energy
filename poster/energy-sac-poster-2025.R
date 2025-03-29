@@ -81,6 +81,16 @@ hiff.data$size <- factor(hiff.data$size)
 delta_energy_vs_time_hiff <- ggplot(hiff.data, aes(x=delta.seconds, y=delta.PKG, color=language, shape=size)) + geom_point() + theme_minimal() + labs(x="Delta time from baseline (s)", y="Delta energy from baseline (J)") + ggtitle("Δ energy vs. Δ time HIFF, bitstring chromosomes.") + scale_shape_manual(values=c(1,2,3)) + scale_color_manual(values=c("blue", "red")) + theme(legend.position="bottom")
 ggsave("../img/delta_energy_vs_time_hiff.png", delta_energy_vs_time_hiff, width=6, height=4)
 
+ggplot(hiff.data, aes(x=delta.seconds, y=delta.PKG, color=language, shape=size)) + geom_point() + theme_minimal() + labs(x="Delta time from baseline (s)", y="Delta energy from baseline (J)") + ggtitle("Δ energy vs. Δ time HIFF, bitstring chromosomes.") + scale_shape_manual(values=c(1,2,3)) + scale_color_manual(values=c("blue", "red")) + theme(legend.position="bottom")  + theme(axis.text.x = element_text(size = 14, color="green"),
+          axis.title.x = element_text(size = 16, color="green"),
+          axis.title.y = element_text(size = 16, color="green"),
+          axis.text.y = element_text(size = 14, color="green"),
+          plot.title = element_text(size = 20, face = "bold", color = "darkgreen"),
+          legend.title=element_text(size=14, color="green"),
+          legend.text=element_text(size=14, color="green")
+          )
+ggsave("../img/delta_energy_vs_time_hiff_preso.png", width=9, height=5)
+
 ## ----sac.hiff.opsxjoule, echo=F, message=F---------------------------------------------------------
 hiff.data$ops.joule <- 40000/hiff.data$delta.PKG
 
