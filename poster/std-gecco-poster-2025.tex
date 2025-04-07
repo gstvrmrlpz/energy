@@ -1,42 +1,45 @@
-\documentclass[dvipsnames,format=sigconf,anonymous=true,review=true]{acmart}
+%\documentclass[dvipsnames,format=sigconf,anonymous=true,review=true]{acmart}
+\documentclass[dvipsnames,format=sigconf]{acmart}
+
+\usepackage[utf8]{inputenc}
 
 \acmDOI{10.1145/nnnnnnn.nnnnnnn} % To be updated after completing copyright process
 \acmISBN{978-x-xxxx-xxxx-x/YY/MM} % To be updated after completing copyright process
-\acmConference[GECCO '25]{The Genetic and Evolutionary Computation Conference 2025}{July 14--18, 2025}{M\'{a}laga, Spain}
+\acmConference[GECCO '25]{The Genetic and Evolutionary Computation Conference 2025}{July 14--18, 2025}{Málaga, Spain}
 \acmYear{2025}
 \copyrightyear{2025}
 
-\begin{document}
-
 \title{Energy Efficiency of C++ Standard Random Number Generators}
 
-\author{Gustavo Romero L\'{o}pez}
+\author{Gustavo Romero López}
 \affiliation{%
   \institution{Universidad de Granada}
   \streetaddress{Avenida del Hospicio, s/n}
   \postcode{18010}
   \city{Granada}
-  \state{Andaluc\'{i}a}
+  \state{Andalucía}
   \country{Spain}
 }
 \email{gustavo@ugr.es}
 \orcid{0000-0002-5498-7512}
 
-\author{Juan Juli\'{a}n Merelo Guervos}
+\author{Juan Julián Merelo Guervos}
 \affiliation{%
   \institution{Universidad de Granada}
   \streetaddress{Avenida del Hospicio, s/n}
   \postcode{18010}
   \city{Granada}
-  \state{Andaluc\'{i}a}
+  \state{Andalucía}
   \country{Spain}
 }
 \email{jmerelo@ugr.es}
 \orcid{0000-0002-1385-9741}
 
+\begin{document}
+
 \begin{abstract}
   Random number generation is widely used in many different algorithms, yet its inner workings and performance are poorly understood among many of its users. In this paper, we aim to explore one of its lesser-known aspects: energy consumption. Most studies on the subject tend to focus on the quality of the generators or on measuring their execution times. However, energy consumption is a critical concern today, particularly for mobile devices.
-  
+
   In this work, we have measured the energy consumption of standard C++ random number generators. The results reveal differences in energy usage of over a thousand-fold, which could be significant for applications that require the generation of large quantities of random numbers, such as learning algorithms and metaheuristics.
 \end{abstract}
 
@@ -183,7 +186,7 @@ As a curious case, we can highlight \texttt{mt11213b}, one of the Mersenne Twist
 
 In our experiments, a perfect correlation has been found between energy consumption and CPU time used, with the most energy-efficient generators also being the fastest. This is easy to see by comparing figures \ref{fig:pkg} and \ref{fig:cpu}.
 
-Both the code for the pseudo-random number generators implemented here and the code for the experiments conducted are available in the repository \anon{\url{https://github.com/gstvrmrlpz/energy}}.
+Both the code for the pseudo-random number generators implemented here and the code for the experiments conducted are available in the repository \url{https://github.com/gstvrmrlpz/energy}.
 
 \section{Conclusions}
 \label{sec:conclusions}
