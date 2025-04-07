@@ -16,41 +16,36 @@
 \subtitle{Comparison of C++ and {\sf zig} in key evolutionary algorithm functions}
 \renewcommand{\shorttitle}{TBD}
 
-\author{Ben Trovato}
-\authornote{Boilerplate author names have been kept for double-blind review.}
-\orcid{1234-5678-9012}
-\affiliation{%
-  \institution{Institute for Clarity in Documentation}
-  \streetaddress{P.O. Box 1212}
-  \city{Dublin}
-  \state{Ohio}
-  \country{USA}
-  \postcode{43017-6221}
-}
-\email{trovato@corporation.com}
+  \author{Juan-Juli\'an Merelo Guerv\'os}
+  \orcid{0000-0002-1385-9741}
+  \affiliation{%
+    \institution{Universidad de Granada/CITIC}
+    \city{Granada}
+    \country{Spain}
+    \postcode{18071}
+  }
+  \email{jmerelo@ugr.es}
 
-\author{G.K.M. Tobin}
-\affiliation{%
-  \institution{Institute for Clarity in Documentation}
-  \streetaddress{P.O. Box 1212}
-  \city{Dublin}
-  \state{Ohio}
-  \country{USA}
-  \postcode{43017-6221}
-}
-\email{webmaster@marysville-ohio.com}
+  \author{Gustavo Romero}
+  \affiliation{%
+    \institution{Universidad de Granada/CITIC}
+    \city{Granada}
+    \country{Spain}
+    \postcode{18071}
+  }
+  \email{gustavo@ugr.es}
 
-\author{Lars Th{\o}rv{\"a}ld}
-\affiliation{%
-  \institution{The Th{\o}rv{\"a}ld Group}
-  \streetaddress{1 Th{\o}rv{\"a}ld Circle}
-  \city{Hekla}
-  \country{Iceland}}
-\email{larst@affiliation.org}
-
+  \author{Mario Garc\'ia Valdez}
+  \orcid{0000-0002-2593-1114}
+  \affiliation{%
+    \institution{Tecnol\'ogico Nacional de M\'exico}
+    \city{Tijuana}
+    \country{M\'exico}
+    \postcode{22414}
+  }
+  \email{mario@tectijuana.edu.mx}
 % The default list of authors is too long for headers}
-\renewcommand{\shortauthors}{B. Trovato et al.}
-
+\renewcommand{\shortauthors}{JJ Merelo et al.}
 \begin{abstract}
 
 Trying to design software systems in such a way that they consume a minimal amount of energy is simply good engineering practice. Scientific software is no exception; in this case we will put our focus on evolutionary algorithms and the patterns of energy consumption in memory and CPU for two different, low-level, languages: The mainstream C++ and the emerging {\sf zig}. By setting up a methodology that gives us a precise measure of the energy spent by key evolutionary algorithm functions, we can give the scientific software engineer some actionable insights on how to write energy-conscious, and thus energy-thrifty, evolutionary algorithms. Our experiments show that, even having very low energy consumption in both cases, C++ can achieve a significant reduction in energy consumption for some integer-based fitness functions, as well as very good performance on classical genetic operators. Besides, the experimental results have a low variability, as compared to {\sf zig}, making it in the short and medium run the best of the two languages for evolutionary algorithms.
@@ -268,7 +263,8 @@ The experiments reveal that, for this specific kind of problem where only intege
 After the experiments show that the standard deviation in {\sf zig} is much higher than in C++, working on the worst case scenario might be a good idea, because a good average energy consumption might be marred by outliers where there is a very high consumption (something that has been observed, for instance, in Java Virtual Machine based languages like Kotlin). Adding more statistical measurements for comparison could mitigate this issue but also trying to find an experimental setup that would reduce or mitigate this variability for certain languages.
 
 \begin{acks}
-  Hidden for double-blind review
+This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y
+Competitividad (Spanish Ministry of Competitivity and Economy) under project PID2023-147409NB-C22.
 \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
