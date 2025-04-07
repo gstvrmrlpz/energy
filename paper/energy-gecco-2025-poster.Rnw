@@ -194,28 +194,7 @@ ops.data %>% group_by(language, data.structure, size) %>% summarise(mean(delta.P
 ggplot(ops.data, aes(x=delta.seconds, y=delta.PSys, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
 @
 
-We have performed a series of experiments using a triad of genetic operators: crossover, mutation and count-ones, following this algorithm
-\begin{algorithm}
-\caption{Appliation of genetic operators}
-\label{alg:ops}
-\begin{algorithmic}
-\STATE chromosomeArray $\leftarrow$ []
-\STATE fitnessArray $\leftarrow$ []
-\FOR{$i=1$ to $N$ by 2}
-\STATE $c1 \leftarrow$ chromosome[i]
-\STATE $c2 \leftarrow$ chromosome[i+1]
-\STATE mutate($c1$)
-\STATE mutate($c2$)
-\STATE ($new\_c1, new\_c2$) $\leftarrow$ crossover($c1$, $c2$)
-\STATE fitnessArray.append(count\_ones($new\_c1$))
-\STATE fitnessArray.append(count\_ones($new\_c2$))
-\STATE chromosomeArray.append($new\_c1$)
-\STATE chromosomeArray.append($new\_c2$)
-\ENDFOR
-\STATE print(size(chromosomeArray))
-\end{algorithmic}
-\end{algorithm}
-
+We have performed a series of experiments using a triad of genetic operators: crossover, mutation and count-ones.
 The results of applying these operators to the chromosome have been shown in Figure~\ref{fig:energy.gecco.ops}, where the average energy consumption and time for every size, language, and data structure in the baseline generation operation above have been subtracted from the numeric value obtained. However, we observe  that applying the genetic operators {\em after} its generation results in less-than-0 energy consumption and, in some cases, negative time. This is due to the lack of precision in measurements; for different registers precision varies between 2\% and 5\%. What we are seeing, in this case, is probably a combination of those operations taking less than 5\% of the total time required by generation + system overhead in some cases, added to some probably optimizations carried out by the compiler that merge generation + operation into a single machine code op, which consumes less than originally.
 
 Once those methodology-related issues have been taken care of, what we see is a clear separation between circles (corresponding to Boolean vectors) and triangles (corresponding to strings); the former {\em do} have some energy consumption and can then be discarded as more energy-consuming at least in the worst case and in the context of this experiment. This would answer research question 1: strings consume less energy than Boolean vectors, and this holds across the two low-level languages measured.
