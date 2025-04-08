@@ -5,11 +5,14 @@
 \usepackage{algorithmic}
 \usepackage{gensymb}
 
-% \acmDOI{10.1145/nnnnnnn.nnnnnnn} % To be updated after completing copyright process
-% \acmISBN{978-x-xxxx-xxxx-x/YY/MM} % To be updated after completing copyright process
-% \acmConference[GECCO '25]{The Genetic and Evolutionary Computation Conference 2025}{July 14--18, 2025}{Málaga, Spain}
-% \acmYear{2025}
-% \copyrightyear{2025}
+
+\copyrightyear{2025}
+\acmYear{2025}
+\setcopyright{rightsretained}
+\acmConference[GECCO '25 Companion]{Genetic and Evolutionary Computation Conference}{July 14--18, 2025}{Malaga, Spain}
+\acmBooktitle{Genetic and Evolutionary Computation Conference (GECCO '25 Companion), July 14--18, 2025, Malaga, Spain}\acmDOI{10.1145/3712255.3726694}
+\acmISBN{979-8-4007-1464-1/2025/07}
+
 
 \begin{document}
 \title{Analyzing per-component energy consumption of evolutionary algorithms implemented in low-level languages}
