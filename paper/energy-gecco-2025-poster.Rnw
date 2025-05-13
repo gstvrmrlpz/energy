@@ -29,7 +29,7 @@
   }
   \email{jmerelo@ugr.es}
 
-  \author{Gustavo Romero}
+  \author{Gustavo Romero López}
   \affiliation{%
     \institution{Universidad de Granada/CITIC}
     \city{Granada}
@@ -38,7 +38,7 @@
   }
   \email{gustavo@ugr.es}
 
-  \author{Mario Garc\'ia Valdez}
+  \author{Mario Garc\'ia-Valdez}
   \orcid{0000-0002-2593-1114}
   \affiliation{%
     \institution{Tecnol\'ogico Nacional de M\'exico}
