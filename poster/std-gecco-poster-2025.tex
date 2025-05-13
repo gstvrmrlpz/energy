@@ -3,8 +3,8 @@
 
 \usepackage[utf8]{inputenc}
 
-\acmDOI{10.1145/nnnnnnn.nnnnnnn} % To be updated after completing copyright process
-\acmISBN{978-x-xxxx-xxxx-x/YY/MM} % To be updated after completing copyright process
+\acmDOI{10.1145/3449726.3463276} % To be updated after completing copyright process
+\acmISBN{979-8-4007-1464-1/2025/07} % To be updated after completing copyright process
 \acmConference[GECCO '25]{The Genetic and Evolutionary Computation Conference 2025}{July 14--18, 2025}{Málaga, Spain}
 \acmYear{2025}
 \copyrightyear{2025}
@@ -85,11 +85,11 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Pseudo-random number generators \cite{marsaglia2003random} are a fundamental resource in computing, which is why they have been extensively studied in numerous works. However, most of these studies focus on the quality of the generated numbers or the efficiency of the algorithms that produce them. In this paper, we aim to focus on a less-studied aspect: the energy consumption of random number generators (RNGs). This aspect is critical today, especially in mobile devices, where energy consumption is a limiting factor. In this work, we have measured the energy consumption of standard C++ RNGs.
+Pseudo-random number generators \cite{marsaglia2003random} are frequently used in computing, which is why they have been extensively studied in many works. However, most of these studies focus on the quality of the generated numbers or the efficiency of the algorithms that produce them. In this paper, we aim to focus on a less-studied aspect: the energy consumption of random number generators (RNGs). This aspect is critical in these times, especially in mobile devices, where energy consumption is the main limiting factor. In this work, we have measured the energy consumption of standard C++ RNGs.
 
 Most of them are initialized with a series of numbers used as seeds. A one-way function is then applied to these seeds, resulting in a random number. To generate a new random number, the previous one is used as the new seed and is subjected to the same process.
 
-The properties of RNGs can vary significantly depending on the field in which they are used. For certain applications, such as cryptography, generators must pass highly rigorous quality tests, such as Diehard \cite{marsaglia1997diehard} or TestU01 \cite{testu01}. However, for many other applications, such as genetic algorithms, the generators must be fast and efficient, even at the expense of lower quality. In fact, some studies suggest that genetic algorithms are not highly sensitive to the quality of RNGs \cite{cardenas2011sensitiveness}.
+The properties of RNGs can vary significantly depending on the field of application. For certain cases, such as cryptography, generators must pass highly rigorous quality tests, such as Diehard \cite{marsaglia1997diehard} or TestU01 \cite{testu01}. However, for many other applications, such as genetic algorithms, the generators must be fast and efficient, even at the expense of lower quality. In fact, some studies suggest that genetic algorithms are not highly sensitive to the quality of RNGs \cite{cardenas2011sensitiveness}.
 
 \subsection{State of the art}
 \label{sec:state-of-the-art}
