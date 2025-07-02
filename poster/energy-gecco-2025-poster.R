@@ -62,7 +62,7 @@ ops.data$point.size <- log2(ops.data$size)-7
 
 ops.data %>% group_by(language, data.structure, size) %>% summarise(mean(delta.PSys), sd(delta.PSys), mean(delta.seconds), sd(delta.seconds)) -> ops.data.summary
 
-ggplot(ops.data, aes(x=delta.seconds, y=delta.PSys, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
+ggplot(ops.data, aes(x=delta.seconds, y=delta.PSys, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)", size="Log(chromosome size)") + ggtitle("PSys energy consumed for genetic operators")
 ggsave("img/energy-gecco-ops.png", width=8, height=4, dpi=300,bg="white")
 
 ## ----energy.gecco.string, echo=F, message=F, fig.height=4, fig.cap="Boxplot of PSys energy consumption using the bit string chromosome for the two languages and different sizes",  fig.align="center"----
