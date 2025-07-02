@@ -21,17 +21,18 @@ library(dplyr)
 gen.data %>% group_by(language, data.structure, size ) %>% summarise(mean(PSys), sd(PSys), mean(seconds), sd(seconds)) -> gen.data.summary
 
 library(ggplot2)
-ggplot(gen.data, aes(x=seconds, y=PSys, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + geom_smooth(method="lm", aes( group=interaction(language,data.structure))) + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
+ggplot(gen.data, aes(x=seconds, y=PSys, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + geom_smooth(method="lm", aes( group=interaction(language,data.structure))) + labs(x="Time (s)", y="Energy (J)", size="Log(chromosome size)") + ggtitle("PSys Energy consumed for chromosome generation")
+ggsave("img/energy-gecco-generation.png", width=8, height=4, dpi=300,bg="white")
 
 
 ## ----energy.gecco.generation.boxplot, echo=FALSE, message=FALSE, fig.height=4, fig.cap="Energy boxplot for the chromosome generation problem (baseline)."----
 gen.data$size <- as.factor(gen.data$size)
 ggplot(gen.data, aes(x=size, y=PSys, fill=language,linetype=data.structure)) + geom_boxplot() + theme_minimal() + labs(x="Data structure", y="Energy (J)")
-
+ggsave("img/energy-gecco-generation-boxplot.png", width=8, height=4, dpi=300,bg="white")
 
 ## ----energy.gecco.histo, echo=F, message=F, fig.height=4, fig.cap="Histogram of energy consumption for the generation of Boolean vectors in C++ of length 2048",  fig.align="center"----
 ggplot(cpp.gen.bool[ cpp.gen.bool$size == 1024,], aes(x=PSys)) + geom_histogram(binwidth = 2) + theme_minimal() + labs(x="Energy (J)", y="Frequency")
-
+ggsave("img/energy-gecco-histo.png", width=8, height=4, dpi=300,bg="white")
 
 ## ----energy.gecco.ops, echo=FALSE, message=FALSE, fig.height=4, fig.cap="Delta energy from baseline vs. delta time from baseline for genetic operators problem. Shapes and colors as in the previous Figure."----
 zig.ops.bool <- read.csv("data/sea25-bool-ops-11-Jan-12-02-19.csv")
@@ -62,11 +63,12 @@ ops.data$point.size <- log2(ops.data$size)-7
 ops.data %>% group_by(language, data.structure, size) %>% summarise(mean(delta.PSys), sd(delta.PSys), mean(delta.seconds), sd(delta.seconds)) -> ops.data.summary
 
 ggplot(ops.data, aes(x=delta.seconds, y=delta.PSys, color=language)) + geom_point(aes(fill=data.structure,shape=data.structure,size=point.size)) + theme_minimal() + labs(x="Time (s)", y="Energy (J)") + theme(legend.position="none")
-
+ggsave("img/energy-gecco-ops.png", width=8, height=4, dpi=300,bg="white")
 
 ## ----energy.gecco.string, echo=F, message=F, fig.height=4, fig.cap="Boxplot of PSys energy consumption using the bit string chromosome for the two languages and different sizes",  fig.align="center"----
 ops.data$size <- as.factor(ops.data$size)
 ggplot(ops.data[ops.data$data.structure=="string",], aes(x=size, y=PSys, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Chromosome size", y="Energy (J)")
+ggsave("img/energy-gecco-string-boxplot.png", width=8, height=4, dpi=300,bg="white")
 string.ops.data <- ops.data[ops.data$data.structure=="string",]
 differences.512 <- t.test(string.ops.data[string.ops.data$size==512 & string.ops.data$language=="c++",]$PSys, string.ops.data[string.ops.data$size==512 & string.ops.data$language=="zig",]$PSys,alternative = "less")
 differences.1024 <- t.test(string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="c++",]$PSys, string.ops.data[string.ops.data$size==1024 & string.ops.data$language=="zig",]$PSys,alternative = "less")
@@ -76,7 +78,7 @@ differences.2048 <- t.test(string.ops.data[string.ops.data$size==2048 & string.o
 ## ----energy.gecco.string.power, echo=F, message=F, fig.height=4, fig.cap="Boxplot of PSys power (energy over time) consumption using the bit string chromosome for the two languages and different sizes.",  fig.align="center"----
 string.ops.data$power <- string.ops.data$PSys/string.ops.data$seconds
 ggplot(string.ops.data, aes(x=size, y=power, color=language)) + geom_boxplot(notch=T) + geom_point(aes(fill=language,shape=language)) + theme_minimal() + labs(x="Chromosome size", y="Power (w)")
-
+ggsave("img/energy-gecco-string-power-boxplot.png", width=8, height=4, dpi=300,bg="white")
 
 ## ----energy.gecco.hiff, echo=FALSE, message=FALSE, fig.height=4, fig.cap="Delta energy from baseline vs. delta time from baseline for the HIFF fitness function for bitstring chromosomes in C++ and zig."----
 zig.hiff.string <- read.csv("data/sea25-hiff-11-Jan-12-03-44.csv")
@@ -93,7 +95,7 @@ cpp.hiff.string$language <- "c++"
 hiff.data <- rbind(zig.hiff.string, cpp.hiff.string)
 hiff.data$size <- factor(hiff.data$size)
 ggplot(hiff.data, aes(x=delta.seconds, y=delta.PSys, color=language, shape=size)) + geom_point() + theme_minimal() + labs(x="Delta time from baseline (s)", y="Delta energy from baseline (J)")
-
+ggsave("img/energy-gecco-hiff.png", width=8, height=4, dpi=300,bg="white")
 
 ## ----energy.gecco.hiff.opsxjoule, echo=F, message=F----------------------------------------------------------------------------------------------
 hiff.data$ops.joule <- 40000/hiff.data$delta.PSys
