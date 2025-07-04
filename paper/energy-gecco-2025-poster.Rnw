@@ -266,7 +266,7 @@ After the experiments show that the standard deviation in {\sf zig} is much high
 
 \begin{acks}
 This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y
-Competitividad (Spanish Ministry of Competitivity and Economy) under project PID2023-147409NB-C22.
+Competitividad (Spanish Ministry of Competitivity and Economy) under project PID2023-147409NB-C21.
 \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
